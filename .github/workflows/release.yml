@@ -6,6 +6,10 @@ on:
     tags:
       - 'v*'
 
+# Gives release permission
+permissions:
+  contents: write
+
 jobs:
   release:
     runs-on: ubuntu-latest
@@ -48,5 +52,5 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            target/scala-*/tos-battle-assembly-*.jar
+            target/scala-*/ToSAB-assembly-*.jar
             docs/pdf/*.pdf
