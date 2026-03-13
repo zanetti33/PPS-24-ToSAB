@@ -29,8 +29,8 @@ jobs:
           sudo apt-get update
           sudo apt-get install sbt -y
 
-      - name: Controlla la formattazione (Scalafmt)
+      - name: Check code format (Scalafmt)
         run: sbt scalafmtCheckAll
 
-      - name: Esegui i Test
+      - name: Test the project
         run: sbt test
