@@ -1,0 +1,45 @@
+name: Exam Release Builder
+
+# Triggered on a pushed tag that starts with "v" (es. v1.0, v1.0.0)
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Code Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Java JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: 'sbt'
+
+      - name: Build the project and create assembly JAR
+        run: sbt assembly
+
+      - name: Generate PDF from Markdown
+        uses: baileyjm02/markdown-to-pdf@v1
+        with:
+          input_dir: docs/report
+          output_dir: docs/pdf
+          images_dir: docs/report/images
+          build_html: false
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          name: Town of Saviom Auto-Battler Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: |
+            target/scala-*/tos-battle-assembly-*.jar
+            docs/pdf/*.pdf

@@ -1,0 +1,22 @@
+### SBT & Scala Build Files ###
+target/
+project/target/
+project/project/
+.bsp/
+*.class
+*.log
+
+### IntelliJ IDEA ###
+.idea/workspace.xml
+.idea/tasks.xml
+.idea/shelf/
+.idea/vcs.xml
+.idea/dictionaries/
+*.iws
+*.iml
+*.ipr
+out/
+
+### OS System Files ###
+.DS_Store
+Thumbs.db
