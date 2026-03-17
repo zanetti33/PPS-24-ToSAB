@@ -37,13 +37,13 @@ jobs:
 
       - name: Fonde i file Markdown in uno solo
         run: |
-          awk 'FNR==1{print ""}1' docs/report/*.md > docs/report/relazione_completa.md
+          awk 'FNR==1{print ""}1' docs/report/*.md > docs/report/ToSAB_report.md
 
       - name: Genera Relazione in PDF
         uses: baileyjm02/markdown-to-pdf@v1
         with:
           # Ora gli passiamo il singolo file unito, non l'intera cartella
-          input_path: docs/report/relazione_completa.md
+          input_path: docs/report/ToSAB_report.md
           output_dir: docs/pdf
           images_dir: docs/report/images
           build_html: false
