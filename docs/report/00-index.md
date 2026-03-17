@@ -8,7 +8,7 @@
       1. [Requisiti utente](#requisiti-utente)
       2. [Requisiti di sistema](#requisiti-di-sistema)
    3. [Requisiti non funzionali](#requisiti-non-funzionali)
-   4. [Requisiti di implementazione](#requisiti-di-implementazione)1
+   4. [Requisiti di implementazione](#requisiti-di-implementazione)
 4. [Design architetturale](#design-architetturale)
 5. [Design di dettaglio](#design-di-dettaglio)
 6. [Implementazione](#implementazione)
