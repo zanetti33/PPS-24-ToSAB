@@ -1,0 +1,19 @@
+## Indice
+
+1. [Introduzione](#introduzione)
+2. [Processo di sviluppo](#processo-di-sviluppo)
+3. [Requisiti](#requisiti)
+   1. [Requisiti di business](#requisiti-di-business)
+   2. [Requisiti funzionali](#requisiti-funzionali)
+      1. [Requisiti utente](#requisiti-utente)
+      2. [Requisiti di sistema](#requisiti-di-sistema)
+   3. [Requisiti non funzionali](#requisiti-non-funzionali)
+   4. [Requisiti di implementazione](#requisiti-di-implementazione)1
+4. [Design architetturale](#design-architetturale)
+5. [Design di dettaglio](#design-di-dettaglio)
+6. [Implementazione](#implementazione)
+   1. [Pedrini Fabio](#pedrini-fabio)
+   2. [Zanetti Lorenzo](#zanetti-lorenzo)
+   3. [Zanzi Alessandro](#zanzi-alessandro)
+7. [Testing](#testing)
+8. [Retrospettiva](#retrospettiva)
