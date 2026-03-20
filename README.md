@@ -1,3 +1,21 @@
 # Town of Saviom Auto-Battler (ToSAB)
 
-For more info, consult the [documentation](docs/report/00-index.md).
+## Indice
+
+1. [Introduzione](docs/report/01-introduction.md)
+2. [Processo di sviluppo](docs/report/02-development-process.md)
+3. [Requisiti](docs/report/03-requirements.md)
+    1. [Requisiti di business](docs/report/03-requirements.md#requisiti-di-business)
+    2. [Requisiti funzionali](docs/report/03-requirements.md#requisiti-funzionali)
+        1. [Requisiti utente](docs/report/03-requirements.md#requisiti-utente)
+        2. [Requisiti di sistema](docs/report/03-requirements.md#requisiti-di-sistema)
+    3. [Requisiti non funzionali](docs/report/03-requirements.md#requisiti-non-funzionali)
+    4. [Requisiti di implementazione](docs/report/03-requirements.md#requisiti-di-implementazione)
+4. [Design architetturale](docs/report/04-architectural-design.md)
+5. [Design di dettaglio](docs/report/05-detailed-design.md)
+6. [Implementazione](docs/report/06-implementation.md)
+    1. [Pedrini Fabio](docs/report/06-implementation.md#pedrini-fabio)
+    2. [Zanetti Lorenzo](docs/report/06-implementation.md#zanetti-lorenzo)
+    3. [Zanzi Alessandro](docs/report/06-implementation.md#zanzi-alessandro)
+7. [Testing](docs/report/07-testing.md)
+8. [Retrospettiva](docs/report/08-retrospective.md)
