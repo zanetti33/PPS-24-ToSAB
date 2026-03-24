@@ -6,6 +6,7 @@ object Main:
    * Bootstrap main for sprint 1
    * @param args
    */
+  /*
   def main(args: Array[String]): Unit =
     println("==============================")
     println(" TOWN OF SAVIOM: AUTO-BATTLER ")
@@ -39,3 +40,4 @@ object Main:
     // TODO access units and simple print
 
     println("=========================================\n")
+   */
