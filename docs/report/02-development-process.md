@@ -7,4 +7,9 @@ Durante le riunioni di sprint review andremo a discutere di eventuali problemi r
 Per la strategia di versionamento abbiamo adottato una strategia di branching basata sul Github Flow. Il branch main sarà la fonte di verità e da esso verranno creati altri branch per lo sviluppo di nuove funzionalità, per la correzione di bug e per il refactoring del codice. Ogni branch dovrà essere sottoposto a una pull request prima di essere unito al branch main.
 A questo fanno eccezione operazioni di configurazione e/o di documentazione che possono essere direttamente prodotte insieme e committate su main.
 
+- main
+- feature/*
+- fix/*
+- refactor/*
+
 Nel primo incontro abbiamo quindi provveduto alla redazione del [product-backlog](../process/product-backlog.md) e del backlog relativo alla prima sprint ([backlog prima sprint](../process/sprint-1-backlog.md)).
