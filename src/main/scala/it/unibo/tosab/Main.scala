@@ -1,11 +1,18 @@
 package it.unibo.tosab
+import it.unibo.tosab.model.grid.*
 
-object Main:
+@main def runApp(): Unit =
+  val grid = Grid()
+  grid.setCell("archer", (3, 5))
+  grid.setCell("wizard", (6, 4))
+  grid.setCell("soldier", (8, 8))
+  DisplayGrid.display(grid)
 
   /**
    * Bootstrap main for sprint 1
    * @param args
    */
+
   /*
   def main(args: Array[String]): Unit =
     println("==============================")
