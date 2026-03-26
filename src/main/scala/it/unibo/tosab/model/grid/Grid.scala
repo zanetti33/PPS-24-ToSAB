@@ -9,14 +9,18 @@ class Grid:
     (for
         x <- 0 until size
         y <- 0 until size
-    yield (x, y) -> "").toMap
+    yield (x, y) -> "empty").toMap
 
-  def setCell(entity: String, pos: Coordinate): Unit = pos match
-    case (x, y) if isWithinBounds(pos) && cells(pos) == "" => cells = cells + (pos -> entity)
-    case _ =>  println(s"Cell $pos is not valid.")
-
+  def setCell(entity: String, position: Coordinate): Unit = position match
+    case (x, y) if isWithinBounds(position) && cells(position) == "empty" => cells = cells + (position -> entity)
+    case _ =>  println(s"Cell $position is not valid.")
+    
+  def getEntity(position: Coordinate): String = position match
+    case (x, y) if isWithinBounds(position) => cells.getOrElse(position, "empty")
+    case _ => "invalid position"
+  
   def getOccupiedCells: Set[Coordinate] =
-    cells.filter((_, entity) => entity != "").keySet
+    cells.filter((_, entity) => entity != "empty").keySet
 
   def getAdjacentAvailableCells(entity: String): Set[Coordinate] =
     val occupiedCells = getOccupiedCells

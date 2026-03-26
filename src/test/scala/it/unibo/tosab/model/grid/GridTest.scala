@@ -3,36 +3,40 @@ import org.junit.*
 import org.junit.Assert.*
 
 class GridTest:
-    import it.unibo.tosab.model.grid.Grid
+  import it.unibo.tosab.model.grid.Grid
 
-    val grid = Grid()
+  val grid = Grid()
 
-    @Test def testUnitPosition(): Unit =
-        grid.setCell("soldier", (3, 3))
-        val occupiedCells = grid.getOccupiedCells
-        assertTrue(occupiedCells.contains((3, 3)))
-        assertFalse(occupiedCells.contains((2, 2)))
+  @Test def testUnitPosition(): Unit =
+    grid.setCell("soldier", (3, 3))
+    assertEquals("soldier", grid.getEntity((3, 3)))
 
-    @Test def testGetOccupiedCells(): Unit =
-        grid.setCell("soldier", (1, 1))
-        grid.setCell("soldier", (2, 2))
-        val occupiedCells = grid.getOccupiedCells
-        assertTrue(occupiedCells.contains((1, 1)))
-        assertTrue(occupiedCells.contains((2, 2)))
-        assertEquals(2, occupiedCells.size)
+  @Test def testInvalidCell(): Unit =
+    grid.setCell("soldier", (8, 8))
+    val occupiedCells = grid.getOccupiedCells
+    assertFalse(occupiedCells.contains((8, 8)))
 
-    @Test def testGetAdjacentCells(): Unit =
-      // Inseriamo i soldati
-      grid.setCell("soldier1", (2, 1))
-      grid.setCell("soldier2", (5, 3))
+  @Test def testGetOccupiedCells(): Unit =
+    grid.setCell("soldier", (1, 1))
+    val occupiedCells = grid.getOccupiedCells
+    assertTrue(occupiedCells.contains((1, 1)))
+    assertEquals(1, occupiedCells.size)
 
-      val availableCellsSoldier1 = grid.getAdjacentAvailableCells("soldier1")
-      val availableCellsSoldier2 = grid.getAdjacentAvailableCells("soldier2")
+  @Test def testGetAdjacentCellsEvenRow(): Unit =
+    grid.setCell("soldier", (2, 1))
+    val availableCellsSoldier1 = grid.getAdjacentAvailableCells("soldier")
+    val expected1 = Set((1, 0), (1, 1), (2, 0), (2, 2), (3, 0), (3, 1))
+    assertEquals(expected1, availableCellsSoldier1)
 
-      // Definiamo i set attesi (assicurati che le coordinate siano corrette per il tuo gioco)
-      val expected1 = Set((1, 0), (1, 1), (2, 0), (2, 2), (3, 0), (3, 1))
-      val expected2 = Set((4, 3), (4, 4), (5, 2), (5, 4), (6, 3), (6, 4))
+  @Test def testGetAdjacentCellsOddRow(): Unit =
+    grid.setCell("soldier", (3, 2))
+    val availableCellsSoldier3 = grid.getAdjacentAvailableCells("soldier")
+    val expected3 = Set((2, 2), (2, 3), (3, 1), (3, 3), (4, 2), (4, 3))
+    assertEquals(expected3, availableCellsSoldier3)
 
-      // Usiamo assertEquals tra Set (l'ordine degli elementi non conterà)
-      assertEquals(expected1, availableCellsSoldier1)
-      assertEquals(expected2, availableCellsSoldier2)
+  @Test def testGetAdjacentCellsWithOccupied(): Unit =
+    grid.setCell("soldier", (2, 1))
+    grid.setCell("enemy", (2, 2))
+    val availableCellsSoldierWithNeighbour = grid.getAdjacentAvailableCells("soldier")
+    val expectedWithOccupied = Set((1, 0), (1, 1), (2, 0), (3, 0), (3, 1))
+    assertEquals(expectedWithOccupied, availableCellsSoldierWithNeighbour)
