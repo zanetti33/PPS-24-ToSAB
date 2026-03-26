@@ -3,7 +3,7 @@ package it.unibo.tosab.model.grid
 type Coordinate = (Int, Int)
 
 class Grid:
-  private val size = 8
+  val size = 8
   // Inizializziamo la griglia come una mappa o una matrice di Entity
   private var cells: Map[Coordinate, String] =
     (for
@@ -11,10 +11,12 @@ class Grid:
         y <- 0 until size
     yield (x, y) -> "empty").toMap
 
-  def setCell(entity: String, position: Coordinate): Unit = position match
+  def setCell(entity: String, cell: Coordinate): Unit = 
+    val position = (cell._1 - 1, cell._2 - 1) 
+    position match
     case (x, y) if isWithinBounds(position) && cells(position) == "empty" => cells = cells + (position -> entity)
-    case _ =>  println(s"Cell $position is not valid.")
-    
+    case _ =>  println(s"Cell $cell is not valid.")
+
   def getEntity(position: Coordinate): String = position match
     case (x, y) if isWithinBounds(position) => cells.getOrElse(position, "empty")
     case _ => "invalid position"
