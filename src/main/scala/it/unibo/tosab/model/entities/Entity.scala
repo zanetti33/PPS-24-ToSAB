@@ -1,19 +1,30 @@
 package it.unibo.tosab.model.entities
 
+import it.unibo.tosab.model.entities.Faction.{AI, Player}
 import it.unibo.tosab.model.entities.Role.{Archer, Mage, Soldier}
 import it.unibo.tosab.model.entities.Stats.*
+
+enum Faction:
+  case Player, AI
 
 enum Role:
   case Archer, Soldier, Mage
 
 trait Entity:
   def id: String
+  def faction: Faction
   def role: Role
   def stats: Stats
 
+  def isAnEnemy: Boolean
+  
   def takeDamage(amount: Int): Entity
 
-case class Character(id: String, role: Role, stats: Stats) extends Entity:
+case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity:
+
+  def isAnEnemy: Boolean = faction match
+    case Player => false
+    case AI => true
 
   def takeDamage(amount: Int): Entity =
     val newHp = Math.max(0, stats.currentHp - amount)
@@ -22,11 +33,11 @@ case class Character(id: String, role: Role, stats: Stats) extends Entity:
 
 object Entity:
 
-  def createArcher(id: String): Entity =
-    Character(id, Archer, baseArcherStats)
+  def createArcher(id: String, faction: Faction): Entity =
+    Character(id, faction, Archer, baseArcherStats)
 
-  def createSoldier(id: String): Entity =
-    Character(id, Soldier, stats = baseSoldierStats)
+  def createSoldier(id: String, faction: Faction): Entity =
+    Character(id, faction, Soldier, stats = baseSoldierStats)
 
-  def createMage(id: String): Entity =
-    Character(id, Mage, stats = baseMageStats)
+  def createMage(id: String, faction: Faction): Entity =
+    Character(id, faction, Mage, stats = baseMageStats)
