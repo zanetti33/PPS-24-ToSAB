@@ -4,24 +4,24 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
 import it.unibo.tosab.model.GameState.{ GamePhase, GameState }
-import it.unibo.tosab.model.ai.AI.{ AI, DummyAI }
+import it.unibo.tosab.model.ai.AI.{ AI, DoesNothingAI }
 import it.unibo.tosab.model.grid.Grid
 
 class AITest:
 
   val state: GameState = GameState(GamePhase.Setup, Grid())
 
-  @Test def dummyAIAlwaysReturnsPass(): Unit =
-    val action = DummyAI.determineNextAction(state)
+  @Test def DoesNothingAIAlwaysReturnsPass(): Unit =
+    val action = DoesNothingAI.determineNextAction(state)
     assertEquals(GameAction.Pass, action)
 
-  @Test def dummyAIIsConsistent(): Unit =
-    val a1 = DummyAI.determineNextAction(state)
-    val a2 = DummyAI.determineNextAction(GameState(GamePhase.Combat, Grid()))
+  @Test def DoesNothingAIIsConsistent(): Unit =
+    val a1 = DoesNothingAI.determineNextAction(state)
+    val a2 = DoesNothingAI.determineNextAction(GameState(GamePhase.Combat, Grid()))
     assertEquals(a1, a2)
 
-  @Test def dummyAIImplementsAITrait(): Unit =
-    val ai: AI = DummyAI
+  @Test def DoesNothingAIImplementsAITrait(): Unit =
+    val ai: AI = DoesNothingAI
     val action = ai.determineNextAction(state)
     assertEquals(GameAction.Pass, action)
 
