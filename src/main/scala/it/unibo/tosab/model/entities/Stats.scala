@@ -6,19 +6,19 @@ enum AttackType:
   case Melee, Ranged, Area
 
 case class Stats(
-                  currentHp: Int,
-                  physicalAttack: Int,
-                  magicalAttack: Int,
-                  physicalDefense: Int,
-                  magicalDefence: Int,
-                  movementDistance: Int,
-                  speed: Int,
-                  attackRange: Int,
-                  attackType: AttackType
-                )
+    currentHp: Int,
+    physicalAttack: Int,
+    magicalAttack: Int,
+    physicalDefense: Int,
+    magicalDefence: Int,
+    movementDistance: Int,
+    speed: Int,
+    attackRange: Int,
+    attackType: AttackType
+)
 
 object Stats:
-  
+
   private val archerHp = 40
   private val archerPhysicalAttack = 10
   private val archerMagicalAttack = 5
@@ -48,19 +48,19 @@ object Stats:
   private val mageSpeed = 2
   private val mageAttackRange = 4
   private val mageAttackType = Ranged
-  
+
   val baseArcherStats = Stats(
-    archerHp, 
-    archerPhysicalAttack, 
-    archerMagicalAttack, 
-    archerPhysicalDefense, 
+    archerHp,
+    archerPhysicalAttack,
+    archerMagicalAttack,
+    archerPhysicalDefense,
     archerMagicalDefense,
     archerMovementDistance,
     archerSpeed,
     archerAttackRange,
     archerAttackType
   )
-  
+
   val baseSoldierStats = Stats(
     soldierHp,
     soldierPhysicalAttack,
@@ -72,7 +72,7 @@ object Stats:
     soldierAttackRange,
     soldierAttackType
   )
-  
+
   val baseMageStats = Stats(
     mageHp,
     magePhysicalAttack,

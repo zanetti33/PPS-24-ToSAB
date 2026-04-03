@@ -17,14 +17,14 @@ trait Entity:
   def stats: Stats
 
   def isAnEnemy: Boolean
-  
+
   def takeDamage(amount: Int): Entity
 
 case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity:
 
   def isAnEnemy: Boolean = faction match
     case Player => false
-    case AI => true
+    case AI     => true
 
   def takeDamage(amount: Int): Entity =
     val newHp = Math.max(0, stats.currentHp - amount)
