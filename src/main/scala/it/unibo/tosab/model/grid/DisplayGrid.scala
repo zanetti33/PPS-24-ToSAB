@@ -5,8 +5,7 @@ object DisplayGrid:
 
   def display(grid: Grid): Unit =
     val size = grid.size
-    for column <- 0 until size do
-      print(f"$column%6d")
+    for column <- 0 until size do print(f"$column%6d")
     println()
 
     // 2. Stampa le righe della griglia
@@ -24,7 +23,7 @@ object DisplayGrid:
           case entity =>
             val initial = entity.head.toUpper.toString
             f" $initial $troup "
-          //qui farò un match per vedere se l'unità è mia o nemica f"*$initial$troup*"
+          // qui farò un match per vedere se l'unità è mia o nemica f"*$initial$troup*"
 
         print(s"$content|")
 

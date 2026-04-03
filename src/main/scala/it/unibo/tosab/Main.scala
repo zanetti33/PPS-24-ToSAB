@@ -8,10 +8,9 @@ import it.unibo.tosab.model.grid.*
   grid.setCell("soldier", (8, 8))
   DisplayGrid.display(grid)
 
-  /**
-   * Bootstrap main for sprint 1
-   * @param args
-   */
+  /** Bootstrap main for sprint 1
+    * @param args
+    */
 
   /*
   def main(args: Array[String]): Unit =
