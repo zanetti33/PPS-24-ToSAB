@@ -13,5 +13,5 @@ object AI:
   /**
    * A simple implementation of the AI trait that always returns GameAction.Pass, effectively doing nothing.
    */
-  object DummyAI extends AI:
+  object DoesNothingAI extends AI:
     override def determineNextAction(state: GameState): GameAction = GameAction.Pass
