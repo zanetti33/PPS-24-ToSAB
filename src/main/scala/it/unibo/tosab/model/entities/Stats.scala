@@ -1,5 +1,10 @@
 package it.unibo.tosab.model.entities
 
+import it.unibo.tosab.model.entities.AttackType.{Melee, Ranged}
+
+enum AttackType:
+  case Melee, Ranged, Area
+
 case class Stats(
                   currentHp: Int,
                   physicalAttack: Int,
@@ -9,7 +14,7 @@ case class Stats(
                   movementDistance: Int,
                   speed: Int,
                   attackRange: Int,
-                  attackType: String
+                  attackType: AttackType
                 )
 
 object Stats:
@@ -22,7 +27,7 @@ object Stats:
   private val archerMovementDistance = 1
   private val archerSpeed = 3
   private val archerAttackRange = 3
-  private val archerAttackType = "Ranged"
+  private val archerAttackType = Ranged
 
   private val soldierHp = 50
   private val soldierPhysicalAttack = 15
@@ -32,7 +37,7 @@ object Stats:
   private val soldierMovementDistance = 1
   private val soldierSpeed = 2
   private val soldierAttackRange = 1
-  private val soldierAttackType = "Melee"
+  private val soldierAttackType = Melee
 
   private val mageHp = 25
   private val magePhysicalAttack = 0
@@ -42,7 +47,7 @@ object Stats:
   private val mageMovementDistance = 1
   private val mageSpeed = 2
   private val mageAttackRange = 4
-  private val mageAttackType = "Ranged"
+  private val mageAttackType = Ranged
   
   val baseArcherStats = Stats(
     archerHp, 

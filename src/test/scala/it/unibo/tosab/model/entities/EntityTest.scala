@@ -4,37 +4,38 @@ import org.junit.Test
 import org.junit.Assert.*
 import it.unibo.tosab.model.entities.Entity.*
 import it.unibo.tosab.model.entities.Faction.{AI, Player}
+import it.unibo.tosab.model.entities.Role.*
 
 class EntityTest:
 
-  val soldier: Entity = createSoldier("s1", Player)
-  val archer: Entity = createArcher("a1", Player)
-  val mage: Entity = createMage("m1", AI)
+  val soldier: Entity = createEntity("s1", Player, Soldier)
+  val archer: Entity = createEntity("a1", Player, Archer)
+  val mage: Entity = createEntity("m1", AI, Mage)
 
-  @Test def entityExistTest(): Unit =
+  @Test def testEntityExist(): Unit =
     assertNotNull(soldier)
 
-  @Test def entityIsASoldier(): Unit =
-    assertEquals(Role.Soldier, soldier.role)
+  @Test def testEntityIsASoldier(): Unit =
+    assertEquals(Soldier, soldier.role)
 
-  @Test def entityIsAnArcher(): Unit =
-    assertEquals(Role.Archer, archer.role)
+  @Test def testEntityIsAnArcher(): Unit =
+    assertEquals(Archer, archer.role)
 
-  @Test def entityIsAMage(): Unit =
-    assertEquals(Role.Mage, mage.role)
+  @Test def testEntityIsAMage(): Unit =
+    assertEquals(Mage, mage.role)
 
-  @Test def soldierHasRightHP(): Unit =
+  @Test def testSoldierHasRightHP(): Unit =
     assertEquals(50, soldier.stats.currentHp)
 
-  @Test def soldierHasRightAttackType(): Unit =
-    assertEquals("Melee", soldier.stats.attackType)
+  @Test def testSoldierHasRightAttackType(): Unit =
+    assertEquals(AttackType.Melee, soldier.stats.attackType)
 
-  @Test def mageIsAnEnemy(): Unit =
+  @Test def testMageIsAnEnemy(): Unit =
     assertTrue(mage.isAnEnemy)
 
-  @Test def soldierIsAnAlly(): Unit =
+  @Test def testSoldierIsAnAlly(): Unit =
     assertFalse(soldier.isAnEnemy)
 
-  @Test def entityTakesDamage(): Unit =
+  @Test def testEntityTakesDamage(): Unit =
     val damagedSoldier = soldier.takeDamage(20)
     assertEquals(30, damagedSoldier.stats.currentHp) // 50 - 20 = 30

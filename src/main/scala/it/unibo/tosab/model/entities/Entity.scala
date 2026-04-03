@@ -33,11 +33,12 @@ case class Character(id: String, faction: Faction, role: Role, stats: Stats) ext
 
 object Entity:
 
-  def createArcher(id: String, faction: Faction): Entity =
-    Character(id, faction, Archer, baseArcherStats)
+  private val statsBasedOnRole: Map[Role, Stats] =
+    Map(
+      Archer -> baseArcherStats,
+      Soldier -> baseSoldierStats,
+      Mage -> baseMageStats
+    )
 
-  def createSoldier(id: String, faction: Faction): Entity =
-    Character(id, faction, Soldier, stats = baseSoldierStats)
-
-  def createMage(id: String, faction: Faction): Entity =
-    Character(id, faction, Mage, stats = baseMageStats)
+  def createEntity(id: String, faction: Faction, role: Role): Entity =
+    Character(id, faction, role, statsBasedOnRole(role))
