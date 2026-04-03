@@ -3,15 +3,15 @@ package it.unibo.tosab.model.engine
 import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
-import it.unibo.tosab.model.GameState.{GamePhase, GameState}
+import it.unibo.tosab.model.{GamePhase, GameState}
 import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, Engine, ImmediatelyEndEngine}
 import it.unibo.tosab.model.grid.Grid
 
 class EngineTest:
 
-  val grid: Grid       = Grid()
-  val combatState: GameState  = GameState(GamePhase.Combat, grid)
-  val gameOverState: GameState  = GameState(GamePhase.GameOver, grid)
+  val grid: Grid = Grid()
+  val combatState: GameState = GameState(GamePhase.Combat, grid)
+  val gameOverState: GameState = GameState(GamePhase.GameOver, grid)
 
   @Test def doesNothingDoesNotChangePhase(): Unit =
     val engine: Engine = DoesNothingEngine

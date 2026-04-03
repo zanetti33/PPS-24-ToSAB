@@ -3,8 +3,8 @@ package it.unibo.tosab.model.ai
 import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
-import it.unibo.tosab.model.GameState.{ GamePhase, GameState }
-import it.unibo.tosab.model.ai.AI.{ AI, DoesNothingAI }
+import it.unibo.tosab.model.{GamePhase, GameState}
+import it.unibo.tosab.model.ai.AI.{AI, DoesNothingAI}
 import it.unibo.tosab.model.grid.Grid
 
 class AITest:
@@ -24,4 +24,3 @@ class AITest:
     val ai: AI = DoesNothingAI
     val action = ai.determineNextAction(state)
     assertEquals(GameAction.Pass, action)
-
