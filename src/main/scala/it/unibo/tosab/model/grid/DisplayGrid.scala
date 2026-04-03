@@ -25,10 +25,11 @@ object DisplayGrid:
           case entity =>
             val initial = entity.head.toUpper.toString
             f"|  $initial $troup  "
-      //qui farò un match per vedere se l'unità è mia o nemica f"*$initial$troup*"
+        // qui farò un match per vedere se l'unità è mia o nemica f"*$initial$troup*"
         if column == (size - 1) && row % 2 != 0 then {
           println(f"$content|")
-          if row == (size - 1) then println(f"*   " + f"   \\   /" * size) else println(f"*  /" + f"   \\   /" * size)
+          if row == (size - 1) then println(f"*   " + f"   \\   /" * size)
+          else println(f"*  /" + f"   \\   /" * size)
         } else if column == (size - 1) && row % 2 == 0 then {
           println(f"$content|")
           println(f"*  \\" + f"   /   \\" * size)
