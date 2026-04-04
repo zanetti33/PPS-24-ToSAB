@@ -40,13 +40,17 @@ class DamageTest:
     val expectedDamage = damageAmount - targetPhysicalDefense
     val damage = DamageInstance(amount = damageAmount, damageType = DamageType.Physical)
     val damagedEntity = targetEntity.takeDamage(damage)
-    assert(targetEntity.stats.currentHp - damagedEntity.stats.currentHp == expectedDamage) // 50 - 20 = 30
+    assert(
+      targetEntity.stats.currentHp - damagedEntity.stats.currentHp == expectedDamage
+    ) // 50 - 20 = 30
 
   @Test def testMagicalDamageOnEntity(): Unit =
     val expectedDamage = damageAmount - targetMagicalDefense
     val damage = DamageInstance(amount = damageAmount, damageType = DamageType.Magical)
     val damagedEntity = targetEntity.takeDamage(damage)
-    assert(targetEntity.stats.currentHp - damagedEntity.stats.currentHp == expectedDamage) // 50 - 10 = 40
+    assert(
+      targetEntity.stats.currentHp - damagedEntity.stats.currentHp == expectedDamage
+    ) // 50 - 10 = 40
 
   @Test def testZeroDamageOnEntity(): Unit =
     val damageAmount = 10
@@ -54,5 +58,4 @@ class DamageTest:
     val damage = DamageInstance(amount = damageAmount, damageType = DamageType.Physical)
     val damagedEntity = targetEntity.takeDamage(damage)
     // 10 - 20 = -10 -> max(0, -10) = 0
-    assert(targetEntity.stats.currentHp - damagedEntity.stats.currentHp == expectedDamage) 
-
+    assert(targetEntity.stats.currentHp - damagedEntity.stats.currentHp == expectedDamage)
