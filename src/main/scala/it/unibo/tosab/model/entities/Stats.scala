@@ -6,15 +6,15 @@ enum AttackType:
   case Melee, Ranged, Area
 
 case class Stats(
-    currentHp: Int,
-    physicalAttack: Int,
-    magicalAttack: Int,
-    physicalDefense: Int,
-    magicalDefence: Int,
-    movementDistance: Int,
-    speed: Int,
-    attackRange: Int,
-    attackType: AttackType
+    currentHp: Int = 100,
+    physicalAttack: Int = 0,
+    magicalAttack: Int = 0,
+    physicalDefense: Int = 0,
+    magicalDefence: Int = 0,
+    movementDistance: Int = 0,
+    speed: Int = 0,
+    attackRange: Int = 0,
+    attackType: AttackType = Melee
 )
 
 object Stats:
