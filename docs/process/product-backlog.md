@@ -8,7 +8,7 @@
 | 2.2 | Mappa     | Generazione Procedurale | Alta      | Algoritmo per posizionare ostacoli o terreni casuali.                 |
 | 2.3 | Mappa     | Piazzamento Manuale     | Alta      | Logica per validare e inserire unità alleate sulla mappa.             |
 | 2.4 | Mappa     | Piazzamento IA          | Alta      | Disposizione automatica e valida delle truppe nemiche.                |
-| 3.1 | Mappa     | GameState Globale       | Altissima | Container immutabile per Griglia, Fazioni, Turno e Coda.              |
+| 3.1 | Motore    | GameState Globale       | Altissima | Container immutabile per Griglia, Fazioni, Turno e Coda.              |
 | 3.2 | Motore    | Inizializzazione Turni  | Altissima | Ordinamento unità in base alla Velocità per il round.                 |
 | 3.3 | Motore    | Movimento / Pathfinding | Altissima | Logica di avvicinamento ai nemici (es. distanza Manhattan).           |
 | 3.4 | Motore    | Logica di Attacco       | Altissima | Funzione pura di calcolo danni (Unità + Attacco -> Unità modificata). |
