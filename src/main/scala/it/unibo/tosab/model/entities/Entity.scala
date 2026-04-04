@@ -1,5 +1,6 @@
 package it.unibo.tosab.model.entities
 
+import it.unibo.tosab.model.entities.CombatRules.calculatedAgainst
 import it.unibo.tosab.model.entities.Faction.{AI, Player}
 import it.unibo.tosab.model.entities.Role.{Archer, Mage, Soldier}
 import it.unibo.tosab.model.entities.Stats.*
@@ -18,7 +19,7 @@ trait Entity:
 
   def isAnEnemy: Boolean
 
-  def takeDamage(amount: Int): Entity
+  def takeDamage(amount: DamageInstance): Entity
 
 case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity:
 
@@ -26,8 +27,9 @@ case class Character(id: String, faction: Faction, role: Role, stats: Stats) ext
     case Player => false
     case AI     => true
 
-  def takeDamage(amount: Int): Entity =
-    val newHp = Math.max(0, stats.currentHp - amount)
+  def takeDamage(damageInstance: DamageInstance): Entity =
+    val damageTaken = damageInstance.calculatedAgainst(stats)
+    val newHp = Math.max(0, stats.currentHp - damageTaken)
     val newStats = stats.copy(currentHp = newHp)
     this.copy(stats = newStats)
 

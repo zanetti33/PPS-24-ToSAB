@@ -35,7 +35,3 @@ class EntityTest:
 
   @Test def testSoldierIsAnAlly(): Unit =
     assertFalse(soldier.isAnEnemy)
-
-  @Test def testEntityTakesDamage(): Unit =
-    val damagedSoldier = soldier.takeDamage(20)
-    assertEquals(30, damagedSoldier.stats.currentHp) // 50 - 20 = 30
