@@ -49,3 +49,9 @@ class GridTest:
     val availableCellsSoldierWithNeighbour = grid.getAdjacentAvailableCells(soldier)
     val expectedWithOccupied = Set((1, 0), (1, 1), (2, 0), (3, 0), (3, 1))
     assertEquals(expectedWithOccupied, availableCellsSoldierWithNeighbour)
+
+  @Test def testDistance(): Unit =
+    val distanceMax = grid.getDistance((0, 0), (7, 7))
+    val distance = grid.getDistance((2, 1), (4, 1))
+    assertEquals(11, distanceMax)
+    assertEquals(2, distance)
