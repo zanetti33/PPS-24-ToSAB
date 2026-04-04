@@ -1,31 +1,32 @@
 package it.unibo.tosab.model.grid
+import it.unibo.tosab.model.entities.Entity
 
 type Coordinate = (Int, Int)
 
 class Grid:
   val size = 8
   // Inizializziamo la griglia come una mappa o una matrice di Entity
-  private var cells: Map[Coordinate, String] =
+  private var cells: Map[Coordinate, Option[Entity]] =
     (for
       x <- 0 until size
       y <- 0 until size
-    yield (x, y) -> "empty").toMap
+    yield (x, y) -> None).toMap
 
-  def setCell(entity: String, position: Coordinate): Unit = position match
-    case (x, y) if isWithinBounds(position) && cells(position) == "empty" =>
-      cells = cells + (position -> entity)
+  def setCell(entity: Entity, position: Coordinate): Unit = position match
+    case (x, y) if isPositionAvailable(position) && isRightField(entity.isAnEnemy, position) =>
+      cells = cells + (position -> Some(entity))
     case _ => println(s"Cell $position is not valid.")
 
-  def getEntity(position: Coordinate): String = position match
-    case (x, y) if isWithinBounds(position) => cells.getOrElse(position, "empty")
-    case _                                  => "invalid position"
+  def getEntity(position: Coordinate): Option[Entity] = position match
+    case (x, y) if isWithinBounds(position) => cells(position)
+    case _                                  => None
 
   def getOccupiedCells: Set[Coordinate] =
-    cells.filter((_, entity) => entity != "empty").keySet
+    cells.filter((_, entity) => entity.isDefined).keySet
 
-  def getAdjacentAvailableCells(entity: String): Set[Coordinate] =
+  def getAdjacentAvailableCells(entity: Entity): Set[Coordinate] =
     val occupiedCells = getOccupiedCells
-    val entityPositions = cells.filter((_, e) => e == entity).keySet
+    val entityPositions = cells.filter((_, e) => e.contains(entity)).keySet
     entityPositions.flatMap(getNeighbors).diff(occupiedCells)
 
   private def getNeighbors(pos: Coordinate): Set[Coordinate] =
@@ -54,3 +55,10 @@ class Grid:
   private def isWithinBounds(pos: Coordinate): Boolean = pos match
     case (x, y) if x >= 0 && x < size && y >= 0 && y < size => true
     case _                                                  => false
+
+  private def isPositionAvailable(pos: Coordinate): Boolean = pos match
+    case (x, y) if isWithinBounds(pos) && cells(pos).isEmpty => true
+    case _                                                   => false
+
+  private def isRightField(enemy: Boolean, position: Coordinate): Boolean =
+    if enemy then position._1 < 4 else position._1 >= 4
