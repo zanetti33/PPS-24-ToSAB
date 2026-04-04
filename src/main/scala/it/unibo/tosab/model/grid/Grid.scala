@@ -29,6 +29,15 @@ class Grid:
     val entityPositions = cells.filter((_, e) => e.contains(entity)).keySet
     entityPositions.flatMap(getNeighbors).diff(occupiedCells)
 
+  def getDistance(position1: Coordinate, position2: Coordinate): Int =
+    def toCube(pos: Coordinate) =
+      val q = pos._2 - (pos._1 - (pos._1 % 2)) / 2
+      (q, pos._1, -q - pos._1)
+
+    val (q1, r1, s1) = toCube(position1)
+    val (q2, r2, s2) = toCube(position2)
+    ((q1 - q2).abs + (r1 - r2).abs + (s1 - s2).abs) / 2
+
   private def getNeighbors(pos: Coordinate): Set[Coordinate] =
     val (x, y) = pos
     val offsetsEven = Set(
