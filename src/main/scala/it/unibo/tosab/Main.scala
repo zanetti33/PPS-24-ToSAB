@@ -17,19 +17,9 @@ import it.unibo.tosab.view.DisplayGrid
   grid.setCell(soldier2, (3, 4))
   // da controllare numerazione truppe sia se ne creo due uguali che se ne creo due diversi,
   // se è possibile creare due truppe uguali e se è possibile creare due truppe diverse con lo stesso id
-  DisplayGrid.display(grid)
-
-  println("[INIT] Generazione Griglia 8x8...")
-  val initialGrid = Grid()
-
-  println("[INIT] Creazione Unità in corso...")
-  initialGrid.setCell("archer", (0, 2))
-  initialGrid.setCell("soldier", (3, 2))
-  initialGrid.setCell("wizard", (4, 5))
 
   println("[INIT] Inizializzazione GameState globale...")
-  val initialState = GameState(GamePhase.Setup, initialGrid)
+  val initialState = GameState(GamePhase.Setup, grid)
 
   println("\n[STATO GIOCO SPRINT 1] Setup completato con successo!\n")
-
   DisplayGrid.display(initialState.grid)
