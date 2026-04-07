@@ -12,16 +12,15 @@ sealed trait Entity:
 case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity
 
 case class Obstacle(
-                     id: String,
-                     hp: Option[Int],      // None = non-damageable, Some(x) = damageable, x = hp
-                     isPassable: Boolean,  // true = jumpable/walkable
-                     blocksVision: Boolean // true = blocks ranged attacks
-                   ) extends Entity
+    id: String,
+    hp: Option[Int], // None = non-damageable, Some(x) = damageable with x = hp
+    isPassable: Boolean, // true = jumpable/walkable
+    blocksVision: Boolean // true = blocks ranged attacks
+) extends Entity
 
 object Entity:
 
-  extension (c: Character)
-    def isAnEnemy: Boolean = c.faction == Faction.AI
+  extension (c: Character) def isAnEnemy: Boolean = c.faction == Faction.AI
 
   def archer(id: String, faction: Faction): Character =
     Character(id, faction, Role.Archer, Stats.baseArcherStats)

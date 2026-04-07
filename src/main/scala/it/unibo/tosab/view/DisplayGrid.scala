@@ -1,6 +1,6 @@
 package it.unibo.tosab.view
 
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Character, Faction}
 import it.unibo.tosab.model.grid.Grid
 
 object DisplayGrid:
@@ -14,7 +14,9 @@ object DisplayGrid:
         case None => "|   "
         case Some(entity) =>
           val initial = entity.id.head
-          val char = if entity.isAnEnemy then initial.toLower else initial.toUpper
+          val char = entity match
+            case c: Character if c.isAnEnemy => initial.toLower
+            case _                           => initial.toUpper
           f"|$char $troup"
 
     // Stampa indici colonne

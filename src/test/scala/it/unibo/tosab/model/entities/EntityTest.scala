@@ -21,7 +21,7 @@ class EntityTest:
 
   @Test def testWallIsAnObstacle(): Unit =
     assertTrue(wall match
-      case _: Obstacle => true
+      case _: Obstacle  => true
       case _: Character => false
     )
 

@@ -2,6 +2,7 @@ package it.unibo.tosab.model.entities
 
 import it.unibo.tosab.model.entities.CombatRules.{calculateDamage, calculatedAgainst}
 import it.unibo.tosab.model.entities.{DamageInstance, DamageType, Stats}
+import it.unibo.tosab.model.entities.Damageable.given
 import org.junit.Test
 
 class DamageTest:
@@ -15,7 +16,7 @@ class DamageTest:
     magicalDefence = targetMagicalDefense
   )
   val damageAmount: Int = 50
-  val targetEntity: Entity = Character("target", Faction.Player, Role.Soldier, targetStats)
+  val targetEntity: Character = Character("target", Faction.Player, Role.Soldier, targetStats)
 
   @Test def testPhysicalDamage(): Unit =
     val expectedDamage = damageAmount - targetPhysicalDefense

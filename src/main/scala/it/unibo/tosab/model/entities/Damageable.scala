@@ -4,8 +4,7 @@ import it.unibo.tosab.model.entities.CombatRules.calculatedAgainst
 
 //Type Class
 trait Damageable[T]:
-  extension (entity: T)
-    def takeDamage(amount: DamageInstance): T
+  extension (entity: T) def takeDamage(amount: DamageInstance): T
 
 //given
 object Damageable:
@@ -21,5 +20,4 @@ object Damageable:
         case Some(currentHp) =>
           val newHp = Math.max(0, currentHp - damage.amount)
           o.copy(hp = Some(newHp))
-        case None            => o
-
+        case None => o
