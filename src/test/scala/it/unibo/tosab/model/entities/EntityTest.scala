@@ -2,6 +2,7 @@ package it.unibo.tosab.model.entities
 
 import org.junit.Test
 import org.junit.Assert.*
+import it.unibo.tosab.model.entities.Damageable.given
 
 class EntityTest:
 
