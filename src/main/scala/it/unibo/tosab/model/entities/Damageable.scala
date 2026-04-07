@@ -12,7 +12,8 @@ object Damageable:
     extension (c: Character)
       def takeDamage(amount: DamageInstance): Character =
         val damageTaken = amount.calculatedAgainst(c.stats)
-        c.copy(stats = c.stats.copy(currentHp = c.stats.currentHp - damageTaken))
+        val newHp = Math.max(0, c.stats.currentHp - damageTaken)
+        c.copy(stats = c.stats.copy(currentHp = newHp))
 
   given Damageable[Obstacle] with
     extension (o: Obstacle)

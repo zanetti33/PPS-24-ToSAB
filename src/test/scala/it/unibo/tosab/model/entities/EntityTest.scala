@@ -7,19 +7,19 @@ import it.unibo.tosab.model.entities.Damageable.given
 class EntityTest:
 
   val soldier: Character = Entity.soldier("s1", Faction.Player)
-  val archer: Entity = Entity.archer("a1", Faction.Player)
-  val wall: Entity = Entity.wall("w1")
 
   @Test def testEntityExist(): Unit =
     assertNotNull(soldier)
 
   @Test def testEntityIsACharacter(): Unit =
+    val archer: Entity = Entity.archer("a1", Faction.Player)
     assertTrue(archer match
       case _: Character => true
       case _: Obstacle  => false
     )
 
   @Test def testWallIsAnObstacle(): Unit =
+    val wall: Entity = Entity.wall("w1")
     assertTrue(wall match
       case _: Obstacle  => true
       case _: Character => false
@@ -42,3 +42,22 @@ class EntityTest:
     val damage = DamageInstance(20, DamageType.Physical)
     val damagedSoldier = soldier.takeDamage(damage)
     assertEquals(45, damagedSoldier.stats.currentHp) // 50 - (20 - 15) = 45
+
+  @Test def testTakeDamageDoesNotReduceHpBelowZero(): Unit =
+    val highDamage = DamageInstance(1000, DamageType.Physical)
+    val damagedSoldier = soldier.takeDamage(highDamage)
+    assertEquals(0, damagedSoldier.stats.currentHp)
+
+  @Test def testObstacleProperties(): Unit =
+    val bush = Entity.bush("b1")
+    assertTrue(bush.isPassable)
+    assertFalse(bush.blocksVision)
+    val wall = Entity.wall("w1")
+    assertFalse(wall.isPassable)
+    assertTrue(wall.blocksVision)
+
+  @Test def testWallIsNotDamageable(): Unit =
+    val newWall: Obstacle = Entity.wall("w2")
+    val damage = DamageInstance(20, DamageType.Physical)
+    val damagedWall = newWall.takeDamage(damage)
+    assertEquals(newWall, damagedWall)

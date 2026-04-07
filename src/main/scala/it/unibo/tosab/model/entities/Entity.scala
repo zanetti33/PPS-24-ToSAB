@@ -32,7 +32,7 @@ object Entity:
     Character(id, faction, Role.Mage, Stats.baseMageStats)
 
   def bush(id: String): Obstacle =
-    Obstacle(id, hp = Some(50), true, false)
+    Obstacle(id, hp = Some(50), isPassable = true, blocksVision = false)
 
   def wall(id: String): Obstacle =
-    Obstacle(id, hp = Some(200), false, true)
+    Obstacle(id, hp = None, isPassable = false, blocksVision = true)
