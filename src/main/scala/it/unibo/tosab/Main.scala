@@ -13,8 +13,6 @@ import it.unibo.tosab.view.DisplayGrid
   grid.setCell(soldier, (1, 4))
   grid.setCell(soldier, (2, 4))
   grid.setCell(soldier2, (3, 4))
-  // da controllare numerazione truppe sia se ne creo due uguali che se ne creo due diversi,
-  // se è possibile creare due truppe uguali e se è possibile creare due truppe diverse con lo stesso id
 
   println("[INIT] Inizializzazione GameState globale...")
   val initialState = GameState(GamePhase.Setup, grid)
