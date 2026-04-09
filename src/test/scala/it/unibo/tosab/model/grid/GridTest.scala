@@ -41,14 +41,14 @@ class GridTest:
     val expected3 = Set((2, 2), (2, 3), (3, 1), (3, 3), (4, 2), (4, 3))
     assertEquals(expected3, availableCellsSoldier3)
 
-  @Test def testGetAdjacentCellsWithOccupied(): Unit =
+  @Test def testGetAdjacentCellsWithNeighbour(): Unit =
     val soldier = createEntity("soldier", Faction.AI, Role.Soldier)
     val wizard = createEntity("wizard", Faction.AI, Role.Mage)
     grid.setCell(soldier, (2, 1))
     grid.setCell(wizard, (2, 2))
     val availableCellsSoldierWithNeighbour = grid.getAdjacentAvailableCells(soldier)
-    val expectedWithOccupied = Set((1, 0), (1, 1), (2, 0), (3, 0), (3, 1))
-    assertEquals(expectedWithOccupied, availableCellsSoldierWithNeighbour)
+    val expectedWithoutOccupied = Set((1, 0), (3, 1), (1, 1), (2, 0), (3, 0))
+    assertEquals(expectedWithoutOccupied, availableCellsSoldierWithNeighbour)
 
   @Test def testDistance(): Unit =
     val distanceMax = grid.getDistance((0, 0), (7, 7))
