@@ -40,6 +40,6 @@ object DisplayGrid:
     case _ => "| ? "
 
   private def printRowSeparator(row: Int, size: Int): Unit =
-    if row == size - 1 then println("*  " + " \\ /" * size)
+    if row == size - 1 then println("*  " + " \\ /" * size + "\n")
     else if row % 2 == 0 then println("* \\" + " / \\" * size)
     else println("* /" + " \\ /" * size)

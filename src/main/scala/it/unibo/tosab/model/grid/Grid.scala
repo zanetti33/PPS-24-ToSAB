@@ -10,6 +10,8 @@ class Grid(val size: Int = 8):
   private var cells: Map[Coordinate, Option[Entity]] =
     (for { x <- 0 until size; y <- 0 until size } yield (x, y) -> None).toMap
 
+  // def placeObstacles
+
   def setCell(entity: Entity, position: Coordinate): Unit =
     if gridPlacement.isPositionValid(entity, position, cells) then
       cells = cells + (position -> Some(entity))
