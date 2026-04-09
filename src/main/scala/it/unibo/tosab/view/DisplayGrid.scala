@@ -1,6 +1,6 @@
 package it.unibo.tosab.view
 
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Character, Faction}
 import it.unibo.tosab.model.grid.Grid
 
 object DisplayGrid:

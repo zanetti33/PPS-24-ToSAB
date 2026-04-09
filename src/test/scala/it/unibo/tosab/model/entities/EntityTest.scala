@@ -2,27 +2,28 @@ package it.unibo.tosab.model.entities
 
 import org.junit.Test
 import org.junit.Assert.*
-import it.unibo.tosab.model.entities.Entity.*
-import it.unibo.tosab.model.entities.Faction.{AI, Player}
-import it.unibo.tosab.model.entities.Role.*
+import it.unibo.tosab.model.entities.Damageable.given
 
 class EntityTest:
 
-  val soldier: Entity = createEntity("s1", Player, Soldier)
-  val archer: Entity = createEntity("a1", Player, Archer)
-  val mage: Entity = createEntity("m1", AI, Mage)
+  val soldier: Character = Entity.soldier("s1", Faction.Player)
 
   @Test def testEntityExist(): Unit =
     assertNotNull(soldier)
 
-  @Test def testEntityIsASoldier(): Unit =
-    assertEquals(Soldier, soldier.role)
+  @Test def testEntityIsACharacter(): Unit =
+    val archer: Entity = Entity.archer("a1", Faction.Player)
+    assertTrue(archer match
+      case _: Character => true
+      case _: Obstacle  => false
+    )
 
-  @Test def testEntityIsAnArcher(): Unit =
-    assertEquals(Archer, archer.role)
-
-  @Test def testEntityIsAMage(): Unit =
-    assertEquals(Mage, mage.role)
+  @Test def testWallIsAnObstacle(): Unit =
+    val wall: Entity = Entity.wall("w1")
+    assertTrue(wall match
+      case _: Obstacle  => true
+      case _: Character => false
+    )
 
   @Test def testSoldierHasRightHP(): Unit =
     assertEquals(50, soldier.stats.currentHp)
@@ -31,7 +32,32 @@ class EntityTest:
     assertEquals(AttackType.Melee, soldier.stats.attackType)
 
   @Test def testMageIsAnEnemy(): Unit =
+    val mage: Character = Entity.mage("m1", Faction.AI)
     assertTrue(mage.isAnEnemy)
 
   @Test def testSoldierIsAnAlly(): Unit =
     assertFalse(soldier.isAnEnemy)
+
+  @Test def testTakeDamageReducesHp(): Unit =
+    val damage = DamageInstance(20, DamageType.Physical)
+    val damagedSoldier = soldier.takeDamage(damage)
+    assertEquals(45, damagedSoldier.stats.currentHp) // 50 - (20 - 15) = 45
+
+  @Test def testTakeDamageDoesNotReduceHpBelowZero(): Unit =
+    val highDamage = DamageInstance(1000, DamageType.Physical)
+    val damagedSoldier = soldier.takeDamage(highDamage)
+    assertEquals(0, damagedSoldier.stats.currentHp)
+
+  @Test def testObstacleProperties(): Unit =
+    val bush = Entity.bush("b1")
+    assertTrue(bush.isPassable)
+    assertFalse(bush.blocksVision)
+    val wall = Entity.wall("w1")
+    assertFalse(wall.isPassable)
+    assertTrue(wall.blocksVision)
+
+  @Test def testWallIsNotDamageable(): Unit =
+    val newWall: Obstacle = Entity.wall("w2")
+    val damage = DamageInstance(20, DamageType.Physical)
+    val damagedWall = newWall.takeDamage(damage)
+    assertEquals(newWall, damagedWall)

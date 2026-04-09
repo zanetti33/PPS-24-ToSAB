@@ -1,5 +1,5 @@
 package it.unibo.tosab.model.grid
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Character, Entity, Faction, Obstacle}
 
 type Coordinate = (Int, Int)
 

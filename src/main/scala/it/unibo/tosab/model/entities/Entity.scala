@@ -1,46 +1,38 @@
 package it.unibo.tosab.model.entities
 
-import it.unibo.tosab.model.entities.CombatRules.calculatedAgainst
-import it.unibo.tosab.model.entities.Faction.{AI, Player}
-import it.unibo.tosab.model.entities.Role.{Archer, Mage, Soldier}
-import it.unibo.tosab.model.entities.Stats.*
-
 enum Faction:
   case Player, AI
 
 enum Role:
   case Archer, Soldier, Mage
 
-trait Entity:
+sealed trait Entity:
   def id: String
-  def faction: Faction
-  def role: Role
-  def stats: Stats
 
-  def isAnEnemy: Boolean
+case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity
 
-  def takeDamage(amount: DamageInstance): Entity
-
-case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity:
-
-  def isAnEnemy: Boolean = faction match
-    case Player => false
-    case AI     => true
-
-  def takeDamage(damageInstance: DamageInstance): Entity =
-    val damageTaken = damageInstance.calculatedAgainst(stats)
-    val newHp = Math.max(0, stats.currentHp - damageTaken)
-    val newStats = stats.copy(currentHp = newHp)
-    this.copy(stats = newStats)
+case class Obstacle(
+    id: String,
+    hp: Option[Int], // None = non-damageable, Some(x) = damageable with x = hp
+    isPassable: Boolean, // true = jumpable/walkable
+    blocksVision: Boolean // true = blocks ranged attacks
+) extends Entity
 
 object Entity:
 
-  private val statsBasedOnRole: Map[Role, Stats] =
-    Map(
-      Archer -> baseArcherStats,
-      Soldier -> baseSoldierStats,
-      Mage -> baseMageStats
-    )
+  extension (c: Character) def isAnEnemy: Boolean = c.faction == Faction.AI
 
-  def createEntity(id: String, faction: Faction, role: Role): Entity =
-    Character(id, faction, role, statsBasedOnRole(role))
+  def archer(id: String, faction: Faction): Character =
+    Character(id, faction, Role.Archer, Stats.baseArcherStats)
+
+  def soldier(id: String, faction: Faction): Character =
+    Character(id, faction, Role.Soldier, Stats.baseSoldierStats)
+
+  def mage(id: String, faction: Faction): Character =
+    Character(id, faction, Role.Mage, Stats.baseMageStats)
+
+  def bush(id: String): Obstacle =
+    Obstacle(id, hp = Some(50), isPassable = true, blocksVision = false)
+
+  def wall(id: String): Obstacle =
+    Obstacle(id, hp = None, isPassable = false, blocksVision = true)
