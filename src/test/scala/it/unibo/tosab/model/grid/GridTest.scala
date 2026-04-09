@@ -41,8 +41,8 @@ class GridTest:
     assertEquals(expected3, availableCellsSoldier3)
 
   @Test def testGetAdjacentCellsWithNeighbour(): Unit =
-    val soldier = createEntity("soldier", Faction.AI, Role.Soldier)
-    val wizard = createEntity("wizard", Faction.AI, Role.Mage)
+    val soldier = Entity.soldier("soldier", Faction.AI)
+    val wizard = Entity.mage("wizard", Faction.AI)
     grid.setCell(soldier, (2, 1))
     grid.setCell(wizard, (2, 2))
     val availableCellsSoldierWithNeighbour = grid.getAdjacentAvailableCells(soldier)
