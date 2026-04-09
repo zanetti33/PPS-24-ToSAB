@@ -30,9 +30,9 @@ object Stats:
   private val archerAttackType = Ranged
 
   private val soldierHp = 50
-  private val soldierPhysicalAttack = 15
+  private val soldierPhysicalAttack = 20
   private val soldierMagicalAttack = 0
-  private val soldierPhysicalDefense = 20
+  private val soldierPhysicalDefense = 15
   private val soldierMagicalDefense = 0
   private val soldierMovementDistance = 1
   private val soldierSpeed = 2

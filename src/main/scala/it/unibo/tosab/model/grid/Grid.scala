@@ -1,5 +1,5 @@
 package it.unibo.tosab.model.grid
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Character, Entity, Faction, Obstacle}
 
 type Coordinate = (Int, Int)
 
@@ -13,7 +13,7 @@ class Grid:
     yield (x, y) -> None).toMap
 
   def setCell(entity: Entity, position: Coordinate): Unit = position match
-    case (x, y) if isPositionAvailable(position) && isRightField(entity.isAnEnemy, position) =>
+    case (x, y) if isPositionAvailable(position) && isRightField(entity, position) =>
       cells = cells + (position -> Some(entity))
     case _ => println(s"Cell $position is not valid.")
 
@@ -69,5 +69,6 @@ class Grid:
     case (x, y) if isWithinBounds(pos) && cells(pos).isEmpty => true
     case _                                                   => false
 
-  private def isRightField(enemy: Boolean, position: Coordinate): Boolean =
-    if enemy then position._1 < 4 else position._1 >= 4
+  private def isRightField(entity: Entity, position: Coordinate): Boolean = entity match
+    case c: Character => if c.isAnEnemy then position._1 < 4 else position._1 >= 4
+    case _: Obstacle  => true

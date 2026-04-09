@@ -6,7 +6,6 @@ import it.unibo.tosab.model.GameAction
 import it.unibo.tosab.model.{GamePhase, GameState}
 import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, Engine, ImmediatelyEndEngine}
 import it.unibo.tosab.model.entities.*
-import it.unibo.tosab.model.entities.Entity.*
 import it.unibo.tosab.model.grid.Grid
 
 class EngineTest:
@@ -21,7 +20,7 @@ class EngineTest:
     assertEquals(combatState, result)
 
   @Test def doesNothingEngineDoesNotChangeGrid(): Unit =
-    val archer = createEntity("archer", Faction.AI, Role.Archer)
+    val archer = Entity.archer("archer", Faction.AI)
     grid.setCell(archer, (1, 1))
     val result = DoesNothingEngine.applyAction(combatState, GameAction.Pass)
     assertEquals(Some(archer), result.grid.getEntity((1, 1)))
