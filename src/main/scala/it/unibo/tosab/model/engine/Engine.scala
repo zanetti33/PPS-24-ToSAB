@@ -5,8 +5,8 @@ import it.unibo.tosab.model.{GameAction, GameState}
 
 object Engine:
   /** The Engine trait defines the core logic of the game, responsible for applying actions to the
-    * game state. It takes the current game state, the and a game action, and returns the new game
-    * state
+    * game state. It takes the current game state, the actor id and a game action, and returns the
+    * new game state
     */
   trait Engine:
     def startNewRound(state: GameState): GameState =
