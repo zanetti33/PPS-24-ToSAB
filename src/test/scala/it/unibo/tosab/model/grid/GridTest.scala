@@ -54,3 +54,17 @@ class GridTest:
     val distance = grid.getDistance((2, 1), (4, 1))
     assertEquals(11, distanceMax)
     assertEquals(2, distance)
+
+  @Test def testPlaceObstacle(): Unit =
+    val wall = Entity.wall("wall")
+    grid.setCell(wall, (4, 4))
+    assertEquals(Some(wall), grid.getEntity((4, 4)))
+
+  @Test def testPopulateGrid(): Unit =
+    grid.placeObstacles()
+    val occupiedCells = grid.getOccupiedCells
+    println(occupiedCells)
+    assertTrue(occupiedCells.nonEmpty)
+    for cell <- occupiedCells do
+      val entity = grid.getEntity(cell)
+      assertTrue(entity.exists(_.isInstanceOf[Obstacle]))
