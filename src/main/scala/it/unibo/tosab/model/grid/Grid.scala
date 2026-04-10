@@ -17,7 +17,10 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
     cells.get(position)
 
   def getPosition(entity: Entity): Option[Coordinate] =
-    cells.find((_, e) => e.id == entity.id).map(_._1)
+    getPosition(entity.id)
+
+  def getPosition(entityId: String): Option[Coordinate] =
+    cells.find((_, e) => e.id == entityId).map(_._1)
 
   def getOccupiedCells: Set[Coordinate] =
     cells.keySet

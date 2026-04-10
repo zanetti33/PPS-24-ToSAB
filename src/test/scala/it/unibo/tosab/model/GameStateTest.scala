@@ -10,14 +10,14 @@ class GameStateTest:
 
   private val playerFaction = Faction.Player
   private val soldierId = "p1"
-  private val soldierPosition = (0, 0)
+  private val soldierPosition = (4, 0)
   private val soldier = Entity.soldier(soldierId, playerFaction)
   private val mageId = "m1"
   private val unknownId = "unknown"
   private val obstacleId = "obs-1"
-  private val wallPosition = (1, 1)
+  private val wallPosition = (4, 1)
   private val wall = Entity.wall(obstacleId)
-  private val magePosition = (2, 2)
+  private val magePosition = (6, 2)
   private val mage = Entity.mage(mageId, playerFaction)
 
   @Test def testGameStateInitializationDefaultsToSetup(): Unit =
@@ -28,25 +28,25 @@ class GameStateTest:
 
   @Test def testGetCharacterByIdReturnsCharacterWhenPresent(): Unit =
     val grid = Grid()
-    grid.setCell(soldier, soldierPosition)
+      .setCell(soldier, soldierPosition)
     val state = GameState(grid)
     assertEquals(Some(soldier), state.getCharacterById(soldierId))
 
   @Test def testGetCharacterByIdReturnsNoneWhenMissing(): Unit =
     val grid = Grid()
-    grid.setCell(soldier, soldierPosition)
+      .setCell(soldier, soldierPosition)
     val state = GameState(grid)
     assertEquals(None, state.getCharacterById(unknownId))
 
   @Test def testGetCharacterByIdIgnoresObstacles(): Unit =
     val grid = Grid()
-    grid.setCell(wall, wallPosition)
+      .setCell(wall, wallPosition)
     val state = GameState(grid)
     assertEquals(None, state.getCharacterById(obstacleId))
 
   @Test def testGetPositionOfReturnsCoordinateWhenCharacterPresent(): Unit =
     val grid = Grid()
-    grid.setCell(mage, magePosition)
+      .setCell(mage, magePosition)
     val state = GameState(grid)
     assertEquals(Some(magePosition), state.getPositionOf(mageId))
 
