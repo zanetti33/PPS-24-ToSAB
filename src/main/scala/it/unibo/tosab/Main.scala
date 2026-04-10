@@ -6,13 +6,13 @@ import it.unibo.tosab.view.DisplayGrid
 
 @main def runApp(): Unit =
   val grid = Grid()
-  // grid.placeObstacles
+  grid.placeObstacles()
 
   println("[INIT] Inizializzazione GameState globale...")
   val initialState = GameState(GamePhase.Setup, grid)
 
   println("\n[STATO GIOCO SPRINT 1] Setup completato con successo!\n")
-  DisplayGrid.display(initialState.grid)
+  DisplayGrid.displayInitialGrid(initialState.grid)
 
   val wizard = Entity.mage("wizard", Faction.Player)
   val soldier = Entity.soldier("soldier", Faction.AI)
