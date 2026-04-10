@@ -22,8 +22,8 @@ class EngineTest:
 
   @Test def doesNothingEngineDoesNotChangeGrid(): Unit =
     val archer = Entity.archer("archer", Faction.AI)
-    grid.setCell(archer, (1, 1))
-    val result = DoesNothingEngine.applyUnitAction(combatState, unitId, GameAction.Pass)
+    val updatedCombatState = GameState(GamePhase.Combat, grid.setCell(archer, (1, 1)))
+    val result = DoesNothingEngine.applyUnitAction(updatedCombatState, unitId, GameAction.Pass)
     assertEquals(Some(archer), result.grid.getEntity((1, 1)))
 
   @Test def immediatelyEndEngineChangesPhaseToGameOver(): Unit =
