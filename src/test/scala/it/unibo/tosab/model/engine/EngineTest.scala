@@ -13,19 +13,20 @@ class EngineTest:
   val grid: Grid = Grid()
   val combatState: GameState = GameState(GamePhase.Combat, grid)
   val gameOverState: GameState = GameState(GamePhase.GameOver, grid)
+  val unitId: String = "unit1"
 
   @Test def doesNothingDoesNotChangePhase(): Unit =
     val engine: Engine = DoesNothingEngine
-    val result = engine.applyAction(combatState, GameAction.Pass)
+    val result = engine.applyUnitAction(combatState, unitId, GameAction.Pass)
     assertEquals(combatState, result)
 
   @Test def doesNothingEngineDoesNotChangeGrid(): Unit =
     val archer = Entity.archer("archer", Faction.AI)
     grid.setCell(archer, (1, 1))
-    val result = DoesNothingEngine.applyAction(combatState, GameAction.Pass)
+    val result = DoesNothingEngine.applyUnitAction(combatState, unitId, GameAction.Pass)
     assertEquals(Some(archer), result.grid.getEntity((1, 1)))
 
   @Test def immediatelyEndEngineChangesPhaseToGameOver(): Unit =
     val engine: Engine = ImmediatelyEndEngine
-    val result = engine.applyAction(combatState, GameAction.Pass)
+    val result = engine.applyUnitAction(combatState, unitId, GameAction.Pass)
     assertEquals(gameOverState, result)

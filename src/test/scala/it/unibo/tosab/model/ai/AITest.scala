@@ -10,17 +10,18 @@ import it.unibo.tosab.model.grid.Grid
 class AITest:
 
   val state: GameState = GameState(GamePhase.Setup, Grid())
+  val unitId: String = "unit1"
 
   @Test def DoesNothingAIAlwaysReturnsPass(): Unit =
-    val action = DoesNothingAI.determineNextAction(state)
+    val action = DoesNothingAI.determineNextAction(state, unitId)
     assertEquals(GameAction.Pass, action)
 
   @Test def DoesNothingAIIsConsistent(): Unit =
-    val a1 = DoesNothingAI.determineNextAction(state)
-    val a2 = DoesNothingAI.determineNextAction(GameState(GamePhase.Combat, Grid()))
+    val a1 = DoesNothingAI.determineNextAction(state, unitId)
+    val a2 = DoesNothingAI.determineNextAction(GameState(GamePhase.Combat, Grid()), unitId)
     assertEquals(a1, a2)
 
   @Test def DoesNothingAIImplementsAITrait(): Unit =
     val ai: AI = DoesNothingAI
-    val action = ai.determineNextAction(state)
+    val action = ai.determineNextAction(state, unitId)
     assertEquals(GameAction.Pass, action)
