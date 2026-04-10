@@ -13,7 +13,11 @@ object Behaviors:
       .collect { case (enemy: Character, pos) if enemy.faction != me.faction => (enemy, pos) }
 
   /** Returns the enemy closest to `myPos`, if any. */
-  private def closestEnemy(state: GameState, me: Character, myPos: Coordinate): Option[(Character, Coordinate)] =
+  private def closestEnemy(
+      state: GameState,
+      me: Character,
+      myPos: Coordinate
+  ): Option[(Character, Coordinate)] =
     enemiesWithPositions(state, me)
       .minByOption((_, enemyPos) => state.grid.getDistance(myPos, enemyPos))
 

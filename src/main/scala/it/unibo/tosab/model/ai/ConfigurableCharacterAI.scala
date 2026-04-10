@@ -9,8 +9,9 @@ class ConfigurableCharacterAI(behaviors: Behavior*) extends CharacterAI:
     val meOpt = state.getCharacterById(actorId)
     val myPosOpt = state.getPositionOf(actorId)
     (meOpt, myPosOpt) match
-      case (Some(me), Some(myPos)) => behaviors.iterator
-        .flatMap(behavior => behavior(state, me, myPos))
-        .nextOption()
-        .getOrElse(GameAction.Pass)
+      case (Some(me), Some(myPos)) =>
+        behaviors.iterator
+          .flatMap(behavior => behavior(state, me, myPos))
+          .nextOption()
+          .getOrElse(GameAction.Pass)
       case _ => GameAction.Pass
