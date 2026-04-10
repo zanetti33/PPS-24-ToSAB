@@ -10,10 +10,12 @@ class Grid(val size: Int = 8):
   private var cells: Map[Coordinate, Option[Entity]] =
     (for { x <- 0 until size; y <- 0 until size } yield (x, y) -> None).toMap
 
-  def setCell(entity: Entity, position: Coordinate): Unit =
+  def setCell(entity: Entity, position: Coordinate): Map[Coordinate, Option[Entity]] =
     if gridPlacement.isPositionValid(entity, position, cells) then
       cells = cells + (position -> Some(entity))
-    else println(s"Cell $position is not valid for this entity.")
+    cells
+
+  def getCells: Map[Coordinate, Option[Entity]] = cells
 
   def getEntity(position: Coordinate): Option[Entity] =
     if grid.isWithinBounds(position) then cells(position) else None
