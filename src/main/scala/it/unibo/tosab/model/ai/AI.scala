@@ -8,10 +8,11 @@ object AI:
     * action based on the current game state.
     */
   trait AI:
-    def determineNextAction(state: GameState): GameAction
+    def determineNextAction(state: GameState, currentCharacterId: String): GameAction
 
   /** A simple implementation of the AI trait that always returns GameAction.Pass, effectively doing
     * nothing.
     */
   object DoesNothingAI extends AI:
-    override def determineNextAction(state: GameState): GameAction = GameAction.Pass
+    override def determineNextAction(state: GameState, currentCharacterId: String): GameAction =
+      GameAction.Pass
