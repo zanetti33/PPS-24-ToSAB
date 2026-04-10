@@ -21,15 +21,7 @@ object CharacterAI:
     * no attack is possible, it tries to move towards the closest enemy. If neither action is
     * possible, it passes.
     */
-  object BasicCharacterAI extends CharacterAI:
-    def determineNextAction(state: GameState, actorId: String): GameAction =
-      val meOpt = state.getCharacterById(actorId)
-      val myPosOpt = state.getPositionOf(actorId)
-      // Using pattern matching to safely unwrap the Options
-      (meOpt, myPosOpt) match
-        case (Some(me), Some(myPos)) =>
-          Behaviors
-            .attackClosestEnemy(state, me, myPos)
-            .orElse(Behaviors.moveTowardsClosestEnemy(state, me, myPos))
-            .getOrElse(GameAction.Pass) // If no attack or move is possible, pass
-        case _ => GameAction.Pass
+  val BasicCharacterAI: CharacterAI = ConfigurableCharacterAI(
+    Behaviors.attackClosestEnemy,
+    Behaviors.moveTowardsClosestEnemy
+  )
