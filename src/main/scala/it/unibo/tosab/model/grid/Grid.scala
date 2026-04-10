@@ -36,6 +36,8 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def getAllCells: Map[Coordinate, Entity] = cells
 
   def allEntities: List[Entity] = cells.values.toList
+  
+  def allEntitiesWithPositions: List[(Entity, Coordinate)] = cells.toList.map { case (pos, entity) => (entity, pos) }
 
   def filterEntities(predicate: Entity => Boolean): Iterable[Entity] =
     allEntities.filter(predicate)

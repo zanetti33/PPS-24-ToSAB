@@ -22,8 +22,8 @@ class TurnOrderManagerTest:
   @Test def testTurnOrderWithDifferentSpeeds(): Unit =
     val expectedQueue = Seq(fastUnitId, slowUnitId)
     val grid = Grid()
-    grid.setCell(fastUnit, (4, 4))
-    grid.setCell(slowUnit, (4, 1))
+      .setCell(fastUnit, (4, 4))
+      .setCell(slowUnit, (4, 1))
     val gameState = GameState(GamePhase.Combat, grid, Nil)
     val result = TurnOrderManager.determineTurnOrder(gameState)
     assertEquals(expectedQueue, result)
@@ -31,9 +31,9 @@ class TurnOrderManagerTest:
   @Test def testTurnOrderWithSameSpeedsBasedOnPosition(): Unit =
     val expectedQueue = Seq(secondSlowUnitId, slowUnitId)
     val grid = Grid()
-    grid.setCell(slowUnit, (4, 4))
-    grid.setCell(secondSlowUnit, (4, 1))
-    val gameState = GameState(GamePhase.Combat, Grid(), expectedQueue)
+      .setCell(slowUnit, (4, 4))
+      .setCell(secondSlowUnit, (4, 1))
+    val gameState = GameState(GamePhase.Combat, grid, expectedQueue)
     val result = TurnOrderManager.determineTurnOrder(gameState)
     assertEquals(expectedQueue, result)
 
