@@ -37,16 +37,16 @@ class CharacterAITest:
 
   @Test def testBasicAIInCombatAttacksWhenEnemyIsClose(): Unit =
     val grid = Grid()
-    grid.setCell(aiSoldier, (3, 3))
-    grid.setCell(playerSoldier, (4, 3))
+      .setCell(aiSoldier, (3, 3))
+      .setCell(playerSoldier, (4, 3))
     val combatState = GameState(GamePhase.Combat, grid)
     val action = BasicCharacterAI.determineNextAction(combatState, aiSoldier.id)
     assertEquals(GameAction.Attack(playerSoldier.id), action)
 
   @Test def testBasicAIInCombatMovesWhenEnemyIsDistant(): Unit =
     val grid = Grid()
-    grid.setCell(aiSoldier, (0, 0))
-    grid.setCell(playerSoldier, (7, 7))
+      .setCell(aiSoldier, (0, 0))
+      .setCell(playerSoldier, (7, 7))
     val combatState = GameState(GamePhase.Combat, grid)
     val action = BasicCharacterAI.determineNextAction(combatState, aiSoldier.id)
     assertTrue(action match
@@ -56,7 +56,7 @@ class CharacterAITest:
 
   @Test def testBasicAIInCombatPassesWhenThereIsNoEnemy(): Unit =
     val grid = Grid()
-    grid.setCell(aiSoldier, (3, 3))
+      .setCell(aiSoldier, (3, 3))
     val combatState = GameState(GamePhase.Combat, grid)
     val action = BasicCharacterAI.determineNextAction(combatState, aiSoldier.id)
     assertEquals(GameAction.Pass, action)
