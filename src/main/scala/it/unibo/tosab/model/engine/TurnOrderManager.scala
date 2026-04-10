@@ -6,7 +6,7 @@ import it.unibo.tosab.model.entities.Character
 object TurnOrderManager:
   def determineTurnOrder(gameState: GameState): Seq[String] =
     gameState.grid.allEntitiesWithPositions
-      .collect { case (character: Character, pos) => (character, pos)}
+      .collect { case (character: Character, pos) => (character, pos) }
       .sortBy { case (character, (row, column)) =>
         (
           -character.stats.speed,

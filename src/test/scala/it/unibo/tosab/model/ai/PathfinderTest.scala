@@ -50,7 +50,8 @@ class PathfinderTest:
   @Test def testFindNextStepWithAllSidesSurroundedByObstacles(): Unit =
     val startPos = (4, 4)
     val targetPos = (6, 6)
-    val grid = Grid().setCell(soldier, startPos)
+    val grid = Grid()
+      .setCell(soldier, startPos)
       // Place obstacles around the soldier to block all adjacent cells
       .setCell(wall(id = "w1"), (3, 3))
       .setCell(wall(id = "w2"), (3, 4))
@@ -74,4 +75,3 @@ class PathfinderTest:
     val distanceFromStart = grid.getDistance(startPos, targetPos)
     // The next step should be closer to target than start
     assertTrue(distanceFromStep < distanceFromStart)
-

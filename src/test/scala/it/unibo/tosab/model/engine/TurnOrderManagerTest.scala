@@ -36,4 +36,3 @@ class TurnOrderManagerTest:
     val gameState = GameState(GamePhase.Combat, grid, expectedQueue)
     val result = TurnOrderManager.determineTurnOrder(gameState)
     assertEquals(expectedQueue, result)
-

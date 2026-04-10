@@ -54,4 +54,3 @@ class GameStateTest:
     val grid = Grid()
     val state = GameState(grid)
     assertEquals(None, state.getPositionOf(unknownId))
-
