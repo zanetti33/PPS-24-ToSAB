@@ -10,10 +10,11 @@ object GameLoop:
   def run(currentState: GameState)(using ai: AI, engine: Engine): GameState =
     currentState.phase match
       case GameOver => currentState
-      case Setup => run(currentState.copy(phase = Combat))
-      case Combat => currentState.turnQueue match
-        case Nil => run(engine.startNewRound(currentState))
-        case currentCharacterId :: _ =>
-          val action = ai.determineNextAction(currentState, currentCharacterId)
-          val nextState = engine.applyUnitAction(currentState, currentCharacterId, action)
-          run(nextState)
+      case Setup    => run(currentState.copy(phase = Combat))
+      case Combat =>
+        currentState.turnQueue match
+          case Nil => run(engine.startNewRound(currentState))
+          case currentCharacterId :: _ =>
+            val action = ai.determineNextAction(currentState, currentCharacterId)
+            val nextState = engine.applyUnitAction(currentState, currentCharacterId, action)
+            run(nextState)

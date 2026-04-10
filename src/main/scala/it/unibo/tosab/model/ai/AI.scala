@@ -14,4 +14,5 @@ object AI:
     * nothing.
     */
   object DoesNothingAI extends AI:
-    override def determineNextAction(state: GameState, currentCharacterId: String): GameAction = GameAction.Pass
+    override def determineNextAction(state: GameState, currentCharacterId: String): GameAction =
+      GameAction.Pass
