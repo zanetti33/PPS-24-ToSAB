@@ -6,7 +6,7 @@ import it.unibo.tosab.model.grid.{Coordinate, Grid}
 enum GamePhase:
   case Setup, Combat, GameOver
 
-case class GameState(phase: GamePhase, grid: Map[Coordinate, Option[Entity]], turnQueue: Seq[String] = Seq.empty)
+case class GameState(phase: GamePhase, grid: Grid, turnQueue: Seq[String] = Seq.empty)
 
 object GameState:
-  def apply(grid: Map[Coordinate, Option[Entity]]): GameState = GameState(GamePhase.Setup, grid)
+  def apply(grid: Grid): GameState = GameState(GamePhase.Setup, grid)

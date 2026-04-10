@@ -15,9 +15,9 @@ object GameSetup:
   )
 
   def runSetupLoop(
-      currentGrid: Map[Coordinate, Option[Entity]],
+      currentGrid: Grid,
       entityCounter: Int = 0
-  ): MonadIO[Map[Coordinate, Option[Entity]]] = for
+  ): MonadIO[Grid] = for
     _ <- printMenu()
     _ <- MonadIO.printLine("> ")
     userInput <- MonadIO.readString()
@@ -42,7 +42,7 @@ object GameSetup:
           case Role.Mage    => Entity.mage(id, Faction.Player)
 
         // Questo deve restituire una nuova griglia immutabile
-        val newGrid = currentGrid + (position -> Some(newEntity))
+        val newGrid = currentGrid.setCell(newEntity, position)
 
         for
           _ <- MonadIO.printLine(s"[OK] $role placed in (${position._1}, ${position._2}).")
