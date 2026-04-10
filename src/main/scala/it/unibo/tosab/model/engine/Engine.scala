@@ -11,7 +11,7 @@ object Engine:
   trait Engine:
     def startNewRound(state: GameState): GameState =
       TurnOrderManager.determineTurnOrder(state) match
-        case Nil => state.copy(phase = GameOver)
+        case Nil          => state.copy(phase = GameOver)
         case newTurnQueue => state.copy(turnQueue = newTurnQueue)
     def applyUnitAction(state: GameState, actorId: String, action: GameAction): GameState
 
