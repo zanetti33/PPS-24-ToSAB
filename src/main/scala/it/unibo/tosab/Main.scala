@@ -8,6 +8,7 @@ import it.unibo.tosab.view.DisplayGrid
 
 @main def runApp(): Unit =
   val grid = Grid()
+  grid.placeObstacles()
 
   val setupProgram: MonadIO[Map[Coordinate, Option[Entity]]] = GameSetup.runSetupLoop(grid.getCells)
 
@@ -26,3 +27,5 @@ import it.unibo.tosab.view.DisplayGrid
   grid.setCell(soldier, (1, 4))
   grid.setCell(soldier, (2, 4))
   grid.setCell(soldier2, (3, 4))
+
+  //DisplayGrid.display(initialState.grid)
