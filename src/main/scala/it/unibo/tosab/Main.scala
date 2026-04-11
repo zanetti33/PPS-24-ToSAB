@@ -7,15 +7,15 @@ import it.unibo.tosab.update.GameSetup
 import it.unibo.tosab.view.DisplayGrid
 
 @main def runApp(): Unit =
-  val initialGrid = Grid().placeObstacles()
+  val startingGrid = Grid().placeObstacles()
 
   println("[INIT] Inizializzazione GameState globale...")
-  val initialState = GameState(GamePhase.Setup, initialGrid)
+  val initialState = GameState(GamePhase.Setup, startingGrid)
 
   println("\n[STATO GIOCO SPRINT 1] Setup completato con successo!\n")
   DisplayGrid.displayInitialGrid(initialState.grid)
 
-  val setupProgram = GameSetup.runSetupLoop(initialGrid)
-  val startingGrid = setupProgram.run()
-  val updatedState = initialState.copy(grid = startingGrid)
+  val setupProgram = GameSetup.runSetupLoop(startingGrid)
+  val updatedGrid = setupProgram.run()
+  val updatedState = initialState.copy(grid = updatedGrid)
   DisplayGrid.display(updatedState.grid)
