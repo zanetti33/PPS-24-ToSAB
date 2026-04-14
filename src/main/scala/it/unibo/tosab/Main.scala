@@ -2,24 +2,20 @@ package it.unibo.tosab
 import it.unibo.tosab.model.{GamePhase, GameState}
 import it.unibo.tosab.model.grid.*
 import it.unibo.tosab.model.entities.*
+import it.unibo.tosab.model.io.MonadIO
+import it.unibo.tosab.update.GameSetup
 import it.unibo.tosab.view.DisplayGrid
 
 @main def runApp(): Unit =
-  val initialGrid = Grid().placeObstacles()
+  val startingGrid = Grid().placeObstacles()
 
   println("[INIT] Inizializzazione GameState globale...")
-  val initialState = GameState(GamePhase.Setup, initialGrid)
+  val initialState = GameState(GamePhase.Setup, startingGrid)
 
   println("\n[STATO GIOCO SPRINT 1] Setup completato con successo!\n")
   DisplayGrid.displayInitialGrid(initialState.grid)
 
-  val wizard = Entity.mage("wizard", Faction.Player)
-  val soldier = Entity.soldier("soldier", Faction.AI)
-  val soldier2 = Entity.soldier("soldier", Faction.AI)
-  val updatedGrid = initialGrid
-    .setCell(wizard, (5, 5))
-    .setCell(soldier, (1, 4))
-    .setCell(soldier, (2, 4))
-    .setCell(soldier2, (3, 4))
+  val setupProgram = GameSetup.runSetupLoop(startingGrid)
+  val updatedGrid = setupProgram.run()
   val updatedState = initialState.copy(grid = updatedGrid)
   DisplayGrid.display(updatedState.grid)
