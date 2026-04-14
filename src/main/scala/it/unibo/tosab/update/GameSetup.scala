@@ -65,9 +65,9 @@ object GameSetup:
             yield res
 
   private def printMenu(): MonadIO[Unit] = MonadIO.printLine(
-    """|
+    s"""|
          |--- POSITIONING PHASE ---
        |1: Soldier | 2: Archer | 3: Mage
-       |Place troops following this format: ID (X,Y) [e.g. 1 (0,1)]
+       |Place up to $maxNumberOfTroops troops following this format: ID (X,Y) [e.g. 1 (0,1)]
        |Type 'start' to start the battle.""".stripMargin
   )
