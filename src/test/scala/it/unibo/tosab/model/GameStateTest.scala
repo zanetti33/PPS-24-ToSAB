@@ -72,4 +72,3 @@ class GameStateTest:
 
     assertEquals(Some(Faction.Player), state.winningFaction)
     assertTrue(state.hasWinner)
-

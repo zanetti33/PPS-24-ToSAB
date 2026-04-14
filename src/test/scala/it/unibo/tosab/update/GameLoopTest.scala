@@ -4,7 +4,12 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.{GamePhase, GameState}
 import it.unibo.tosab.model.ai.CharacterAI.{CharacterAI, DoesNothingCharacterAI}
-import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, Engine, ImmediatelyEndEngine, TurnBasedCombatEngine}
+import it.unibo.tosab.model.engine.Engine.{
+  DoesNothingEngine,
+  Engine,
+  ImmediatelyEndEngine,
+  TurnBasedCombatEngine
+}
 import it.unibo.tosab.model.entities.{Entity, Faction}
 import it.unibo.tosab.model.grid.Grid
 
@@ -37,4 +42,3 @@ class GameLoopTest:
     val result = GameLoop.run(combatState)
 
     assertEquals(GamePhase.GameOver, result.phase)
-

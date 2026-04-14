@@ -67,7 +67,8 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
     getPosition(entityId) match
       case Some(currentPosition)
           if isWithinBounds(targetPosition) && !cells.contains(targetPosition) =>
-        cells.get(currentPosition)
+        cells
+          .get(currentPosition)
           .map(entity => copy(cells = cells - currentPosition + (targetPosition -> entity)))
           .getOrElse(this)
       case _ => this

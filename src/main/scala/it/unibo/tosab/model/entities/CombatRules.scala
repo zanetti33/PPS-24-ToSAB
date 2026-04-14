@@ -17,7 +17,7 @@ object CombatRules:
   private def calculateDamage(damageInstance: DamageInstance, targetStats: Stats): Int =
     damageInstance.damageType match
       case DamageType.Physical => crop(damageInstance.amount - targetStats.physicalDefense)
-      case DamageType.Magical => crop(damageInstance.amount - targetStats.magicalDefence)
+      case DamageType.Magical  => crop(damageInstance.amount - targetStats.magicalDefence)
 
   def createDamage(attacker: Character): AttackProfile =
     val damageList = scala.collection.mutable.ListBuffer[DamageInstance]()
@@ -34,12 +34,11 @@ object CombatRules:
     (for
       attackerPosition <- state.getPositionOf(attacker.id)
       targetPosition <- state.getPositionOf(target.id)
-    yield
-      attacker.faction != target.faction &&
+    yield attacker.faction != target.faction &&
       attacker.isAlive &&
       target.isAlive &&
-      state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
-    ).getOrElse(false)
+      state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange)
+      .getOrElse(false)
 
   def resolveAttack(attacker: Character, target: Character): Character =
     val attackProfile = createDamage(attacker)
@@ -52,7 +51,8 @@ object CombatRules:
 
   extension (attacker: Character)
     def damageInstance: AttackProfile = createDamage(attacker)
-    def canAttack(target: Character, state: GameState): Boolean = CombatRules.canAttack(state, attacker, target)
+    def canAttack(target: Character, state: GameState): Boolean =
+      CombatRules.canAttack(state, attacker, target)
     def isAlive: Boolean =
       val defeatedHpThreshold = 0
       attacker.stats.currentHp > defeatedHpThreshold
@@ -62,4 +62,3 @@ object CombatRules:
     def isDestroyed: Boolean =
       val destroyedHpThreshold = 0
       obstacle.hp.exists(_ <= destroyedHpThreshold)
-

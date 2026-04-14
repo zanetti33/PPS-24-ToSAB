@@ -4,7 +4,12 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
 import it.unibo.tosab.model.{GamePhase, GameState}
-import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, Engine, ImmediatelyEndEngine, TurnBasedCombatEngine}
+import it.unibo.tosab.model.engine.Engine.{
+  DoesNothingEngine,
+  Engine,
+  ImmediatelyEndEngine,
+  TurnBasedCombatEngine
+}
 import it.unibo.tosab.model.entities.*
 import it.unibo.tosab.model.grid.Grid
 
@@ -30,7 +35,9 @@ class EngineTest:
   private val gameOverState: GameState = GameState(GamePhase.GameOver, grid)
   private val unitId: String = "unit1"
 
-  private def createAttacker(physicalAttack: Int = Stats.baseSoldierStats.physicalAttack): Character =
+  private def createAttacker(
+      physicalAttack: Int = Stats.baseSoldierStats.physicalAttack
+  ): Character =
     Character(
       attackerId,
       Faction.Player,
@@ -77,43 +84,42 @@ class EngineTest:
     val result = engine.applyUnitAction(combatState, unitId, GameAction.Pass)
     assertEquals(gameOverState, result)
 
-  /**
-   * Tests that the TurnBasedCombatEngine correctly applies a non-lethal attack, 
-   * reducing the target's HP but not removing it from the grid, 
-   * and that the turn queue and game phase are updated accordingly.
-   */
+  /** Tests that the TurnBasedCombatEngine correctly applies a non-lethal attack, reducing the
+    * target's HP but not removing it from the grid, and that the turn queue and game phase are
+    * updated accordingly.
+    */
   @Test def testTurnBasedCombatEngineAppliesNonLethalAttack(): Unit =
     val attacker = createAttacker()
     val target = createTarget(nonLethalTargetHp)
     val state = createCombatState(attacker, target)
 
-    val result = TurnBasedCombatEngine.applyUnitAction(state, attacker.id, GameAction.Attack(target.id))
+    val result =
+      TurnBasedCombatEngine.applyUnitAction(state, attacker.id, GameAction.Attack(target.id))
     val updatedTarget = result.getCharacterById(target.id)
 
     assertEquals(Some(expectedRemainingTargetHp), updatedTarget.map(_.stats.currentHp))
     assertEquals(Seq(target.id), result.turnQueue)
     assertEquals(GamePhase.Combat, result.phase)
 
-  /**
-   * Tests that the TurnBasedCombatEngine correctly applies a lethal attack, 
-   * removing the target from the grid, 
-   * and that the turn queue is updated to remove the defeated target and the game phase transitions to GameOver
-   */
+  /** Tests that the TurnBasedCombatEngine correctly applies a lethal attack, removing the target
+    * from the grid, and that the turn queue is updated to remove the defeated target and the game
+    * phase transitions to GameOver
+    */
   @Test def testTurnBasedCombatEngineRemovesDeadTargetAndEndsGameWhenOneFactionRemains(): Unit =
     val attacker = createAttacker(boostedAttackerAttack)
     val target = createTarget(lethalTargetHp)
     val state = createCombatState(attacker, target)
 
-    val result = TurnBasedCombatEngine.applyUnitAction(state, attacker.id, GameAction.Attack(target.id))
+    val result =
+      TurnBasedCombatEngine.applyUnitAction(state, attacker.id, GameAction.Attack(target.id))
 
     assertEquals(None, result.getCharacterById(target.id))
     assertTrue(result.turnQueue.isEmpty)
     assertEquals(GamePhase.GameOver, result.phase)
 
-  /**
-   * Tests that the TurnBasedCombatEngine ends the round and transitions to GameOver when only one faction has living characters remaining,
-   * even if the turn queue is not empty
-   */
+  /** Tests that the TurnBasedCombatEngine ends the round and transitions to GameOver when only one
+    * faction has living characters remaining, even if the turn queue is not empty
+    */
   @Test def testTurnBasedCombatEngineEndsRoundWhenOnlyOneFactionIsAlive(): Unit =
     val player = Entity.soldier("player-1", Faction.Player)
     val state = GameState(GamePhase.Combat, Grid().setCell(player, playerLonePosition))
@@ -122,4 +128,3 @@ class EngineTest:
 
     assertEquals(GamePhase.GameOver, result.phase)
     assertTrue(result.turnQueue.isEmpty)
-

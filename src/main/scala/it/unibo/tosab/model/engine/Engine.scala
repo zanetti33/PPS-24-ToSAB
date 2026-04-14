@@ -24,14 +24,14 @@ object Engine:
       state
 
   /** A simple implementation of the Engine trait that ends the game immediately by setting the
-   * phase to GameOver, regardless of the action taken.
-   */
+    * phase to GameOver, regardless of the action taken.
+    */
   object ImmediatelyEndEngine extends Engine:
     override def applyUnitAction(state: GameState, actorId: String, action: GameAction): GameState =
       state.copy(phase = GameOver)
-  
-  /** Initial concrete engine for turn-based combat. Handles attack resolution, defeated-unit cleanup,
-    * turn consumption and game-over detection.
+
+  /** Initial concrete engine for turn-based combat. Handles attack resolution, defeated-unit
+    * cleanup, turn consumption and game-over detection.
     */
   object TurnBasedCombatEngine extends Engine:
     override def startNewRound(state: GameState): GameState =
@@ -46,7 +46,11 @@ object Engine:
           case Attack(targetId)     => resolveAttackAction(state, actorId, targetId)
         CombatStateTransitions.finalizeCombatState(nextState)
 
-    private def resolveMove(state: GameState, actorId: String, targetPosition: (Int, Int)): GameState =
+    private def resolveMove(
+        state: GameState,
+        actorId: String,
+        targetPosition: (Int, Int)
+    ): GameState =
       (state.getCharacterById(actorId), state.getPositionOf(actorId)) match
         case (Some(actor), Some(actorPosition))
             if state.grid.getDistance(actorPosition, targetPosition) <= actor.stats.movementDistance
@@ -55,7 +59,11 @@ object Engine:
           consumeTurn(state.copy(grid = state.grid.moveEntity(actorId, targetPosition)), actorId)
         case _ => consumeTurn(state, actorId)
 
-    private def resolveAttackAction(state: GameState, actorId: String, targetId: String): GameState =
+    private def resolveAttackAction(
+        state: GameState,
+        actorId: String,
+        targetId: String
+    ): GameState =
       (state.getCharacterById(actorId), state.getCharacterById(targetId)) match
         case (Some(attacker), Some(target)) if canAttack(state, attacker, target) =>
           val updatedTarget = resolveAttack(attacker, target)
@@ -65,6 +73,5 @@ object Engine:
     private def consumeTurn(state: GameState, actorId: String): GameState =
       val updatedQueue = state.turnQueue match
         case currentActor +: remainingTurns if currentActor == actorId => remainingTurns
-        case _                                                         => state.turnQueue.filterNot(_ == actorId)
+        case _ => state.turnQueue.filterNot(_ == actorId)
       state.copy(turnQueue = updatedQueue)
-

@@ -36,4 +36,3 @@ object CombatStateTransitions:
 
   private def toGameOver(state: GameState): GameState =
     state.copy(phase = GameOver, turnQueue = EmptyTurnQueue)
-

@@ -6,9 +6,9 @@ import it.unibo.tosab.model.entities.Character
 
 object TurnOrderManager:
   private def livingCharacterIds(gameState: GameState): Set[String] =
-    gameState.grid.allEntities
-      .collect { case character: Character if character.isAlive => character.id }
-      .toSet
+    gameState.grid.allEntities.collect {
+      case character: Character if character.isAlive => character.id
+    }.toSet
 
   def synchronizeTurnQueue(gameState: GameState): Seq[String] =
     val aliveIds = livingCharacterIds(gameState)
