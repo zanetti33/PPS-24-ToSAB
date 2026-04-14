@@ -1,4 +1,4 @@
-## Requirment specification
+## Requirement specification
 
 ### Requisiti di business
 
