@@ -12,7 +12,7 @@ import it.unibo.tosab.view.DisplayGrid
   println("[INIT] Inizializzazione GameState globale...")
   val initialState = GameState(GamePhase.Setup, startingGrid)
 
-  println("\n[STATO GIOCO SPRINT 1] Setup completato con successo!\n")
+  println("\n[STATO GIOCO SPRINT 2] Setup completato con successo!\n")
   DisplayGrid.displayInitialGrid(initialState.grid)
 
   val setupProgram = GameSetup.runSetupLoop(startingGrid)
