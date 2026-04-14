@@ -1,8 +1,7 @@
 package it.unibo.tosab.model
 
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Entity, Character}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
-import it.unibo.tosab.model.entities.Character
 
 enum GamePhase:
   case Setup, Combat, GameOver
