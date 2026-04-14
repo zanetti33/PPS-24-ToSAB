@@ -28,6 +28,9 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def getDistance(p1: Coordinate, p2: Coordinate): Int =
     hexGrid.getDistance(p1, p2)
 
+  def isWithinBounds(position: Coordinate): Boolean =
+    hexGrid.isWithinBounds(position)
+
   def getAdjacentAvailableCells(entity: Entity): Set[Coordinate] =
     val occupiedCells = getOccupiedCells
     val entityPositions = cells.filter((_, e) => e.id == entity.id).keys.toSet
@@ -46,6 +49,28 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
 
   def collectEntities[T](pf: PartialFunction[Entity, T]): Iterable[T] =
     allEntities.collect(pf)
+
+  def replaceEntity(updatedEntity: Entity): Grid =
+    getPosition(updatedEntity.id)
+      .map(position => copy(cells = cells.updated(position, updatedEntity)))
+      .getOrElse(this)
+
+  def removeEntity(entityId: String): Grid =
+    getPosition(entityId)
+      .map(position => copy(cells = cells - position))
+      .getOrElse(this)
+
+  def removeEntities(predicate: Entity => Boolean): Grid =
+    copy(cells = cells.filterNot((_, entity) => predicate(entity)))
+
+  def moveEntity(entityId: String, targetPosition: Coordinate): Grid =
+    getPosition(entityId) match
+      case Some(currentPosition)
+          if isWithinBounds(targetPosition) && !cells.contains(targetPosition) =>
+        cells.get(currentPosition)
+          .map(entity => copy(cells = cells - currentPosition + (targetPosition -> entity)))
+          .getOrElse(this)
+      case _ => this
 
   def placeObstacles(): Grid =
     val random = scala.util.Random.nextInt(size)
