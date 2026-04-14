@@ -17,7 +17,10 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
     cells.get(position)
 
   def getPosition(entity: Entity): Option[Coordinate] =
-    cells.find((_, e) => e.id == entity.id).map(_._1)
+    getPosition(entity.id)
+
+  def getPosition(entityId: String): Option[Coordinate] =
+    cells.find((_, e) => e.id == entityId).map(_._1)
 
   def getOccupiedCells: Set[Coordinate] =
     cells.keySet
@@ -33,6 +36,10 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def getAllCells: Map[Coordinate, Entity] = cells
 
   def allEntities: List[Entity] = cells.values.toList
+
+  def allEntitiesWithPositions: List[(Entity, Coordinate)] = cells.toList.map {
+    case (pos, entity) => (entity, pos)
+  }
 
   def filterEntities(predicate: Entity => Boolean): Iterable[Entity] =
     allEntities.filter(predicate)
