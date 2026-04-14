@@ -1,6 +1,6 @@
 package it.unibo.tosab.model
 
-import it.unibo.tosab.model.entities.{Entity, Character}
+import it.unibo.tosab.model.entities.Character
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
 enum GamePhase:
