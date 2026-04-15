@@ -18,13 +18,9 @@ object PlacementAI:
 
   private def placeTroops(troops: Seq[entities.Character], grid: Grid): Grid =
     // Group consecutive troops by role
-    val groups = troops
-      .foldLeft(List.empty[List[entities.Character]]) { (acc, troop) =>
-        if acc.isEmpty || acc.head.head.role != troop.role then List(troop) :: acc
-        else (troop :: acc.head) :: acc.tail
-      }
-      .reverse
-      .map(_.reverse)
+    val groups = troops.foldLeft(List.empty[List[entities.Character]]) { (acc, troop) =>
+      if acc.isEmpty || acc.head.head.role != troop.role then List(troop) :: acc else (troop :: acc.head) :: acc.tail
+    }.reverse.map(_.reverse)
 
     var currentGrid = grid
     var currentX = grid.size / 2 - 1
@@ -40,24 +36,25 @@ object PlacementAI:
         remainingTroops = remainingTroops.drop(toPlace.size)
         if remainingTroops.nonEmpty then
           currentX -= 1
-          if currentX < 0 then currentX = scala.util.Random.nextInt(grid.size / 2)
+          if currentX < 0 then
+            currentX = scala.util.Random.nextInt(grid.size / 2)
       currentX -= 1
-      if currentX < 0 then currentX = scala.util.Random.nextInt(grid.size / 2)
+      if currentX < 0 then
+        currentX = scala.util.Random.nextInt(grid.size / 2)
     currentGrid
 
   private def createTroop(troopIndex: Int, role: Role) =
-    val id = s"${role.toString.toLowerCase}_${troopIndex}"
+    val id = s"${role.toString.toLowerCase}_$troopIndex"
     val troop = role match
       case Role.Soldier => Entity.soldier(id, Faction.AI)
-      case Role.Archer  => Entity.archer(id, Faction.AI)
-      case Role.Mage    => Entity.mage(id, Faction.AI)
+      case Role.Archer => Entity.archer(id, Faction.AI)
+      case Role.Mage => Entity.mage(id, Faction.AI)
     troop
 
   private def getTroopRoles(maxTroops: Int): Seq[Role] =
     val baseRoles = Seq(Role.Soldier, Role.Archer, Role.Mage)
     val additionalCount = scala.util.Random.nextInt(maxTroops - baseRoles.size + 1)
-    val additionalRoles =
-      if additionalCount > 0 then
-        Seq.fill(additionalCount)(scala.util.Random.shuffle(baseRoles).head)
-      else Seq.empty
+    val additionalRoles = if additionalCount > 0 then
+      Seq.fill(additionalCount)(scala.util.Random.shuffle(baseRoles).head)
+    else Seq.empty
     baseRoles ++ additionalRoles
