@@ -2,7 +2,7 @@ package it.unibo.tosab.model.ai
 
 import it.unibo.tosab.model.entities
 import it.unibo.tosab.model.entities.{Entity, Faction, Role, Stats}
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.grid.{Grid, GridLane, Lane}
 import it.unibo.tosab.update.GameSetup
 
 object PlacementAI:
@@ -14,47 +14,41 @@ object PlacementAI:
       troopsToPlace = troopsToPlace ++ Seq(createTroop(index, role))
     val orderedTroops = troopsToPlace.sortBy(troop => troop.stats.currentHp).reverse
 
-    placeTroops(orderedTroops, grid)
+    divideTroopsIntoLanes(orderedTroops, grid)
 
-  private def placeTroops(troops: Seq[entities.Character], grid: Grid): Grid =
-    // Group consecutive troops by role
-    val groups = troops.foldLeft(List.empty[List[entities.Character]]) { (acc, troop) =>
-      if acc.isEmpty || acc.head.head.role != troop.role then List(troop) :: acc else (troop :: acc.head) :: acc.tail
-    }.reverse.map(_.reverse)
-
+  private def divideTroopsIntoLanes(troops: Seq[entities.Character], grid: Grid): Grid =
+    val (backLane, middleLane, frontLane) = GridLane.calculateLanes(grid.size)
     var currentGrid = grid
-    var currentX = grid.size / 2 - 1
-    val yRange = 0 until grid.size
-    for group <- groups do
-      var remainingTroops = group
-      while remainingTroops.nonEmpty do
-        val availableY = yRange.filter(y => currentGrid.getEntity((currentX, y)).isEmpty)
-        val toPlace = remainingTroops.take(availableY.size)
-        val selectedY = scala.util.Random.shuffle(availableY).take(toPlace.size)
-        for (troop, y) <- toPlace.zip(selectedY) do
-          currentGrid = currentGrid.setCell(troop, (currentX, y))
-        remainingTroops = remainingTroops.drop(toPlace.size)
-        if remainingTroops.nonEmpty then
-          currentX -= 1
-          if currentX < 0 then
-            currentX = scala.util.Random.nextInt(grid.size / 2)
-      currentX -= 1
-      if currentX < 0 then
-        currentX = scala.util.Random.nextInt(grid.size / 2)
+    for troop <- troops do
+      currentGrid = troop.role match
+        case Role.Soldier => placeTroopInLane(troop, frontLane, currentGrid)
+        case Role.Archer  => placeTroopInLane(troop, middleLane, currentGrid)
+        case Role.Mage    => placeTroopInLane(troop, backLane, currentGrid)
     currentGrid
+
+  private def placeTroopInLane(troop: entities.Character, lane: Lane, grid: Grid): Grid =
+    val xRange = lane.from until lane.to
+    var position = (scala.util.Random.shuffle(xRange).head, scala.util.Random.nextInt(grid.size))
+    while grid.getEntity(position).isDefined do
+      position = (scala.util.Random.shuffle(xRange).head, scala.util.Random.nextInt(grid.size))
+    grid.setCell(troop, position)
 
   private def createTroop(troopIndex: Int, role: Role) =
     val id = s"${role.toString.toLowerCase}_$troopIndex"
     val troop = role match
       case Role.Soldier => Entity.soldier(id, Faction.AI)
-      case Role.Archer => Entity.archer(id, Faction.AI)
-      case Role.Mage => Entity.mage(id, Faction.AI)
+      case Role.Archer  => Entity.archer(id, Faction.AI)
+      case Role.Mage    => Entity.mage(id, Faction.AI)
     troop
 
   private def getTroopRoles(maxTroops: Int): Seq[Role] =
     val baseRoles = Seq(Role.Soldier, Role.Archer, Role.Mage)
-    val additionalCount = scala.util.Random.nextInt(maxTroops - baseRoles.size + 1)
-    val additionalRoles = if additionalCount > 0 then
-      Seq.fill(additionalCount)(scala.util.Random.shuffle(baseRoles).head)
-    else Seq.empty
-    baseRoles ++ additionalRoles
+    if maxTroops < baseRoles.size then
+      Seq.fill(maxTroops)(scala.util.Random.shuffle(Seq(Role.Soldier, Role.Archer, Role.Mage)).head)
+    else
+      val additionalCount = scala.util.Random.nextInt(maxTroops - baseRoles.size + 1)
+      val additionalRoles =
+        if additionalCount > 0 then
+          Seq.fill(additionalCount)(scala.util.Random.shuffle(baseRoles).head)
+        else Seq.empty
+      baseRoles ++ additionalRoles
