@@ -1,9 +1,9 @@
 package it.unibo.tosab.model.grid
 import it.unibo.tosab.model.entities.*
 
-import scala.annotation.tailrec
-
 class PlacementManager(navigation: GridManager):
+  private val factionSplitRow = navigation.size / 2
+
   def isPositionValid(
       entity: Entity,
       pos: Coordinate,
@@ -20,5 +20,7 @@ class PlacementManager(navigation: GridManager):
     else generateRandomPosition(grid)
 
   private def isRightField(entity: Entity, pos: Coordinate): Boolean = entity match
-    case c: Character => if c.isAnEnemy then pos._1 < 4 else pos._1 >= 4
+    case c: Character =>
+      if c.isAnEnemy then pos._1 < factionSplitRow
+      else pos._1 >= factionSplitRow
     case _            => true
