@@ -6,8 +6,8 @@ import it.unibo.tosab.model.grid.{Grid, GridLane, Lane}
 import it.unibo.tosab.update.GameSetup
 
 object PlacementAI:
-  def placeAITroops(grid: Grid): Grid =
-    val rolesToPlace = getTroopRoles(GameSetup.getMaxNumberOfTroops)
+  def placeAITroops(grid: Grid, troopsNumber: Int = GameSetup.getMaxNumberOfTroops): Grid =
+    val rolesToPlace = getTroopRoles(troopsNumber)
 
     var troopsToPlace = Seq.empty[entities.Character]
     for (role, index) <- rolesToPlace.zip(0 until GameSetup.getMaxNumberOfTroops) do
@@ -17,7 +17,7 @@ object PlacementAI:
     divideTroopsIntoLanes(orderedTroops, grid)
 
   private def divideTroopsIntoLanes(troops: Seq[entities.Character], grid: Grid): Grid =
-    val (backLane, middleLane, frontLane) = GridLane.calculateLanes(grid.size)
+    val (backLane, middleLane, frontLane) = GridLane.calculateLanes(grid.size / 2)
     var currentGrid = grid
     for troop <- troops do
       currentGrid = troop.role match
