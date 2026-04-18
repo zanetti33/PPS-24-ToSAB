@@ -23,4 +23,4 @@ class PlacementManager(navigation: GridManager):
     case c: Character =>
       if c.isAnEnemy then pos._1 < factionSplitRow
       else pos._1 >= factionSplitRow
-    case _            => true
+    case _ => true

@@ -30,8 +30,7 @@ object Pathfinder:
       ): Set[Coordinate] =
         toVisit.dequeueOption match
           case None => visited - startPos
-          case Some(((position, stepsFromStart), remainingQueue))
-              if stepsFromStart >= maxSteps =>
+          case Some(((position, stepsFromStart), remainingQueue)) if stepsFromStart >= maxSteps =>
             bfs(remainingQueue, visited)
           case Some(((position, stepsFromStart), remainingQueue)) =>
             val unseenNeighbors = traversableNeighbors(grid, position).diff(visited)

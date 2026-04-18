@@ -93,4 +93,3 @@ class PathfinderTest:
 
     val reachable = Pathfinder.reachableCellsWithin(grid, startPos, noSteps)
     assertTrue(reachable.isEmpty)
-

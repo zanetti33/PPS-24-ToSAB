@@ -19,9 +19,11 @@ class CharacterAITest:
   private val playerSoldier: Entity = Entity.soldier(unitId, Faction.Player)
   private val aiSoldier: Entity = Entity.soldier("ai1", Faction.AI)
   private val aiFastSoldier: Character =
-    Entity.soldier("ai-fast", Faction.AI).copy(
-      stats = Stats.baseSoldierStats.copy(movementDistance = movementDistanceTwo)
-    )
+    Entity
+      .soldier("ai-fast", Faction.AI)
+      .copy(
+        stats = Stats.baseSoldierStats.copy(movementDistance = movementDistanceTwo)
+      )
 
   @Test def testDoesNothingAIAlwaysReturnsPass(): Unit =
     val action = DoesNothingCharacterAI.determineNextAction(state, unitId)
@@ -76,4 +78,3 @@ class CharacterAITest:
 
     val action = BasicCharacterAI.determineNextAction(combatState, aiFastSoldier.id)
     assertEquals(GameAction.Move(expectedLongMoveTarget), action)
-
