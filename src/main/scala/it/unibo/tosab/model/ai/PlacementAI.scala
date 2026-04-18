@@ -30,8 +30,7 @@ object PlacementAI:
     currentGrid
 
   private def placeTroopInLane(troop: entities.Character, lane: Lane, grid: Grid): Grid =
-    availableLanePositions(grid, lane)
-      .headOption
+    availableLanePositions(grid, lane).headOption
       .map(position => grid.setCell(troop, position))
       .getOrElse(grid)
 
@@ -44,7 +43,8 @@ object PlacementAI:
           x <- xRange
           y <- emptyLaneStart until grid.size
         yield (x, y)
-      scala.util.Random.shuffle(allLanePositions)
+      scala.util.Random
+        .shuffle(allLanePositions)
         .filter(position => grid.getEntity(position).isEmpty)
 
   private def createTroop(troopIndex: Int, role: Role) =
@@ -58,8 +58,7 @@ object PlacementAI:
   private def getTroopRoles(maxTroops: Int): Seq[Role] =
     val baseRoles = Seq(Role.Soldier, Role.Archer, Role.Mage)
     if maxTroops <= minTroops then Seq.empty
-    else if maxTroops <= baseRoles.size then
-      scala.util.Random.shuffle(baseRoles).take(maxTroops)
+    else if maxTroops <= baseRoles.size then scala.util.Random.shuffle(baseRoles).take(maxTroops)
     else
       val additionalCount = scala.util.Random.nextInt(maxTroops - baseRoles.size + 1)
       val additionalRoles =
