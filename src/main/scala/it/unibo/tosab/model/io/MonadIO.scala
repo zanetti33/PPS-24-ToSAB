@@ -12,8 +12,5 @@ object MonadIO:
 
   def printLine(msg: String): MonadIO[Unit] = MonadIO(() => println(msg))
 
-  def clearScreen(): MonadIO[Unit] =
-    MonadIO(() => (1 to 50).foreach(_ => println()))
-
   def sleep(milliseconds: Int): MonadIO[Unit] =
     MonadIO(() => Thread.sleep(milliseconds))

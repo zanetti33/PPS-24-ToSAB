@@ -25,6 +25,6 @@ object ActionLog:
 
   def apply(character: Character, action: GameAction): ActionLog =
     ActionLog(
-      characterId = s"${character.id} (${character.faction})",
+      characterId = s"${character.id} (${character.faction}) (HP: ${character.stats.currentHp})",
       action = action
     )

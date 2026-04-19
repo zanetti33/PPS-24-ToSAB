@@ -10,7 +10,13 @@ private def printColHeader(size: Int): Unit =
   println(f"* / \\" + " / \\" * (size - 1))
 
 object DisplayGrid:
+  private def clearScreen(): Unit =
+    System.out.flush()
+    print("\u001b[2J\u001b[H") // ANSI: clear screen + move cursor to home
+    System.out.flush()
+
   def display(grid: Grid): Unit =
+    clearScreen()
     val size = grid.size
 
     printColHeader(size)
