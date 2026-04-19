@@ -4,7 +4,7 @@ import it.unibo.tosab.model.GamePhase.*
 import it.unibo.tosab.model.GameState
 import it.unibo.tosab.model.ai.CharacterAI.CharacterAI
 import it.unibo.tosab.model.engine.Engine.Engine
-import it.unibo.tosab.view.{ActionLog, LoggerUtils}
+import it.unibo.tosab.view.{ActionLog, LoggerUtils, DisplayGrid}
 
 object GameLoop:
   @annotation.tailrec
@@ -22,4 +22,5 @@ object GameLoop:
               .map(character => ActionLog(character, action))
             LoggerUtils.logAndDisplay(log.getOrElse(ActionLog("Unknown", action))).run()
             val nextState = engine.applyUnitAction(currentState, currentCharacterId, action)
+            DisplayGrid.display(nextState.grid)
             run(nextState)
