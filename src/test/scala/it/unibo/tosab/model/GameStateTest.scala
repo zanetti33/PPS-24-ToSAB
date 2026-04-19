@@ -19,6 +19,9 @@ class GameStateTest:
   private val wall = Entity.wall(obstacleId)
   private val magePosition = (6, 2)
   private val mage = Entity.mage(mageId, playerFaction)
+  private val enemyId = "enemy-1"
+  private val enemyPosition = (1, 1)
+  private val enemy = Entity.soldier(enemyId, Faction.AI)
 
   @Test def testGameStateInitializationDefaultsToSetup(): Unit =
     val grid = Grid()
@@ -54,3 +57,18 @@ class GameStateTest:
     val grid = Grid()
     val state = GameState(grid)
     assertEquals(None, state.getPositionOf(unknownId))
+
+  @Test def testRemainingFactionsContainsBothSidesWhenAlive(): Unit =
+    val grid = Grid()
+      .setCell(soldier, soldierPosition)
+      .setCell(enemy, enemyPosition)
+    val state = GameState(GamePhase.Combat, grid)
+
+    assertEquals(Set(Faction.Player, Faction.AI), state.remainingFactions)
+    assertEquals(None, state.winningFaction)
+
+  @Test def testWinningFactionReturnsSingleAliveFaction(): Unit =
+    val state = GameState(GamePhase.Combat, Grid().setCell(soldier, soldierPosition))
+
+    assertEquals(Some(Faction.Player), state.winningFaction)
+    assertTrue(state.hasWinner)

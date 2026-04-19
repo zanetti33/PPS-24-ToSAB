@@ -8,6 +8,8 @@ object GameSetup:
 
   private final val maxNumberOfTroops = 5
 
+  def getMaxNumberOfTroops: Int = maxNumberOfTroops
+
   def runSetupLoop(
       currentGrid: Grid,
       entityCounter: Int = 0
