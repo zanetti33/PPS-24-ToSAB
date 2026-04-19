@@ -5,6 +5,7 @@ import it.unibo.tosab.model.entities.Character
 import it.unibo.tosab.model.grid.Coordinate
 
 object Behaviors:
+  private val noMovementDistance = 0
 
   /** Returns all enemy characters on the grid paired with their positions. */
   private def enemiesWithPositions(state: GameState, me: Character): Seq[(Character, Coordinate)] =
@@ -31,8 +32,16 @@ object Behaviors:
       .filter((_, enemyPos) => isInRange(state, myPos, enemyPos, me.stats.attackRange))
       .map((enemy, _) => GameAction.Attack(enemy.id))
 
-  /** Moves one step towards the closest enemy if reachable, otherwise returns None. */
+  /** Moves towards the closest enemy using the actor's movement distance, if reachable. */
   val moveTowardsClosestEnemy: Behavior = (state, me, myPos) =>
     closestEnemy(state, me, myPos)
-      .flatMap((_, enemyPos) => Pathfinder.findNextStep(state.grid, me, myPos, enemyPos))
+      .filter(_ => me.stats.movementDistance > noMovementDistance)
+      .flatMap((_, enemyPos) =>
+        Pathfinder.bestReachableTowardsTarget(
+          state.grid,
+          myPos,
+          enemyPos,
+          me.stats.movementDistance
+        )
+      )
       .map(GameAction.Move(_))

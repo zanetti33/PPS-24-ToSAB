@@ -75,3 +75,21 @@ class PathfinderTest:
     val distanceFromStart = grid.getDistance(startPos, targetPos)
     // The next step should be closer to target than start
     assertTrue(distanceFromStep < distanceFromStart)
+
+  @Test def testBestReachableTowardsTargetUsesMovementDistance(): Unit =
+    val startPos = (0, 0)
+    val targetPos = (0, 4)
+    val maxSteps = 2
+    val expectedBestPosition = (0, 2)
+    val grid = Grid().setCell(soldier, startPos)
+
+    val bestPosition = Pathfinder.bestReachableTowardsTarget(grid, startPos, targetPos, maxSteps)
+    assertEquals(Some(expectedBestPosition), bestPosition)
+
+  @Test def testReachableCellsWithinReturnsEmptyWhenStepsAreNonPositive(): Unit =
+    val startPos = (2, 2)
+    val noSteps = 0
+    val grid = Grid().setCell(soldier, startPos)
+
+    val reachable = Pathfinder.reachableCellsWithin(grid, startPos, noSteps)
+    assertTrue(reachable.isEmpty)
