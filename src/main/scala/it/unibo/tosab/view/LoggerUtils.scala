@@ -1,6 +1,7 @@
-package it.unibo.tosab.model.logging
+package it.unibo.tosab.view
 
 import it.unibo.tosab.model.io.MonadIO
+import it.unibo.tosab.view.ActionLog
 
 object LoggerUtils:
 
