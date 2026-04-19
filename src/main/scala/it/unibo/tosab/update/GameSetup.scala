@@ -16,7 +16,6 @@ object GameSetup:
   ): MonadIO[Grid] =
     for
       _ <- printMenu()
-      _ <- MonadIO.clearScreen()
       _ <- MonadIO.printLine("> ")
       userInput <- MonadIO.readString()
       res <- processCommands(InputParser.parse(userInput), currentGrid, entityCounter)
