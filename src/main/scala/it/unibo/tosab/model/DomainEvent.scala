@@ -10,4 +10,3 @@ enum DomainEvent:
   case UnitDied(unitId: String)
   case GridUpdated(grid: Grid)
   case GameEnded(finalState: GameState)
-

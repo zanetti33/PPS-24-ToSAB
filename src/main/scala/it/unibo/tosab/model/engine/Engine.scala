@@ -25,14 +25,22 @@ object Engine:
   /** A simple implementation of the Engine trait that does not modify the game state
     */
   object DoesNothingEngine extends Engine:
-    override def applyUnitAction(state: GameState, actorId: String, action: GameAction): EngineOutcome =
+    override def applyUnitAction(
+        state: GameState,
+        actorId: String,
+        action: GameAction
+    ): EngineOutcome =
       EngineOutcome(nextState = state)
 
   /** A simple implementation of the Engine trait that ends the game immediately by setting the
     * phase to GameOver, regardless of the action taken.
     */
   object ImmediatelyEndEngine extends Engine:
-    override def applyUnitAction(state: GameState, actorId: String, action: GameAction): EngineOutcome =
+    override def applyUnitAction(
+        state: GameState,
+        actorId: String,
+        action: GameAction
+    ): EngineOutcome =
       EngineOutcome(
         nextState = state.copy(phase = GameOver),
         events = Seq(DomainEvent.ActionApplied(actorId, action))
@@ -45,7 +53,11 @@ object Engine:
     override def startNewRound(state: GameState): GameState =
       CombatStateTransitions.startRoundOrEnd(state)
 
-    override def applyUnitAction(state: GameState, actorId: String, action: GameAction): EngineOutcome =
+    override def applyUnitAction(
+        state: GameState,
+        actorId: String,
+        action: GameAction
+    ): EngineOutcome =
       if state.phase != Combat then EngineOutcome(nextState = state)
       else
         val intermediateOutcome = action match
@@ -73,7 +85,10 @@ object Engine:
               && state.grid.getEntity(targetPosition).isEmpty
               && state.grid.isWithinBounds(targetPosition) =>
           EngineOutcome(
-            nextState = consumeTurn(state.copy(grid = state.grid.moveEntity(actorId, targetPosition)), actorId),
+            nextState = consumeTurn(
+              state.copy(grid = state.grid.moveEntity(actorId, targetPosition)),
+              actorId
+            ),
             events = Seq(DomainEvent.ActionApplied(actorId, Move(targetPosition)))
           )
         case _ => EngineOutcome(nextState = consumeTurn(state, actorId))
@@ -91,7 +106,8 @@ object Engine:
             if updatedTarget.stats.currentHp <= 0 then Seq(DomainEvent.UnitDied(target.id))
             else Seq.empty
           EngineOutcome(
-            nextState = consumeTurn(state.copy(grid = state.grid.replaceEntity(updatedTarget)), actorId),
+            nextState =
+              consumeTurn(state.copy(grid = state.grid.replaceEntity(updatedTarget)), actorId),
             events = Seq(
               DomainEvent.ActionApplied(actorId, Attack(targetId)),
               DomainEvent.DamageInflicted(attacker.id, target.id, damageAmount)

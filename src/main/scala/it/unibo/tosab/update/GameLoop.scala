@@ -12,7 +12,7 @@ object GameLoop extends GameLoopPublisher:
       case GameOver =>
         publish(DomainEvent.GameEnded(currentState))
         currentState
-      case Setup    => run(currentState.copy(phase = Combat))
+      case Setup => run(currentState.copy(phase = Combat))
       case Combat =>
         currentState.turnQueue match
           case Nil => run(engine.startNewRound(currentState))

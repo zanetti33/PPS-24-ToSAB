@@ -52,7 +52,7 @@ class GameLoopTest:
     assertEquals(1, subscriber.receivedEvents.size)
     subscriber.receivedEvents.head match
       case DomainEvent.GameEnded(finalState) => assertEquals(gameOver, finalState)
-      case other => fail(s"Unexpected event received: $other")
+      case other                             => fail(s"Unexpected event received: $other")
 
   @Test def testRunEndsTheGame(): Unit =
     given engine: Engine = ImmediatelyEndEngine
@@ -80,7 +80,11 @@ class GameLoopTest:
         GameAction.Pass
 
     given engine: Engine with
-      override def applyUnitAction(state: GameState, actorId: String, action: GameAction): EngineOutcome =
+      override def applyUnitAction(
+          state: GameState,
+          actorId: String,
+          action: GameAction
+      ): EngineOutcome =
         EngineOutcome(
           nextState = state.copy(phase = GamePhase.GameOver, turnQueue = Seq.empty),
           events = Seq(
@@ -107,17 +111,16 @@ class GameLoopTest:
         assertEquals(playerId, attackerId)
         assertEquals("enemy-1", targetId)
         assertEquals(12, amount)
-      case other                                  => fail(s"Unexpected second event received: $other")
+      case other => fail(s"Unexpected second event received: $other")
 
     subscriber.receivedEvents(2) match
       case DomainEvent.UnitDied(unitId) => assertEquals("enemy-1", unitId)
-      case other                          => fail(s"Unexpected third event received: $other")
+      case other                        => fail(s"Unexpected third event received: $other")
 
     subscriber.receivedEvents(3) match
       case DomainEvent.GridUpdated(updatedGrid) => assertEquals(combatGrid, updatedGrid)
-      case other                                  => fail(s"Unexpected fourth event received: $other")
+      case other                                => fail(s"Unexpected fourth event received: $other")
 
     subscriber.receivedEvents(4) match
       case DomainEvent.GameEnded(finalState) => assertEquals(GamePhase.GameOver, finalState.phase)
-      case other                               => fail(s"Unexpected fifth event received: $other")
-
+      case other                             => fail(s"Unexpected fifth event received: $other")

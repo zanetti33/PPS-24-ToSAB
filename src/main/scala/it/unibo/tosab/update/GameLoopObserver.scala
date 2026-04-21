@@ -13,8 +13,7 @@ trait GameLoopPublisher:
   private var subscribers: Seq[GameLoopSubscriber] = Seq.empty
 
   def subscribe(subscriber: GameLoopSubscriber): Unit =
-    if !subscribers.contains(subscriber) then
-      subscribers = subscribers :+ subscriber
+    if !subscribers.contains(subscriber) then subscribers = subscribers :+ subscriber
 
   def unsubscribe(subscriber: GameLoopSubscriber): Unit =
     subscribers = subscribers.filterNot(_ == subscriber)

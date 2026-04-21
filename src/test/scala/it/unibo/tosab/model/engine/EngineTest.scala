@@ -102,7 +102,10 @@ class EngineTest:
     assertEquals(Seq(target.id), result.turnQueue)
     assertEquals(GamePhase.Combat, result.phase)
     assertEquals(2, outcome.events.size)
-    assertEquals(DomainEvent.ActionApplied(attacker.id, GameAction.Attack(target.id)), outcome.events.head)
+    assertEquals(
+      DomainEvent.ActionApplied(attacker.id, GameAction.Attack(target.id)),
+      outcome.events.head
+    )
     assertEquals(DomainEvent.DamageInflicted(attacker.id, target.id, 20), outcome.events(1))
 
   /** Tests that the TurnBasedCombatEngine correctly applies a lethal attack, removing the target
@@ -122,8 +125,14 @@ class EngineTest:
     assertTrue(result.turnQueue.isEmpty)
     assertEquals(GamePhase.GameOver, result.phase)
     assertEquals(3, outcome.events.size)
-    assertEquals(DomainEvent.ActionApplied(attacker.id, GameAction.Attack(target.id)), outcome.events.head)
-    assertEquals(DomainEvent.DamageInflicted(attacker.id, target.id, lethalTargetHp), outcome.events(1))
+    assertEquals(
+      DomainEvent.ActionApplied(attacker.id, GameAction.Attack(target.id)),
+      outcome.events.head
+    )
+    assertEquals(
+      DomainEvent.DamageInflicted(attacker.id, target.id, lethalTargetHp),
+      outcome.events(1)
+    )
     assertEquals(DomainEvent.UnitDied(target.id), outcome.events(2))
 
   /** Tests that the TurnBasedCombatEngine ends the round and transitions to GameOver when only one
