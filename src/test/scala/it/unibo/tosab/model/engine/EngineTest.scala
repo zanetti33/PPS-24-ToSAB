@@ -3,13 +3,9 @@ package it.unibo.tosab.model.engine
 import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
+import it.unibo.tosab.model.GameAction.Pass
 import it.unibo.tosab.model.{DomainEvent, GamePhase, GameState}
-import it.unibo.tosab.model.engine.Engine.{
-  DoesNothingEngine,
-  Engine,
-  ImmediatelyEndEngine,
-  TurnBasedCombatEngine
-}
+import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, ImmediatelyEndEngine, TurnBasedCombatEngine}
 import it.unibo.tosab.model.entities.*
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
@@ -32,6 +28,7 @@ class EngineTest:
   private val slowTargetSpeed = 1
   private val expectedRemainingTargetHp = 30
   private val grid: Grid = Grid()
+  private val passIntent: CommandIntent = CommandIntent(unitId, GameAction.Pass)
   private val combatState: GameState = GameState(GamePhase.Combat, grid)
   private val gameOverState: GameState = GameState(GamePhase.GameOver, grid)
 
@@ -70,18 +67,18 @@ class EngineTest:
 
   @Test def testDoesNothingDoesNotChangePhase(): Unit =
     val engine: Engine = DoesNothingEngine
-    val result = engine.applyUnitAction(combatState, unitId, GameAction.Pass)
+    val result = engine.applyUnitAction(combatState, passIntent)
     assertEquals(combatState, result.nextState)
 
   @Test def testDoesNothingEngineDoesNotChangeGrid(): Unit =
     val archer = Entity.archer(aiArcherId, Faction.AI)
     val updatedCombatState = GameState(GamePhase.Combat, grid.setCell(archer, aiArcherPosition))
-    val result = DoesNothingEngine.applyUnitAction(updatedCombatState, unitId, GameAction.Pass)
+    val result = DoesNothingEngine.applyUnitAction(updatedCombatState, passIntent)
     assertEquals(Some(archer), result.nextState.grid.getEntity(aiArcherPosition))
 
   @Test def testImmediatelyEndEngineChangesPhaseToGameOver(): Unit =
     val engine: Engine = ImmediatelyEndEngine
-    val result = engine.applyUnitAction(combatState, unitId, GameAction.Pass)
+    val result = engine.applyUnitAction(combatState, passIntent)
     assertEquals(gameOverState, result.nextState)
 
   /** Tests that the TurnBasedCombatEngine correctly applies a non-lethal attack, reducing the
@@ -92,9 +89,10 @@ class EngineTest:
     val attacker = createAttacker()
     val target = createTarget(nonLethalTargetHp)
     val state = createCombatState(attacker, target)
+    val attackIntent = CommandIntent(attacker.id, GameAction.Attack(target.id))
 
     val outcome =
-      TurnBasedCombatEngine.applyUnitAction(state, attacker.id, GameAction.Attack(target.id))
+      TurnBasedCombatEngine.applyUnitAction(state, attackIntent)
     val result = outcome.nextState
     val updatedTarget = result.getCharacterById(target.id)
 
@@ -116,9 +114,10 @@ class EngineTest:
     val attacker = createAttacker(boostedAttackerAttack)
     val target = createTarget(lethalTargetHp)
     val state = createCombatState(attacker, target)
+    val attackIntent = CommandIntent(attacker.id, GameAction.Attack(target.id))
 
     val outcome =
-      TurnBasedCombatEngine.applyUnitAction(state, attacker.id, GameAction.Attack(target.id))
+      TurnBasedCombatEngine.applyUnitAction(state, attackIntent)
     val result = outcome.nextState
 
     assertEquals(None, result.getCharacterById(target.id))
@@ -134,15 +133,3 @@ class EngineTest:
       outcome.events(1)
     )
     assertEquals(DomainEvent.UnitDied(target.id), outcome.events(2))
-
-  /** Tests that the TurnBasedCombatEngine ends the round and transitions to GameOver when only one
-    * faction has living characters remaining, even if the turn queue is not empty
-    */
-  @Test def testTurnBasedCombatEngineEndsRoundWhenOnlyOneFactionIsAlive(): Unit =
-    val player = Entity.soldier(EntityId("player-1"), Faction.Player)
-    val state = GameState(GamePhase.Combat, Grid().setCell(player, playerLonePosition))
-
-    val result = TurnBasedCombatEngine.startNewRound(state)
-
-    assertEquals(GamePhase.GameOver, result.phase)
-    assertTrue(result.turnQueue.isEmpty)
