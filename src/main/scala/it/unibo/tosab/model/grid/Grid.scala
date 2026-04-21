@@ -79,9 +79,9 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
     for i <- 0 to random do
       val pos = gridPlacement.generateRandomPosition(grid)
       val obstacle = scala.util.Random.nextInt(4) match
-        case 0 => Entity.wall("wall")
-        case 1 => Entity.bush("bush")
-        case 2 => Entity.tree("tree")
-        case _ => Entity.rock("rock")
+        case 0 => Entity.wall(EntityId("wall"))
+        case 1 => Entity.bush(EntityId("bush"))
+        case 2 => Entity.tree(EntityId("tree"))
+        case _ => Entity.rock(EntityId("rock"))
       grid = grid.setCell(obstacle, pos)
     grid

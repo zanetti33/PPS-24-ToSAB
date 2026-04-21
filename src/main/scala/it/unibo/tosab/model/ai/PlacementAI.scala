@@ -1,7 +1,7 @@
 package it.unibo.tosab.model.ai
 
 import it.unibo.tosab.model.entities
-import it.unibo.tosab.model.entities.{Entity, EntityId, Faction, Role}
+import it.unibo.tosab.model.entities.*
 import it.unibo.tosab.model.grid.{Coordinate, Grid, GridLane, Lane}
 import it.unibo.tosab.update.GameSetup
 
@@ -48,11 +48,11 @@ object PlacementAI:
         .filter(position => grid.getEntity(position).isEmpty)
 
   private def createTroop(troopIndex: Int, role: Role) =
-    val id = s"enemy_${role.toString.toLowerCase}_$troopIndex"
+    val id = EntityId(s"enemy_${role.toString.toLowerCase}_$troopIndex")
     val troop = role match
-      case Role.Soldier => Entity.soldier(id, Faction.AI)
-      case Role.Archer  => Entity.archer(id, Faction.AI)
-      case Role.Mage    => Entity.mage(id, Faction.AI)
+      case Role.Soldier => entities.Entity.soldier(id, Faction.AI)
+      case Role.Archer  => entities.Entity.archer(id, Faction.AI)
+      case Role.Mage    => entities.Entity.mage(id, Faction.AI)
     troop
 
   private def getTroopRoles(maxTroops: Int): Seq[Role] =

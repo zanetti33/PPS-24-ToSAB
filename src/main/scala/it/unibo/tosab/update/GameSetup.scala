@@ -2,7 +2,7 @@ package it.unibo.tosab.update
 
 import it.unibo.tosab.model.io.{InputParser, MonadIO, SetupCommand}
 import it.unibo.tosab.model.grid.Grid
-import it.unibo.tosab.model.entities.{Entity, Faction, Role}
+import it.unibo.tosab.model.entities.{Entity, EntityId, Faction, Role}
 
 object GameSetup:
 
@@ -45,7 +45,7 @@ object GameSetup:
           yield res
 
         case SetupCommand.AddTroop(role, position) :: tail =>
-          val id = s"${role.toString.toLowerCase}_$counter"
+          val id = EntityId(s"${role.toString.toLowerCase}_$counter")
 
           val newEntity = role match
             case Role.Soldier => Entity.soldier(id, Faction.Player)

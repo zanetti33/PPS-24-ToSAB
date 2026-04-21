@@ -11,8 +11,6 @@ enum Role:
 enum ObstacleType:
   case Bush, Wall, Tree, Rock
 
-type EntityId = String
-
 sealed trait Entity:
   def id: EntityId
 

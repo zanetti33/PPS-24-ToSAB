@@ -1,7 +1,7 @@
 package it.unibo.tosab.view
 
 import it.unibo.tosab.model.entities.ObstacleType.*
-import it.unibo.tosab.model.entities.{Character, Entity, Faction, Obstacle, ObstacleType}
+import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Faction, Obstacle, ObstacleType}
 import it.unibo.tosab.model.grid.Grid
 
 private def printColHeader(size: Int): Unit =
@@ -56,8 +56,9 @@ object DisplayGrid:
 
   private def formatEntity(e: Entity): String = e match
     case c: Character =>
-      if c.isAnEnemy then f"|${c.id.head.toLower} ${c.id.last}"
-      else f"|${c.id.head.toUpper} ${c.id.last}"
+      val id = EntityId.value(c.id)
+      if c.isAnEnemy then f"|${id.head.toLower} ${id.last}"
+      else f"|${id.head.toUpper} ${id.last}"
     case o: Obstacle =>
       o.obstacleType match
         case Wall => "|==="
