@@ -6,7 +6,7 @@ import it.unibo.tosab.model.engine.Engine.TurnBasedCombatEngine
 import it.unibo.tosab.model.{GamePhase, GameState}
 import it.unibo.tosab.model.grid.*
 import it.unibo.tosab.update.{GameLoop, GameSetup}
-import it.unibo.tosab.view.DisplayGrid
+import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
 
 @main def runApp(): Unit =
   val startingGrid = Grid().placeObstacles()
@@ -24,4 +24,6 @@ import it.unibo.tosab.view.DisplayGrid
   DisplayGrid.display(updatedState.grid)
 
   println("\n Starting Combat Phase...")
+  GameLoop.subscribe(ConsoleGameLogger)
   GameLoop.run(updatedState)(using CharacterAI.BasicCharacterAI, TurnBasedCombatEngine)
+  GameLoop.unsubscribe(ConsoleGameLogger)
