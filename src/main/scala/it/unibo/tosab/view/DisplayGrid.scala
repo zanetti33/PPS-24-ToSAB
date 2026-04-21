@@ -10,10 +10,13 @@ private def printColHeader(size: Int): Unit =
   println(f"* / \\" + " / \\" * (size - 1))
 
 object DisplayGrid:
-  private var troop: Int = 0
-  private var enemyTroop: Int = 0
+  private def clearScreen(): Unit =
+    System.out.flush()
+    print("\u001b[2J\u001b[H") // ANSI: clear screen + move cursor to home
+    System.out.flush()
 
   def display(grid: Grid): Unit =
+    clearScreen()
     val size = grid.size
 
     printColHeader(size)
@@ -53,12 +56,8 @@ object DisplayGrid:
 
   private def formatEntity(e: Entity): String = e match
     case c: Character =>
-      if c.isAnEnemy then
-        enemyTroop += 1
-        f"|${c.id.head.toLower} $enemyTroop"
-      else
-        troop += 1
-        f"|${c.id.head.toUpper} $troop"
+      if c.isAnEnemy then f"|${c.id.head.toLower} ${c.id.last}"
+      else f"|${c.id.head.toUpper} ${c.id.last}"
     case o: Obstacle =>
       o.obstacleType match
         case Wall => "|==="

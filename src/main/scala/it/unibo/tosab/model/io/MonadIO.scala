@@ -11,3 +11,6 @@ object MonadIO:
   def readString(): MonadIO[String] = MonadIO(() => scala.io.StdIn.readLine())
 
   def printLine(msg: String): MonadIO[Unit] = MonadIO(() => println(msg))
+
+  def sleep(milliseconds: Int): MonadIO[Unit] =
+    MonadIO(() => Thread.sleep(milliseconds))
