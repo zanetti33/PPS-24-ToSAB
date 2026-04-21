@@ -1,8 +1,6 @@
 package it.unibo.tosab.model.grid
 
-import it.unibo.tosab.model.entities.Entity
-
-type Coordinate = (Int, Int)
+import it.unibo.tosab.model.entities.{Entity, EntityId}
 
 case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   private val hexGrid = HexagonalGrid(size)
@@ -19,7 +17,7 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def getPosition(entity: Entity): Option[Coordinate] =
     getPosition(entity.id)
 
-  def getPosition(entityId: String): Option[Coordinate] =
+  def getPosition(entityId: EntityId): Option[Coordinate] =
     cells.find((_, e) => e.id == entityId).map(_._1)
 
   def getOccupiedCells: Set[Coordinate] =
@@ -55,7 +53,7 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
       .map(position => copy(cells = cells.updated(position, updatedEntity)))
       .getOrElse(this)
 
-  def removeEntity(entityId: String): Grid =
+  def removeEntity(entityId: EntityId): Grid =
     getPosition(entityId)
       .map(position => copy(cells = cells - position))
       .getOrElse(this)
@@ -63,7 +61,7 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def removeEntities(predicate: Entity => Boolean): Grid =
     copy(cells = cells.filterNot((_, entity) => predicate(entity)))
 
-  def moveEntity(entityId: String, targetPosition: Coordinate): Grid =
+  def moveEntity(entityId: EntityId, targetPosition: Coordinate): Grid =
     getPosition(entityId) match
       case Some(currentPosition)
           if isWithinBounds(targetPosition) && !cells.contains(targetPosition) =>
@@ -79,9 +77,9 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
     for i <- 0 to random do
       val pos = gridPlacement.generateRandomPosition(grid)
       val obstacle = scala.util.Random.nextInt(4) match
-        case 0 => Entity.wall("wall")
-        case 1 => Entity.bush("bush")
-        case 2 => Entity.tree("tree")
-        case _ => Entity.rock("rock")
+        case 0 => Entity.wall(EntityId("wall"))
+        case 1 => Entity.bush(EntityId("bush"))
+        case 2 => Entity.tree(EntityId("tree"))
+        case _ => Entity.rock(EntityId("rock"))
       grid = grid.setCell(obstacle, pos)
     grid

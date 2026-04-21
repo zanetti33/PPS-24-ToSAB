@@ -1,11 +1,12 @@
 package it.unibo.tosab.model.ai
 
 import it.unibo.tosab.model.ai.CharacterAI.CharacterAI
+import it.unibo.tosab.model.entities.EntityId
 import it.unibo.tosab.model.{GameAction, GameState}
 
 class ConfigurableCharacterAI(behaviors: Behavior*) extends CharacterAI:
 
-  def determineNextAction(state: GameState, actorId: String): GameAction =
+  def determineNextAction(state: GameState, actorId: EntityId): GameAction =
     val meOpt = state.getCharacterById(actorId)
     val myPosOpt = state.getPositionOf(actorId)
     (meOpt, myPosOpt) match

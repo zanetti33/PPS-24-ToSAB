@@ -6,20 +6,20 @@ import it.unibo.tosab.model.entities.Damageable.given
 
 class EntityTest:
 
-  val soldier: Character = Entity.soldier("s1", Faction.Player)
+  val soldier: Character = Entity.soldier(EntityId("s1"), Faction.Player)
 
   @Test def testEntityExist(): Unit =
     assertNotNull(soldier)
 
   @Test def testEntityIsACharacter(): Unit =
-    val archer: Entity = Entity.archer("a1", Faction.Player)
+    val archer: Entity = Entity.archer(EntityId("a1"), Faction.Player)
     assertTrue(archer match
       case _: Character => true
       case _: Obstacle  => false
     )
 
   @Test def testWallIsAnObstacle(): Unit =
-    val wall: Entity = Entity.wall("w1")
+    val wall: Entity = Entity.wall(EntityId("w1"))
     assertTrue(wall match
       case _: Obstacle  => true
       case _: Character => false
@@ -32,7 +32,7 @@ class EntityTest:
     assertEquals(AttackType.Melee, soldier.stats.attackType)
 
   @Test def testMageIsAnEnemy(): Unit =
-    val mage: Character = Entity.mage("m1", Faction.AI)
+    val mage: Character = Entity.mage(EntityId("m1"), Faction.AI)
     assertTrue(mage.isAnEnemy)
 
   @Test def testSoldierIsAnAlly(): Unit =
@@ -49,15 +49,15 @@ class EntityTest:
     assertEquals(0, damagedSoldier.stats.currentHp)
 
   @Test def testObstacleProperties(): Unit =
-    val bush = Entity.bush("b1")
+    val bush = Entity.bush(EntityId("b1"))
     assertTrue(bush.isPassable)
     assertFalse(bush.blocksVision)
-    val wall = Entity.wall("w1")
+    val wall = Entity.wall(EntityId("w1"))
     assertFalse(wall.isPassable)
     assertTrue(wall.blocksVision)
 
   @Test def testWallIsNotDamageable(): Unit =
-    val newWall: Obstacle = Entity.wall("w2")
+    val newWall: Obstacle = Entity.wall(EntityId("w2"))
     val damage = DamageInstance(20, DamageType.Physical)
     val damagedWall = newWall.takeDamage(damage)
     assertEquals(newWall, damagedWall)

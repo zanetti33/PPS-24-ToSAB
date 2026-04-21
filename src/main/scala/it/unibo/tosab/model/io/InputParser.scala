@@ -17,7 +17,7 @@ object InputParser:
       else
         matches.map { m =>
           val roleId = m.group(1)
-          val position: Coordinate = (m.group(2).toInt, m.group(3).toInt)
+          val position = Coordinate(m.group(2).toInt, m.group(3).toInt)
           roleId match
             case "1" => SetupCommand.AddTroop(Role.Soldier, position)
             case "2" => SetupCommand.AddTroop(Role.Archer, position)

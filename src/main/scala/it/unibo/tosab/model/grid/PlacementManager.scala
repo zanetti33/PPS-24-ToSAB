@@ -15,12 +15,12 @@ class PlacementManager(navigation: GridManager):
     )
 
   def generateRandomPosition(grid: Grid): Coordinate =
-    val pos = (scala.util.Random.nextInt(grid.size), scala.util.Random.nextInt(grid.size))
+    val pos = Coordinate(scala.util.Random.nextInt(grid.size), scala.util.Random.nextInt(grid.size))
     if !grid.cells.contains(pos) then pos
     else generateRandomPosition(grid)
 
   private def isRightField(entity: Entity, pos: Coordinate): Boolean = entity match
     case c: Character =>
-      if c.isAnEnemy then pos._1 < factionSplitRow
-      else pos._1 >= factionSplitRow
+      if c.isAnEnemy then pos.x < factionSplitRow
+      else pos.x >= factionSplitRow
     case _ => true

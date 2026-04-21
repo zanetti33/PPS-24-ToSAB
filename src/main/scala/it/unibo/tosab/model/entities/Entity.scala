@@ -12,12 +12,12 @@ enum ObstacleType:
   case Bush, Wall, Tree, Rock
 
 sealed trait Entity:
-  def id: String
+  def id: EntityId
 
-case class Character(id: String, faction: Faction, role: Role, stats: Stats) extends Entity
+case class Character(id: EntityId, faction: Faction, role: Role, stats: Stats) extends Entity
 
 case class Obstacle(
-    id: String,
+    id: EntityId,
     obstacleType: ObstacleType,
     hp: Option[Int], // None = non-damageable, Some(x) = damageable with x = hp
     isPassable: Boolean, // true = jumpable/walkable
@@ -28,23 +28,23 @@ object Entity:
 
   extension (c: Character) def isAnEnemy: Boolean = c.faction == Faction.AI
 
-  def archer(id: String, faction: Faction): Character =
+  def archer(id: EntityId, faction: Faction): Character =
     Character(id, faction, Role.Archer, Stats.baseArcherStats)
 
-  def soldier(id: String, faction: Faction): Character =
+  def soldier(id: EntityId, faction: Faction): Character =
     Character(id, faction, Role.Soldier, Stats.baseSoldierStats)
 
-  def mage(id: String, faction: Faction): Character =
+  def mage(id: EntityId, faction: Faction): Character =
     Character(id, faction, Role.Mage, Stats.baseMageStats)
 
-  def bush(id: String): Obstacle =
+  def bush(id: EntityId): Obstacle =
     Obstacle(id, Bush, hp = Some(50), isPassable = true, blocksVision = false)
 
-  def wall(id: String): Obstacle =
+  def wall(id: EntityId): Obstacle =
     Obstacle(id, Wall, hp = None, isPassable = false, blocksVision = true)
 
-  def tree(id: String): Obstacle =
+  def tree(id: EntityId): Obstacle =
     Obstacle(id, Tree, hp = Some(120), isPassable = false, blocksVision = true)
 
-  def rock(id: String): Obstacle =
+  def rock(id: EntityId): Obstacle =
     Obstacle(id, Rock, hp = None, isPassable = true, blocksVision = true)
