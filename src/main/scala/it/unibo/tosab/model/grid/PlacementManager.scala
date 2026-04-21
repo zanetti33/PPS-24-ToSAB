@@ -21,6 +21,6 @@ class PlacementManager(navigation: GridManager):
 
   private def isRightField(entity: Entity, pos: Coordinate): Boolean = entity match
     case c: Character =>
-      if c.isAnEnemy then Coordinate.x(pos) < factionSplitRow
-      else Coordinate.x(pos) >= factionSplitRow
+      if c.isAnEnemy then pos.x < factionSplitRow
+      else pos.x >= factionSplitRow
     case _ => true

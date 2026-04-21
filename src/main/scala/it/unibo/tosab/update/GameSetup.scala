@@ -56,14 +56,14 @@ object GameSetup:
           if newGrid.getEntity(position).exists(_.id == id) then
             for
               _ <- MonadIO.printLine(
-                s"[OK] $role placed in (${Coordinate.x(position)}, ${Coordinate.y(position)})."
+                s"[OK] $role placed in (${position.x}, ${position.y})."
               )
               res <- processCommands(tail, newGrid, counter + 1)
             yield res
           else
             for
               _ <- MonadIO.printLine(
-                s"[ERROR] Invalid position (${Coordinate.x(position)}, ${Coordinate.y(position)}). Try again."
+                s"[ERROR] Invalid position (${position.x}, ${position.y}). Try again."
               )
               res <- processCommands(tail, newGrid, counter)
             yield res
