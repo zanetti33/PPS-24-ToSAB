@@ -4,16 +4,22 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.{DomainEvent, GameAction, GamePhase, GameState}
 import it.unibo.tosab.model.ai.CharacterAI.{CharacterAI, DoesNothingCharacterAI}
-import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, Engine, EngineOutcome, ImmediatelyEndEngine, TurnBasedCombatEngine}
+import it.unibo.tosab.model.engine.Engine.{
+  DoesNothingEngine,
+  Engine,
+  EngineOutcome,
+  ImmediatelyEndEngine,
+  TurnBasedCombatEngine
+}
 import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
 import scala.collection.mutable.ArrayBuffer
 
 class GameLoopTest:
 
-  private val playerId = "player-1"
-  private val lonePlayerPosition = (4, 4)
+  private val playerId = EntityId("player-1")
+  private val lonePlayerPosition = Coordinate(4, 4)
 
   given defaultAI: CharacterAI = DoesNothingCharacterAI
   given defaultEngine: Engine = DoesNothingEngine
@@ -28,7 +34,8 @@ class GameLoopTest:
     GameLoop.clearSubscribers()
 
   private class RecordingSubscriber extends GameLoopSubscriber:
-    val receivedEvents: ArrayBuffer[DomainEvent] = scala.collection.mutable.ArrayBuffer.empty[DomainEvent]
+    val receivedEvents: ArrayBuffer[DomainEvent] =
+      scala.collection.mutable.ArrayBuffer.empty[DomainEvent]
 
     override def update(event: DomainEvent): Unit =
       receivedEvents += event
@@ -85,8 +92,8 @@ class GameLoopTest:
           nextState = state.copy(phase = GamePhase.GameOver, turnQueue = Seq.empty),
           events = Seq(
             DomainEvent.ActionApplied(actorId, action),
-            DomainEvent.DamageInflicted(actorId, "enemy-1", 12),
-            DomainEvent.UnitDied("enemy-1")
+            DomainEvent.DamageInflicted(actorId, EntityId("enemy-1"), 12),
+            DomainEvent.UnitDied(EntityId("enemy-1"))
           )
         )
 
@@ -105,12 +112,12 @@ class GameLoopTest:
     subscriber.receivedEvents(1) match
       case DomainEvent.DamageInflicted(attackerId, targetId, amount) =>
         assertEquals(playerId, attackerId)
-        assertEquals("enemy-1", targetId)
+        assertEquals(EntityId("enemy-1"), targetId)
         assertEquals(12, amount)
       case other => fail(s"Unexpected second event received: $other")
 
     subscriber.receivedEvents(2) match
-      case DomainEvent.UnitDied(unitId) => assertEquals("enemy-1", unitId)
+      case DomainEvent.UnitDied(unitId) => assertEquals(EntityId("enemy-1"), unitId)
       case other                        => fail(s"Unexpected third event received: $other")
 
     subscriber.receivedEvents(3) match

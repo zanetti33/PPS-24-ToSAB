@@ -2,25 +2,25 @@ package it.unibo.tosab.model.entities
 
 import it.unibo.tosab.model.{GamePhase, GameState}
 import it.unibo.tosab.model.entities.Damageable.given
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 import org.junit.Test
 
 class DamageTest:
 
-  private val targetId = "target"
-  private val mageId = "mage"
-  private val soldierId = "soldier"
-  private val attackerId = "attacker"
-  private val enemyId = "enemy"
-  private val allyId = "ally"
+  private val targetId = EntityId("target")
+  private val mageId = EntityId("mage")
+  private val soldierId = EntityId("soldier")
+  private val attackerId = EntityId("attacker")
+  private val enemyId = EntityId("enemy")
+  private val allyId = EntityId("ally")
   private val targetHpAfterAttack = 40
   private val targetPhysicalDefenseAfterAttack = 5
   private val attackerPhysicalAttack = 30
-  private val inRangeAttackerPosition = (4, 3)
-  private val inRangeEnemyPosition = (3, 3)
-  private val allyPosition = (5, 5)
-  private val farAttackerPosition = (7, 7)
-  private val farEnemyPosition = (0, 0)
+  private val inRangeAttackerPosition = Coordinate(4, 3)
+  private val inRangeEnemyPosition = Coordinate(3, 3)
+  private val allyPosition = Coordinate(5, 5)
+  private val farAttackerPosition = Coordinate(7, 7)
+  private val farEnemyPosition = Coordinate(0, 0)
   private val lowDamageAmount = 10
   private val noDamageExpected = 0
   private val expectedResolvedTargetHp = 15
@@ -93,7 +93,7 @@ class DamageTest:
 
   @Test def testCreateDamageWithBothPhysicalAndMagical(): Unit =
     val hybridCharacter = Character(
-      "hybrid",
+      EntityId("hybrid"),
       Faction.Player,
       Role.Soldier,
       Stats.baseSoldierStats.copy(physicalAttack = 20, magicalAttack = 15)

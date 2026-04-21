@@ -11,17 +11,18 @@ import it.unibo.tosab.model.engine.Engine.{
   TurnBasedCombatEngine
 }
 import it.unibo.tosab.model.entities.*
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
 class EngineTest:
 
-  private val attackerId = "attacker"
-  private val targetId = "target"
-  private val aiArcherId = "archer"
-  private val attackerPosition = (4, 3)
-  private val targetPosition = (3, 3)
-  private val aiArcherPosition = (1, 1)
-  private val playerLonePosition = (4, 4)
+  private val attackerId = EntityId("attacker")
+  private val targetId = EntityId("target")
+  private val aiArcherId = EntityId("archer")
+  private val unitId = EntityId("unit1")
+  private val attackerPosition = Coordinate(4, 3)
+  private val targetPosition = Coordinate(3, 3)
+  private val aiArcherPosition = Coordinate(1, 1)
+  private val playerLonePosition = Coordinate(4, 4)
   private val attackerCurrentHp = 40
   private val nonLethalTargetHp = 50
   private val lethalTargetHp = 10
@@ -33,7 +34,6 @@ class EngineTest:
   private val grid: Grid = Grid()
   private val combatState: GameState = GameState(GamePhase.Combat, grid)
   private val gameOverState: GameState = GameState(GamePhase.GameOver, grid)
-  private val unitId: String = "unit1"
 
   private def createAttacker(
       physicalAttack: Int = Stats.baseSoldierStats.physicalAttack
@@ -139,7 +139,7 @@ class EngineTest:
     * faction has living characters remaining, even if the turn queue is not empty
     */
   @Test def testTurnBasedCombatEngineEndsRoundWhenOnlyOneFactionIsAlive(): Unit =
-    val player = Entity.soldier("player-1", Faction.Player)
+    val player = Entity.soldier(EntityId("player-1"), Faction.Player)
     val state = GameState(GamePhase.Combat, Grid().setCell(player, playerLonePosition))
 
     val result = TurnBasedCombatEngine.startNewRound(state)

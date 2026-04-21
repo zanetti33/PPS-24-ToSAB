@@ -42,13 +42,13 @@ object PlacementAI:
         for
           x <- xRange
           y <- emptyLaneStart until grid.size
-        yield (x, y)
+        yield Coordinate(x, y)
       scala.util.Random
         .shuffle(allLanePositions)
         .filter(position => grid.getEntity(position).isEmpty)
 
   private def createTroop(troopIndex: Int, role: Role) =
-    val id = EntityId(s"enemy_${role.toString.toLowerCase}_$troopIndex")
+    val id = EntityId(s"${role.toString.toLowerCase}_AI_$troopIndex")
     val troop = role match
       case Role.Soldier => entities.Entity.soldier(id, Faction.AI)
       case Role.Archer  => entities.Entity.archer(id, Faction.AI)

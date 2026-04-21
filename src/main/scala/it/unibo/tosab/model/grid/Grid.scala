@@ -2,8 +2,6 @@ package it.unibo.tosab.model.grid
 
 import it.unibo.tosab.model.entities.{Entity, EntityId}
 
-type Coordinate = (Int, Int)
-
 case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   private val hexGrid = HexagonalGrid(size)
   private val gridPlacement = PlacementManager(hexGrid)

@@ -1,7 +1,7 @@
 package it.unibo.tosab.update
 
 import it.unibo.tosab.model.io.{InputParser, MonadIO, SetupCommand}
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 import it.unibo.tosab.model.entities.{Entity, EntityId, Faction, Role}
 
 object GameSetup:
@@ -55,13 +55,15 @@ object GameSetup:
           val newGrid = grid.setCell(newEntity, position)
           if newGrid.getEntity(position).exists(_.id == id) then
             for
-              _ <- MonadIO.printLine(s"[OK] $role placed in (${position._1}, ${position._2}).")
+              _ <- MonadIO.printLine(
+                s"[OK] $role placed in (${Coordinate.x(position)}, ${Coordinate.y(position)})."
+              )
               res <- processCommands(tail, newGrid, counter + 1)
             yield res
           else
             for
               _ <- MonadIO.printLine(
-                s"[ERROR] Invalid position (${position._1}, ${position._2}). Try again."
+                s"[ERROR] Invalid position (${Coordinate.x(position)}, ${Coordinate.y(position)}). Try again."
               )
               res <- processCommands(tail, newGrid, counter)
             yield res

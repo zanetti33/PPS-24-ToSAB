@@ -2,7 +2,7 @@ package it.unibo.tosab.view
 
 import it.unibo.tosab.model.entities.ObstacleType.*
 import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Faction, Obstacle, ObstacleType}
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
 private def printColHeader(size: Int): Unit =
   val colHeader = (0 until size).map(c => f" $c *").mkString("* ", "", "")
@@ -34,7 +34,7 @@ object DisplayGrid:
       val rowLabel = if row % 2 == 0 then f"$row" else f"$row  "
       val content = (0 until size)
         .map { col =>
-          grid.getEntity((row, col)) match
+          grid.getEntity(Coordinate(row, col)) match
             case Some(e) => formatEntity(e)
             case _       => "|   "
         }
@@ -47,7 +47,7 @@ object DisplayGrid:
     val rowLabel = if row % 2 == 0 then f"$row" else f"$row  "
     val content = (0 until grid.size)
       .map { col =>
-        grid.getEntity((row, col)) match
+        grid.getEntity(Coordinate(row, col)) match
           case None    => "|   "
           case Some(e) => formatEntity(e)
       }

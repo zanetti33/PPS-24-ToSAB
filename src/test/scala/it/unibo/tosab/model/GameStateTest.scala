@@ -1,7 +1,7 @@
 package it.unibo.tosab.model
 
-import it.unibo.tosab.model.entities.{Entity, Faction}
-import it.unibo.tosab.model.grid.Grid
+import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 import it.unibo.tosab.model.{GamePhase, GameState}
 import org.junit.*
 import org.junit.Assert.*
@@ -9,18 +9,18 @@ import org.junit.Assert.*
 class GameStateTest:
 
   private val playerFaction = Faction.Player
-  private val soldierId = "p1"
-  private val soldierPosition = (4, 0)
+  private val soldierId = EntityId("p1")
+  private val soldierPosition = Coordinate(4, 0)
   private val soldier = Entity.soldier(soldierId, playerFaction)
-  private val mageId = "m1"
-  private val unknownId = "unknown"
-  private val obstacleId = "obs-1"
-  private val wallPosition = (4, 1)
+  private val mageId = EntityId("m1")
+  private val unknownId = EntityId("unknown")
+  private val obstacleId = EntityId("obs-1")
+  private val wallPosition = Coordinate(4, 1)
   private val wall = Entity.wall(obstacleId)
-  private val magePosition = (6, 2)
+  private val magePosition = Coordinate(6, 2)
   private val mage = Entity.mage(mageId, playerFaction)
-  private val enemyId = "enemy-1"
-  private val enemyPosition = (1, 1)
+  private val enemyId = EntityId("enemy-1")
+  private val enemyPosition = Coordinate(1, 1)
   private val enemy = Entity.soldier(enemyId, Faction.AI)
 
   @Test def testGameStateInitializationDefaultsToSetup(): Unit =

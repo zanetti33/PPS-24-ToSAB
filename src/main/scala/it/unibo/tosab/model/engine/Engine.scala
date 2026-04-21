@@ -5,6 +5,7 @@ import it.unibo.tosab.model.GamePhase.*
 import it.unibo.tosab.model.{DomainEvent, GameAction, GameState}
 import it.unibo.tosab.model.entities.CombatRules.{canAttack, resolveAttack}
 import it.unibo.tosab.model.entities.EntityId
+import it.unibo.tosab.model.grid.Coordinate
 
 object Engine:
   case class EngineOutcome(
@@ -78,7 +79,7 @@ object Engine:
     private def resolveMove(
         state: GameState,
         actorId: EntityId,
-        targetPosition: (Int, Int)
+        targetPosition: Coordinate
     ): EngineOutcome =
       (state.getCharacterById(actorId), state.getPositionOf(actorId)) match
         case (Some(actor), Some(actorPosition))

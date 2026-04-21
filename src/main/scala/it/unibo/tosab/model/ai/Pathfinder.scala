@@ -56,8 +56,8 @@ object Pathfinder:
         (
           grid.getDistance(position, targetPos),
           grid.getDistance(startPos, position),
-          position._1,
-          position._2
+          Coordinate.x(position),
+          Coordinate.y(position)
         )
       )
 
