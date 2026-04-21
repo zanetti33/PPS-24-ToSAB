@@ -3,10 +3,10 @@ package it.unibo.tosab.model.engine
 import it.unibo.tosab.model.GamePhase.GameOver
 import it.unibo.tosab.model.GameState
 import it.unibo.tosab.model.entities.CombatRules.{isDefeated, isDestroyed}
-import it.unibo.tosab.model.entities.{Character, Obstacle}
+import it.unibo.tosab.model.entities.{Character, EntityId, Obstacle}
 
 object CombatStateTransitions:
-  private val EmptyTurnQueue: Seq[String] = Seq.empty
+  private val EmptyTurnQueue: Seq[EntityId] = Seq.empty
 
   def startRoundOrEnd(state: GameState): GameState =
     val cleanedState = finalizeCombatState(state)

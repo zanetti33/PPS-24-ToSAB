@@ -1,6 +1,6 @@
 package it.unibo.tosab.model.grid
 
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Entity, EntityId}
 
 type Coordinate = (Int, Int)
 
@@ -19,7 +19,7 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def getPosition(entity: Entity): Option[Coordinate] =
     getPosition(entity.id)
 
-  def getPosition(entityId: String): Option[Coordinate] =
+  def getPosition(entityId: EntityId): Option[Coordinate] =
     cells.find((_, e) => e.id == entityId).map(_._1)
 
   def getOccupiedCells: Set[Coordinate] =
@@ -55,7 +55,7 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
       .map(position => copy(cells = cells.updated(position, updatedEntity)))
       .getOrElse(this)
 
-  def removeEntity(entityId: String): Grid =
+  def removeEntity(entityId: EntityId): Grid =
     getPosition(entityId)
       .map(position => copy(cells = cells - position))
       .getOrElse(this)
@@ -63,7 +63,7 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def removeEntities(predicate: Entity => Boolean): Grid =
     copy(cells = cells.filterNot((_, entity) => predicate(entity)))
 
-  def moveEntity(entityId: String, targetPosition: Coordinate): Grid =
+  def moveEntity(entityId: EntityId, targetPosition: Coordinate): Grid =
     getPosition(entityId) match
       case Some(currentPosition)
           if isWithinBounds(targetPosition) && !cells.contains(targetPosition) =>

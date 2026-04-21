@@ -4,15 +4,11 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.{DomainEvent, GameAction, GamePhase, GameState}
 import it.unibo.tosab.model.ai.CharacterAI.{CharacterAI, DoesNothingCharacterAI}
-import it.unibo.tosab.model.engine.Engine.{
-  DoesNothingEngine,
-  Engine,
-  EngineOutcome,
-  ImmediatelyEndEngine,
-  TurnBasedCombatEngine
-}
-import it.unibo.tosab.model.entities.{Entity, Faction}
+import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, Engine, EngineOutcome, ImmediatelyEndEngine, TurnBasedCombatEngine}
+import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
 import it.unibo.tosab.model.grid.Grid
+
+import scala.collection.mutable.ArrayBuffer
 
 class GameLoopTest:
 
@@ -32,7 +28,7 @@ class GameLoopTest:
     GameLoop.clearSubscribers()
 
   private class RecordingSubscriber extends GameLoopSubscriber:
-    val receivedEvents = scala.collection.mutable.ArrayBuffer.empty[DomainEvent]
+    val receivedEvents: ArrayBuffer[DomainEvent] = scala.collection.mutable.ArrayBuffer.empty[DomainEvent]
 
     override def update(event: DomainEvent): Unit =
       receivedEvents += event
@@ -76,13 +72,13 @@ class GameLoopTest:
     val combatState = GameState(GamePhase.Combat, combatGrid, turnQueue = Seq(playerId))
 
     given ai: CharacterAI with
-      override def determineNextAction(state: GameState, currentCharacterId: String): GameAction =
+      override def determineNextAction(state: GameState, currentCharacterId: EntityId): GameAction =
         GameAction.Pass
 
     given engine: Engine with
       override def applyUnitAction(
           state: GameState,
-          actorId: String,
+          actorId: EntityId,
           action: GameAction
       ): EngineOutcome =
         EngineOutcome(

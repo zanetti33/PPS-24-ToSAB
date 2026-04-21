@@ -26,7 +26,7 @@ object Stats:
   private val archerMagicalDefense = 10
   private val archerMovementDistance = 1
   private val archerSpeed = 3
-  private val archerAttackRange = 3
+  private val archerAttackRange = 2
   private val archerAttackType = Ranged
 
   private val soldierHp = 50
@@ -46,7 +46,7 @@ object Stats:
   private val mageMagicalDefense = 15
   private val mageMovementDistance = 1
   private val mageSpeed = 2
-  private val mageAttackRange = 4
+  private val mageAttackRange = 3
   private val mageAttackType = Ranged
 
   val baseArcherStats = Stats(

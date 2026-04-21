@@ -2,19 +2,20 @@ package it.unibo.tosab.model.ai
 
 import it.unibo.tosab.model.GameAction
 import it.unibo.tosab.model.GameState
+import it.unibo.tosab.model.entities.EntityId
 
 object CharacterAI:
   /** This trait represents the AI component of the game. It defines a method to determine the next
     * action based on the current game state.
     */
   trait CharacterAI:
-    def determineNextAction(state: GameState, currentCharacterId: String): GameAction
+    def determineNextAction(state: GameState, currentCharacterId: EntityId): GameAction
 
   /** A simple implementation of the AI trait that always returns GameAction.Pass, effectively doing
     * nothing.
     */
   object DoesNothingCharacterAI extends CharacterAI:
-    override def determineNextAction(state: GameState, currentCharacterId: String): GameAction =
+    override def determineNextAction(state: GameState, currentCharacterId: EntityId): GameAction =
       GameAction.Pass
 
   /** A more complex implementation of the AI trait that tries to attack the closest enemy, and if

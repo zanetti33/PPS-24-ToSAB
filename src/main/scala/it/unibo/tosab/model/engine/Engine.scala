@@ -4,6 +4,7 @@ import it.unibo.tosab.model.GameAction.{Attack, Move, Pass}
 import it.unibo.tosab.model.GamePhase.*
 import it.unibo.tosab.model.{DomainEvent, GameAction, GameState}
 import it.unibo.tosab.model.entities.CombatRules.{canAttack, resolveAttack}
+import it.unibo.tosab.model.entities.EntityId
 
 object Engine:
   case class EngineOutcome(
@@ -20,14 +21,14 @@ object Engine:
       TurnOrderManager.determineTurnOrder(state) match
         case Nil          => state.copy(phase = GameOver)
         case newTurnQueue => state.copy(turnQueue = newTurnQueue)
-    def applyUnitAction(state: GameState, actorId: String, action: GameAction): EngineOutcome
+    def applyUnitAction(state: GameState, actorId: EntityId, action: GameAction): EngineOutcome
 
   /** A simple implementation of the Engine trait that does not modify the game state
     */
   object DoesNothingEngine extends Engine:
     override def applyUnitAction(
         state: GameState,
-        actorId: String,
+        actorId: EntityId,
         action: GameAction
     ): EngineOutcome =
       EngineOutcome(nextState = state)
@@ -38,7 +39,7 @@ object Engine:
   object ImmediatelyEndEngine extends Engine:
     override def applyUnitAction(
         state: GameState,
-        actorId: String,
+        actorId: EntityId,
         action: GameAction
     ): EngineOutcome =
       EngineOutcome(
@@ -55,7 +56,7 @@ object Engine:
 
     override def applyUnitAction(
         state: GameState,
-        actorId: String,
+        actorId: EntityId,
         action: GameAction
     ): EngineOutcome =
       if state.phase != Combat then EngineOutcome(nextState = state)
@@ -68,7 +69,7 @@ object Engine:
           nextState = CombatStateTransitions.finalizeCombatState(intermediateOutcome.nextState)
         )
 
-    private def resolvePass(state: GameState, actorId: String): EngineOutcome =
+    private def resolvePass(state: GameState, actorId: EntityId): EngineOutcome =
       EngineOutcome(
         nextState = consumeTurn(state, actorId),
         events = Seq(DomainEvent.ActionApplied(actorId, Pass))
@@ -76,7 +77,7 @@ object Engine:
 
     private def resolveMove(
         state: GameState,
-        actorId: String,
+        actorId: EntityId,
         targetPosition: (Int, Int)
     ): EngineOutcome =
       (state.getCharacterById(actorId), state.getPositionOf(actorId)) match
@@ -95,8 +96,8 @@ object Engine:
 
     private def resolveAttackAction(
         state: GameState,
-        actorId: String,
-        targetId: String
+        actorId: EntityId,
+        targetId: EntityId
     ): EngineOutcome =
       (state.getCharacterById(actorId), state.getCharacterById(targetId)) match
         case (Some(attacker), Some(target)) if canAttack(state, attacker, target) =>
@@ -115,7 +116,7 @@ object Engine:
           )
         case _ => EngineOutcome(nextState = consumeTurn(state, actorId))
 
-    private def consumeTurn(state: GameState, actorId: String): GameState =
+    private def consumeTurn(state: GameState, actorId: EntityId): GameState =
       val updatedQueue = state.turnQueue match
         case currentActor +: remainingTurns if currentActor == actorId => remainingTurns
         case _ => state.turnQueue.filterNot(_ == actorId)

@@ -14,8 +14,8 @@ class CharacterAITest:
   private val expectedLongMoveTarget = (2, 0)
   private val movementDistanceTwo = 2
   private val state: GameState = GameState(GamePhase.Setup, Grid())
-  private val unitId: String = "unit1"
-  private val missingUnitId: String = "missing"
+  private val unitId = "unit1"
+  private val missingUnitId = "missing"
   private val playerSoldier: Entity = Entity.soldier(unitId, Faction.Player)
   private val aiSoldier: Entity = Entity.soldier("ai1", Faction.AI)
   private val aiFastSoldier: Character =

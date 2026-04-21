@@ -36,7 +36,7 @@ class DamageTest:
   val damageAmount: Int = 50
   val targetEntity: Character = Character(targetId, Faction.Player, Role.Soldier, targetStats)
 
-  private def createSoldier(id: String, faction: Faction): Character = Entity.soldier(id, faction)
+  private def createSoldier(id: EntityId, faction: Faction): Character = Entity.soldier(id, faction)
 
   @Test def testPhysicalDamage(): Unit =
     val expectedDamage = damageAmount - targetPhysicalDefense

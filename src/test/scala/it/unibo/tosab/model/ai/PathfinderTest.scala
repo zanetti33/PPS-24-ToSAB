@@ -2,13 +2,13 @@ package it.unibo.tosab.model.ai
 
 import org.junit.*
 import org.junit.Assert.*
-import it.unibo.tosab.model.entities.{Entity, Faction}
+import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
 import it.unibo.tosab.model.grid.Grid
 
 class PathfinderTest:
-  private val unitId: String = "unit1"
+  private val unitId = "unit1"
   private val soldier = Entity.soldier(unitId, Faction.Player)
-  private def wall(id: String): Entity = Entity.wall(id)
+  private def wall(id: EntityId): Entity = Entity.wall(id)
 
   @Test def testFindNextStepWithoutObstacles(): Unit =
     val startPos = (4, 0)
