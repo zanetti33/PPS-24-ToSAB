@@ -2,11 +2,12 @@ package it.unibo.tosab.update
 
 import org.junit.*
 import org.junit.Assert.*
-import it.unibo.tosab.model.{GameAction, GamePhase, GameState}
+import it.unibo.tosab.model.{DomainEvent, GameAction, GamePhase, GameState}
 import it.unibo.tosab.model.ai.CharacterAI.{CharacterAI, DoesNothingCharacterAI}
 import it.unibo.tosab.model.engine.Engine.{
   DoesNothingEngine,
   Engine,
+  EngineOutcome,
   ImmediatelyEndEngine,
   TurnBasedCombatEngine
 }
@@ -31,9 +32,9 @@ class GameLoopTest:
     GameLoop.clearSubscribers()
 
   private class RecordingSubscriber extends GameLoopSubscriber:
-    val receivedEvents = scala.collection.mutable.ArrayBuffer.empty[GameLoopEvent]
+    val receivedEvents = scala.collection.mutable.ArrayBuffer.empty[DomainEvent]
 
-    override def update(event: GameLoopEvent): Unit =
+    override def update(event: DomainEvent): Unit =
       receivedEvents += event
 
   @Test def testRunDoesntDoAnything(): Unit =
@@ -50,7 +51,7 @@ class GameLoopTest:
 
     assertEquals(1, subscriber.receivedEvents.size)
     subscriber.receivedEvents.head match
-      case GameLoopEvent.GameEnded(finalState) => assertEquals(gameOver, finalState)
+      case DomainEvent.GameEnded(finalState) => assertEquals(gameOver, finalState)
       case other => fail(s"Unexpected event received: $other")
 
   @Test def testRunEndsTheGame(): Unit =
@@ -79,27 +80,44 @@ class GameLoopTest:
         GameAction.Pass
 
     given engine: Engine with
-      override def applyUnitAction(state: GameState, actorId: String, action: GameAction): GameState =
-        state.copy(phase = GamePhase.GameOver, turnQueue = Seq.empty)
+      override def applyUnitAction(state: GameState, actorId: String, action: GameAction): EngineOutcome =
+        EngineOutcome(
+          nextState = state.copy(phase = GamePhase.GameOver, turnQueue = Seq.empty),
+          events = Seq(
+            DomainEvent.ActionApplied(actorId, action),
+            DomainEvent.DamageInflicted(actorId, "enemy-1", 12),
+            DomainEvent.UnitDied("enemy-1")
+          )
+        )
 
     GameLoop.subscribe(subscriber)
     val result = GameLoop.run(combatState)
 
     assertEquals(GamePhase.GameOver, result.phase)
-    assertEquals(3, subscriber.receivedEvents.size)
+    assertEquals(5, subscriber.receivedEvents.size)
 
     subscriber.receivedEvents(0) match
-      case GameLoopEvent.ActionChosen(actorId, actor, action) =>
+      case DomainEvent.ActionApplied(actorId, action) =>
         assertEquals(playerId, actorId)
-        assertTrue(actor.exists(_.id == playerId))
         assertEquals(GameAction.Pass, action)
       case other => fail(s"Unexpected first event received: $other")
 
     subscriber.receivedEvents(1) match
-      case GameLoopEvent.GridUpdated(updatedGrid) => assertEquals(combatGrid, updatedGrid)
+      case DomainEvent.DamageInflicted(attackerId, targetId, amount) =>
+        assertEquals(playerId, attackerId)
+        assertEquals("enemy-1", targetId)
+        assertEquals(12, amount)
       case other                                  => fail(s"Unexpected second event received: $other")
 
     subscriber.receivedEvents(2) match
-      case GameLoopEvent.GameEnded(finalState) => assertEquals(GamePhase.GameOver, finalState.phase)
-      case other                               => fail(s"Unexpected third event received: $other")
+      case DomainEvent.UnitDied(unitId) => assertEquals("enemy-1", unitId)
+      case other                          => fail(s"Unexpected third event received: $other")
+
+    subscriber.receivedEvents(3) match
+      case DomainEvent.GridUpdated(updatedGrid) => assertEquals(combatGrid, updatedGrid)
+      case other                                  => fail(s"Unexpected fourth event received: $other")
+
+    subscriber.receivedEvents(4) match
+      case DomainEvent.GameEnded(finalState) => assertEquals(GamePhase.GameOver, finalState.phase)
+      case other                               => fail(s"Unexpected fifth event received: $other")
 

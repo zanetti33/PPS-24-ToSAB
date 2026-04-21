@@ -1,20 +1,21 @@
 package it.unibo.tosab.view
 
-import it.unibo.tosab.model.GameState
+import it.unibo.tosab.model.{DomainEvent, GameState}
 import it.unibo.tosab.model.io.MonadIO
-import it.unibo.tosab.update.{GameLoopEvent, GameLoopSubscriber}
+import it.unibo.tosab.update.GameLoopSubscriber
 
 object ConsoleGameLogger extends GameLoopSubscriber:
-  override def update(event: GameLoopEvent): Unit =
+  override def update(event: DomainEvent): Unit =
     event match
-      case GameLoopEvent.ActionChosen(actorId, actor, action) =>
-        val log = actor
-          .map(character => ActionLog(character, action))
-          .getOrElse(ActionLog(actorId, action))
-        LoggerUtils.logAndDisplay(log).run()
-      case GameLoopEvent.GridUpdated(grid) =>
+      case DomainEvent.ActionApplied(actorId, action) =>
+        LoggerUtils.logAndDisplay(ActionLog(actorId, action)).run()
+      case DomainEvent.DamageInflicted(attackerId, targetId, amount) =>
+        MonadIO.printLine(s"$attackerId dealt $amount damage to $targetId.").run()
+      case DomainEvent.UnitDied(unitId) =>
+        MonadIO.printLine(s"[DEATH] Unit $unitId has been defeated.").run()
+      case DomainEvent.GridUpdated(grid) =>
         DisplayGrid.display(grid)
-      case GameLoopEvent.GameEnded(finalState) =>
+      case DomainEvent.GameEnded(finalState) =>
         MonadIO.printLine(formatGameOverMessage(finalState)).run()
 
   private def formatGameOverMessage(finalState: GameState): String =
