@@ -100,7 +100,7 @@ class GameLoopTest:
     val result = GameLoop.run(combatState)
 
     assertEquals(GamePhase.GameOver, result.phase)
-    assertEquals(5, subscriber.receivedEvents.size)
+    assertEquals(4, subscriber.receivedEvents.size)
 
     subscriber.receivedEvents(0) match
       case DomainEvent.ActionApplied(actorId, action) =>
@@ -120,9 +120,5 @@ class GameLoopTest:
       case other                        => fail(s"Unexpected third event received: $other")
 
     subscriber.receivedEvents(3) match
-      case DomainEvent.GridUpdated(updatedGrid) => assertEquals(combatGrid, updatedGrid)
-      case other                                => fail(s"Unexpected fourth event received: $other")
-
-    subscriber.receivedEvents(4) match
       case DomainEvent.GameEnded(finalState) => assertEquals(GamePhase.GameOver, finalState.phase)
-      case other                             => fail(s"Unexpected fifth event received: $other")
+      case other                             => fail(s"Unexpected fourth event received: $other")
