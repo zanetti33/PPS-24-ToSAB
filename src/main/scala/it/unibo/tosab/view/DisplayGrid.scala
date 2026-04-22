@@ -43,6 +43,10 @@ object DisplayGrid:
       println(s"$rowLabel$content")
       printRowSeparator(row, size)
 
+    println(
+      "Legend:\n|A a| = Ally, |a a| = Enemy\n|###| = Wall, |wWw| = Bush, |tTt| = Tree, |oOo| = Rock"
+    )
+
   private def printRowContent(grid: Grid, row: Int): Unit =
     val rowLabel = if row % 2 == 0 then f"$row" else f"$row  "
     val content = (0 until grid.size)
@@ -61,9 +65,9 @@ object DisplayGrid:
       else f"|${id.head.toUpper} ${id.last}"
     case o: Obstacle =>
       o.obstacleType match
-        case Wall => "|==="
-        case Bush => "|vWv"
-        case Tree => "|*Y*"
+        case Wall => "|###"
+        case Bush => "|wWw"
+        case Tree => "|tTt"
         case Rock => "|oOo"
 
   private def printRowSeparator(row: Int, size: Int): Unit =
