@@ -15,7 +15,8 @@ trait PipelineEngine(rules: Seq[EngineRule]) extends Engine:
       state: GameState,
       intent: CommandIntent
   ): EngineOutcome = state match
-    case GameState(Combat, _, _) => postActionPipeline(resolveAction(state, intent.actorId, intent.action))
+    case GameState(Combat, _, _) =>
+      postActionPipeline(resolveAction(state, intent.actorId, intent.action))
     case _ => EngineOutcome(nextState = state)
 
   protected def resolveAction(

@@ -56,4 +56,3 @@ class TimedEngineTest:
 
     assertEquals(1, base.applyActionCalls)
     assertEquals(Seq(EntityId("action-delegated")), outcome.nextState.turnQueue)
-

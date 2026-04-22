@@ -10,23 +10,23 @@ import it.unibo.tosab.model.entities.EntityId
 import it.unibo.tosab.model.grid.Coordinate
 
 case class EngineOutcome(
-                          nextState: GameState,
-                          events: Seq[DomainEvent] = Seq.empty
-                        )
+    nextState: GameState,
+    events: Seq[DomainEvent] = Seq.empty
+)
 
 case class CommandIntent(
-                          actorId: EntityId,
-                          action: GameAction
-                        )
+    actorId: EntityId,
+    action: GameAction
+)
 
 /** The Engine trait defines the core logic of the game, responsible for applying actions to the
- * game state. It takes the current game state, the actor id and a game action, and returns the
- * new game state
- */
+  * game state. It takes the current game state, the actor id and a game action, and returns the new
+  * game state
+  */
 trait Engine:
   def startNewRound(state: GameState): GameState =
     TurnOrderManager.determineTurnOrder(state) match
-      case Nil => state.copy(phase = GameOver)
+      case Nil          => state.copy(phase = GameOver)
       case newTurnQueue => state.copy(turnQueue = newTurnQueue)
 
   def applyUnitAction(state: GameState, intent: CommandIntent): EngineOutcome
@@ -59,13 +59,11 @@ object Engine:
     * cleanup, turn consumption and game-over detection.
     */
   object TurnBasedCombatEngine extends PipelineEngine(standardCombatRules):
-   override def resolveAction(
-       state: GameState,
-       actorId: EntityId,
-       action: GameAction
-   ): EngineOutcome = action match
-       case Pass => ActionResolvers.resolvePass(state, actorId)
-       case Move(targetPosition) => ActionResolvers.resolveMove(state, actorId, targetPosition)
-       case Attack(targetId) => ActionResolvers.resolveAttackAction(state, actorId, targetId)
-
-
+    override def resolveAction(
+        state: GameState,
+        actorId: EntityId,
+        action: GameAction
+    ): EngineOutcome = action match
+      case Pass                 => ActionResolvers.resolvePass(state, actorId)
+      case Move(targetPosition) => ActionResolvers.resolveMove(state, actorId, targetPosition)
+      case Attack(targetId)     => ActionResolvers.resolveAttackAction(state, actorId, targetId)

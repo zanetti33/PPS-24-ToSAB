@@ -5,8 +5,8 @@ import it.unibo.tosab.model.GameState
 import it.unibo.tosab.model.entities.EntityId
 
 /** This trait represents the AI component of the game. It defines a method to determine the next
- * action based on the current game state.
- */
+  * action based on the current game state.
+  */
 trait CharacterAI:
   def determineNextAction(state: GameState, currentCharacterId: EntityId): GameAction
 

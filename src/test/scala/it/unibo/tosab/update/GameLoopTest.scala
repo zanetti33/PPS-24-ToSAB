@@ -5,7 +5,11 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.{DomainEvent, GameAction, GamePhase, GameState}
 import it.unibo.tosab.model.ai.CharacterAI.DoesNothingCharacterAI
-import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, ImmediatelyEndEngine, TurnBasedCombatEngine}
+import it.unibo.tosab.model.engine.Engine.{
+  DoesNothingEngine,
+  ImmediatelyEndEngine,
+  TurnBasedCombatEngine
+}
 import it.unibo.tosab.model.engine.{CommandIntent, Engine, EngineOutcome}
 import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}

@@ -18,7 +18,10 @@ object GameLoop extends GameLoopPublisher:
           case Nil => run(engine.startNewRound(currentState))
           case currentCharacterId :: _ =>
             val action = ai.determineNextAction(currentState, currentCharacterId)
-            val outcome = engine.applyUnitAction(currentState, intent = CommandIntent(currentCharacterId, action))
+            val outcome = engine.applyUnitAction(
+              currentState,
+              intent = CommandIntent(currentCharacterId, action)
+            )
             outcome.events.foreach(publish)
             val nextState = outcome.nextState
             publish(DomainEvent.GridUpdated(nextState.grid))

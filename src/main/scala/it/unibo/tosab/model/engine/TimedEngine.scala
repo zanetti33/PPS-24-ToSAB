@@ -10,7 +10,7 @@ class TimedEngine(val base: Engine, val maxTurns: Int) extends Engine:
     if currentTurnCount > maxTurns then
       // If we've reached the max turns, we end the game immediately with a draw
       state.copy(phase = GamePhase.GameOver, turnQueue = Seq.empty)
-    else
-      base.startNewRound(state)
+    else base.startNewRound(state)
 
-  override def applyUnitAction(state: GameState, intent: CommandIntent): EngineOutcome = base.applyUnitAction(state, intent)
+  override def applyUnitAction(state: GameState, intent: CommandIntent): EngineOutcome =
+    base.applyUnitAction(state, intent)

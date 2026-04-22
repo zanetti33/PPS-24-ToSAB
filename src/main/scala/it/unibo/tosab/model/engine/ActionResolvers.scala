@@ -15,13 +15,13 @@ object ActionResolvers:
     )
 
   def resolveMove(
-                           state: GameState,
-                           actorId: EntityId,
-                           targetPosition: Coordinate
-                         ): EngineOutcome =
+      state: GameState,
+      actorId: EntityId,
+      targetPosition: Coordinate
+  ): EngineOutcome =
     (state.getCharacterById(actorId), state.getPositionOf(actorId)) match
       case (Some(actor), Some(actorPosition))
-        if validMove(state, targetPosition, actor, actorPosition) =>
+          if validMove(state, targetPosition, actor, actorPosition) =>
         EngineOutcome(
           nextState = consumeTurn(
             state.copy(grid = state.grid.moveEntity(actorId, targetPosition)),
@@ -31,16 +31,21 @@ object ActionResolvers:
         )
       case _ => EngineOutcome(nextState = consumeTurn(state, actorId))
 
-  private def validMove(state: GameState, targetPosition: Coordinate, actor: entities.Character, actorPosition: Coordinate) =
+  private def validMove(
+      state: GameState,
+      targetPosition: Coordinate,
+      actor: entities.Character,
+      actorPosition: Coordinate
+  ) =
     state.grid.getDistance(actorPosition, targetPosition) <= actor.stats.movementDistance
       && state.grid.getEntity(targetPosition).isEmpty
       && state.grid.isWithinBounds(targetPosition)
 
   def resolveAttackAction(
-                                   state: GameState,
-                                   actorId: EntityId,
-                                   targetId: EntityId
-                                 ): EngineOutcome =
+      state: GameState,
+      actorId: EntityId,
+      targetId: EntityId
+  ): EngineOutcome =
     (state.getCharacterById(actorId), state.getCharacterById(targetId)) match
       case (Some(attacker), Some(target)) if canAttack(state, attacker, target) =>
         val updatedTarget = resolveAttack(attacker, target)

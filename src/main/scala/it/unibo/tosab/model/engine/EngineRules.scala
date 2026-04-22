@@ -16,11 +16,11 @@ object EngineRules:
     val synchronizedTurnQueue = TurnOrderManager.synchronizeTurnQueue(outcome.nextState)
     outcome.copy(nextState = outcome.nextState.copy(turnQueue = synchronizedTurnQueue))
 
-
-  val checkGameOver: EngineRule = outcome => outcome.nextState match
-    case nextState if nextState.hasWinner => outcome.copy(nextState = outcome.nextState.copy(phase = GameOver, turnQueue = Seq.empty))
-    case _ => outcome
+  val checkGameOver: EngineRule = outcome =>
+    outcome.nextState match
+      case nextState if nextState.hasWinner =>
+        outcome.copy(nextState = outcome.nextState.copy(phase = GameOver, turnQueue = Seq.empty))
+      case _ => outcome
 
   val standardCombatRules: Seq[EngineRule] =
     Seq(removeDefeated, synchronizeTurnQueue, checkGameOver)
-  
