@@ -11,11 +11,9 @@ import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
 @main def runApp(): Unit =
   val startingGrid = Grid().placeObstacles()
 
-  println("[INIT] Inizializzazione GameState globale...")
   val updatedGrid = placeAITroops(startingGrid)
   val initialState = GameState(GamePhase.Setup, updatedGrid)
 
-  println("\n[STATO GIOCO SPRINT 2] Setup completato con successo!\n")
   DisplayGrid.displayInitialGrid(initialState.grid)
 
   val setupProgram = GameSetup.runSetupLoop(updatedGrid)
@@ -23,7 +21,10 @@ import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
   val updatedState = initialState.copy(grid = completeGrid)
   DisplayGrid.display(updatedState.grid)
 
-  println("\n Starting Combat Phase...")
+  println("\nEnter any key to start combat phase...")
+  System.in.read()
+
+  println("\nStarting Combat Phase...")
   GameLoop.subscribe(ConsoleGameLogger)
   GameLoop.run(updatedState)(using CharacterAI.BasicCharacterAI, TurnBasedCombatEngine)
   GameLoop.unsubscribe(ConsoleGameLogger)

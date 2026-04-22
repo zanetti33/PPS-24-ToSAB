@@ -24,5 +24,6 @@ object GameLoop extends GameLoopPublisher:
             )
             outcome.events.foreach(publish)
             val nextState = outcome.nextState
-            publish(DomainEvent.GridUpdated(nextState.grid))
+            if nextState.gridChanged(currentState) then
+              publish(DomainEvent.GridUpdated(nextState.grid))
             run(nextState)

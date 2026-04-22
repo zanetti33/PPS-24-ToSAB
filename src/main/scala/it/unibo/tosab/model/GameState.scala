@@ -29,5 +29,8 @@ case class GameState(phase: GamePhase, grid: Grid, turnQueue: Seq[EntityId] = Se
 
   def hasWinner: Boolean = winningFaction.nonEmpty
 
+  def gridChanged(other: GameState): Boolean =
+    this.grid.getOccupiedCells != other.grid.getOccupiedCells
+
 object GameState:
   def apply(grid: Grid): GameState = GameState(GamePhase.Setup, grid)

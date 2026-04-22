@@ -6,4 +6,4 @@ import it.unibo.tosab.view.ActionLog
 object LoggerUtils:
 
   def logAndDisplay(log: ActionLog): MonadIO[Unit] =
-    MonadIO.printLine(log.toString).flatMap(_ => MonadIO.sleep(1000))
+    MonadIO.printLine(log.toString).flatMap(_ => MonadIO.sleep(3000))
