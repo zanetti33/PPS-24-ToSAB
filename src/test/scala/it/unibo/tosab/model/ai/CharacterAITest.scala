@@ -4,7 +4,7 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
 import it.unibo.tosab.model.{GamePhase, GameState}
-import it.unibo.tosab.model.ai.CharacterAI.{BasicCharacterAI, CharacterAI, DoesNothingCharacterAI}
+import it.unibo.tosab.model.ai.CharacterAI.{BasicCharacterAI, DoesNothingCharacterAI}
 import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Faction, Stats}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 

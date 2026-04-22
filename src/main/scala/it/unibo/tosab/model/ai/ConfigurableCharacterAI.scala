@@ -1,6 +1,6 @@
 package it.unibo.tosab.model.ai
 
-import it.unibo.tosab.model.ai.CharacterAI.CharacterAI
+import it.unibo.tosab.model.ai.CharacterAI
 import it.unibo.tosab.model.entities.EntityId
 import it.unibo.tosab.model.{GameAction, GameState}
 

@@ -15,7 +15,7 @@ class PathfinderTest:
     val targetPos = Coordinate(4, 2)
     val grid = Grid().setCell(soldier, startPos)
 
-    val nextStep = Pathfinder.findNextStep(grid, soldier, startPos, targetPos)
+    val nextStep = Pathfinder.findNextStep(grid, startPos, targetPos)
     assertTrue(nextStep.isDefined)
     val step = nextStep.get
     // Should move closer to target (2,0)
@@ -30,7 +30,7 @@ class PathfinderTest:
       .setCell(soldier, startPos)
       .setCell(obstacle, blockingPos)
 
-    val nextStep = Pathfinder.findNextStep(grid, soldier, startPos, targetPos)
+    val nextStep = Pathfinder.findNextStep(grid, startPos, targetPos)
     assertTrue(nextStep.isDefined)
     val step = nextStep.get
     // Should avoid the obstacle
@@ -44,7 +44,7 @@ class PathfinderTest:
     val targetPos = Coordinate(5, 3)
     val grid = Grid().setCell(soldier, startPos)
 
-    val nextStep = Pathfinder.findNextStep(grid, soldier, startPos, targetPos)
+    val nextStep = Pathfinder.findNextStep(grid, startPos, targetPos)
     assertEquals(Some(targetPos), nextStep)
 
   @Test def testFindNextStepWithAllSidesSurroundedByObstacles(): Unit =
@@ -60,7 +60,7 @@ class PathfinderTest:
       .setCell(wall(id = EntityId("w5")), Coordinate(5, 3))
       .setCell(wall(id = EntityId("w6")), Coordinate(5, 4))
 
-    val nextStep = Pathfinder.findNextStep(grid, soldier, startPos, targetPos)
+    val nextStep = Pathfinder.findNextStep(grid, startPos, targetPos)
     assertEquals(None, nextStep)
 
   @Test def testFindNextStepPrefersCellCloserToTarget(): Unit =
@@ -68,7 +68,7 @@ class PathfinderTest:
     val targetPos = Coordinate(5, 5)
     val grid = Grid().setCell(soldier, startPos)
 
-    val nextStep = Pathfinder.findNextStep(grid, soldier, startPos, targetPos)
+    val nextStep = Pathfinder.findNextStep(grid, startPos, targetPos)
     assertTrue(nextStep.isDefined)
     val step = nextStep.get
     val distanceFromStep = grid.getDistance(step, targetPos)

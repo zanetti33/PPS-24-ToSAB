@@ -1,16 +1,12 @@
 package it.unibo.tosab.update
 
+import it.unibo.tosab.model.ai.CharacterAI
 import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.{DomainEvent, GameAction, GamePhase, GameState}
-import it.unibo.tosab.model.ai.CharacterAI.{CharacterAI, DoesNothingCharacterAI}
-import it.unibo.tosab.model.engine.Engine.{
-  DoesNothingEngine,
-  Engine,
-  EngineOutcome,
-  ImmediatelyEndEngine,
-  TurnBasedCombatEngine
-}
+import it.unibo.tosab.model.ai.CharacterAI.DoesNothingCharacterAI
+import it.unibo.tosab.model.engine.Engine.{DoesNothingEngine, ImmediatelyEndEngine, TurnBasedCombatEngine}
+import it.unibo.tosab.model.engine.{CommandIntent, Engine, EngineOutcome}
 import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
@@ -85,14 +81,13 @@ class GameLoopTest:
     given engine: Engine with
       override def applyUnitAction(
           state: GameState,
-          actorId: EntityId,
-          action: GameAction
+          intent: CommandIntent
       ): EngineOutcome =
         EngineOutcome(
           nextState = state.copy(phase = GamePhase.GameOver, turnQueue = Seq.empty),
           events = Seq(
-            DomainEvent.ActionApplied(actorId, action),
-            DomainEvent.DamageInflicted(actorId, EntityId("enemy-1"), 12),
+            DomainEvent.ActionApplied(intent.actorId, intent.action),
+            DomainEvent.DamageInflicted(intent.actorId, EntityId("enemy-1"), 12),
             DomainEvent.UnitDied(EntityId("enemy-1"))
           )
         )
