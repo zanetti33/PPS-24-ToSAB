@@ -16,8 +16,18 @@
 | 3.6 | Motore    | Condizione di Fine      | Altissima | Controllo ricorsivo di vittoria/sconfitta per fermare il loop.        |
 | 4.1 | I/O       | Game Loop               | Media     | Ciclo State -> State che fa avanzare il combattimento.                |
 | 4.2 | I/O       | Sistema di Logging      | Media     | Tracciamento eventi (spostamenti, danni, eliminazioni).               |
-| 4.3 | I/O       | Output a Terminale      | Media     | Stampa formattata della telecronaca dello scontro.                    |
+| 4.3 | I/O       | Output a Terminale      | Media     | Stampa formattata della cronaca dello scontro.                        |
 | 5.1 | Opzionale | GUI Minimale            | Bassa     | Rappresentazione grafica 2D dell'arena e delle unità.                 |
 | 5.2 | Opzionale | Economia / Drafting     | Bassa     | Negozio pre-battaglia per acquistare unità con valuta.                |
 | 5.3 | Opzionale | Effetti: Cure           | Bassa     | Unità guaritrici che bersagliano gli alleati feriti.                  |
 | 5.4 | Opzionale | Effetti: Buff/Debuff    | Bassa     | Alterazioni di stato temporanee o passive (es. Spine, Veleno).        |
+
+Calcolando circa 4 sprint da 45 ore ciascuna completeremmo l'ammontare orario di 60 ore a testa.
+
+### Planning e comunicazione
+Ogni sprint prevede una pianificazione dettagliata, con 
+task assegnati a ciascun membro del team e stime di tempo 
+per ogni attività. La comunicazione sarà costante, con 
+incontri regolari(sia in presenza che online) per 
+discutere i progressi, risolvere eventuali problemi e 
+adattare il piano se necessario.
