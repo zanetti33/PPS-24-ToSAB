@@ -27,3 +27,10 @@ object CharacterAI:
     Behaviors.attackClosestEnemy,
     Behaviors.moveTowardsClosestEnemy
   )
+
+  /** Advanced AI that attacks or moves towards the closest attackable entity (enemies or
+    * destructible obstacles), ignoring non-destructible obstacles.
+    */
+  val CleanerCharacterAI: CharacterAI = ConfigurableCharacterAI(
+    Behaviors.attackOrMoveToClosestEntity
+  )
