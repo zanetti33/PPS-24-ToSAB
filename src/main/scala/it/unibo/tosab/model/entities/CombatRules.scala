@@ -42,7 +42,6 @@ object CombatRules:
         state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
       case targetObstacle: Obstacle =>
         attacker.isAlive &&
-        targetObstacle.hp.nonEmpty &&
         !targetObstacle.isDestroyed &&
         state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
     )
