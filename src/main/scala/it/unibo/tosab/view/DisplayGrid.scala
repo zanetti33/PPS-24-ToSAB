@@ -4,12 +4,20 @@ import it.unibo.tosab.model.entities.ObstacleType.*
 import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Faction, Obstacle, ObstacleType}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
-private def printColHeader(size: Int): Unit =
-  val colHeader = (0 until size).map(c => f" $c *").mkString("* ", "", "")
-  println(colHeader)
-  println(f"* / \\" + " / \\" * (size - 1))
-
 object DisplayGrid:
+
+  private val obstacleSymbols: Map[ObstacleType, String] = Map(
+    Wall -> "###",
+    Bush -> "wWw",
+    Tree -> "tTt",
+    Rock -> "oOo"
+  )
+
+  private def getObstacleSymbol(obstacleType: ObstacleType): String = obstacleSymbols(obstacleType)
+
+  private def getObstacleLegend(obstacleType: ObstacleType): String =
+    s"|${getObstacleSymbol(obstacleType)}| = ${obstacleType.toString}"
+
   private def clearScreen(): Unit =
     System.out.flush()
     print("\u001b[2J\u001b[H") // ANSI: clear screen + move cursor to home
@@ -24,6 +32,12 @@ object DisplayGrid:
     for row <- 0 until size do
       printRowContent(grid, row)
       printRowSeparator(row, size)
+
+  private def displayLegend(): Unit =
+    val characterLegend = "|A n| = Ally, |a n| = Enemy"
+    val obstacleLegends = ObstacleType.values.map(getObstacleLegend)
+    val obstacleLegend = obstacleLegends.mkString(", ")
+    println(s"Legend:\n$characterLegend\n$obstacleLegend")
 
   def displayInitialGrid(grid: Grid): Unit =
     val size = grid.size
@@ -43,9 +57,12 @@ object DisplayGrid:
       println(s"$rowLabel$content")
       printRowSeparator(row, size)
 
-    println(
-      "Legend:\n|A a| = Ally, |a a| = Enemy\n|###| = Wall, |wWw| = Bush, |tTt| = Tree, |oOo| = Rock"
-    )
+    displayLegend()
+
+  private def printColHeader(size: Int): Unit =
+    val colHeader = (0 until size).map(c => f" $c *").mkString("* ", "", "")
+    println(colHeader)
+    println(f"* / \\" + " / \\" * (size - 1))
 
   private def printRowContent(grid: Grid, row: Int): Unit =
     val rowLabel = if row % 2 == 0 then f"$row" else f"$row  "
@@ -64,11 +81,7 @@ object DisplayGrid:
       if c.isAnEnemy then f"|${id.head.toLower} ${id.last}"
       else f"|${id.head.toUpper} ${id.last}"
     case o: Obstacle =>
-      o.obstacleType match
-        case Wall => "|###"
-        case Bush => "|wWw"
-        case Tree => "|tTt"
-        case Rock => "|oOo"
+      s"|${getObstacleSymbol(o.obstacleType)}"
 
   private def printRowSeparator(row: Int, size: Int): Unit =
     if row == size - 1 then println("*  " + " \\ /" * size + "\n")

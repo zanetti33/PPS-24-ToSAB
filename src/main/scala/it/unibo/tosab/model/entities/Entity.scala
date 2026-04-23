@@ -38,13 +38,13 @@ object Entity:
     Character(id, faction, Role.Mage, Stats.baseMageStats)
 
   def bush(id: EntityId): Obstacle =
-    Obstacle(id, Bush, hp = Some(50), isPassable = true, blocksVision = false)
+    Obstacle(id, Bush, hp = Some(40), isPassable = true, blocksVision = false)
 
   def wall(id: EntityId): Obstacle =
     Obstacle(id, Wall, hp = None, isPassable = false, blocksVision = true)
 
   def tree(id: EntityId): Obstacle =
-    Obstacle(id, Tree, hp = Some(120), isPassable = false, blocksVision = true)
+    Obstacle(id, Tree, hp = Some(100), isPassable = false, blocksVision = true)
 
   def rock(id: EntityId): Obstacle =
     Obstacle(id, Rock, hp = None, isPassable = true, blocksVision = true)
