@@ -3,7 +3,6 @@ package it.unibo.tosab.model.engine
 import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
-import it.unibo.tosab.model.GameAction.Pass
 import it.unibo.tosab.model.{DomainEvent, GamePhase, GameState}
 import it.unibo.tosab.model.engine.Engine.{
   DoesNothingEngine,
@@ -137,3 +136,107 @@ class EngineTest:
       outcome.events(1)
     )
     assertEquals(DomainEvent.UnitDied(target.id), outcome.events(2))
+
+  @Test def testTurnBasedCombatEngineIgnoresMoveOutsideCombatPhase(): Unit =
+    val actor = Entity.soldier(EntityId("mover"), Faction.Player)
+    val enemy = Entity.soldier(EntityId("enemy"), Faction.AI)
+    val setupState = GameState(
+      GamePhase.Setup,
+      Grid().setCell(actor, Coordinate(4, 0)).setCell(enemy, Coordinate(0, 7)),
+      Seq(actor.id, enemy.id)
+    )
+
+    val outcome = TurnBasedCombatEngine.applyUnitAction(
+      setupState,
+      CommandIntent(actor.id, GameAction.Move(Coordinate(4, 1)))
+    )
+
+    assertEquals(setupState, outcome.nextState)
+    assertTrue(outcome.events.isEmpty)
+
+  @Test def testTurnBasedCombatEngineAppliesValidMoveAndConsumesTurn(): Unit =
+    val actor = Entity.soldier(EntityId("mover"), Faction.Player)
+    val enemy = Entity.soldier(EntityId("enemy"), Faction.AI)
+    val from = Coordinate(4, 0)
+    val to = Coordinate(4, 1)
+    val state = GameState(
+      GamePhase.Combat,
+      Grid().setCell(actor, from).setCell(enemy, Coordinate(0, 7)),
+      Seq(actor.id, enemy.id)
+    )
+
+    val outcome = TurnBasedCombatEngine.applyUnitAction(
+      state,
+      CommandIntent(actor.id, GameAction.Move(to))
+    )
+
+    assertEquals(Some(actor), outcome.nextState.grid.getEntity(to))
+    assertEquals(None, outcome.nextState.grid.getEntity(from))
+    assertEquals(Seq(enemy.id), outcome.nextState.turnQueue)
+    assertEquals(Seq(DomainEvent.ActionApplied(actor.id, GameAction.Move(to))), outcome.events)
+
+  @Test def testTurnBasedCombatEngineRejectsMoveOutsideReachAndConsumesTurn(): Unit =
+    val actor = Entity.soldier(EntityId("mover"), Faction.Player)
+    val enemy = Entity.soldier(EntityId("enemy"), Faction.AI)
+    val from = Coordinate(4, 0)
+    val farTarget = Coordinate(4, 2)
+    val state = GameState(
+      GamePhase.Combat,
+      Grid().setCell(actor, from).setCell(enemy, Coordinate(0, 7)),
+      Seq(actor.id, enemy.id)
+    )
+
+    val outcome = TurnBasedCombatEngine.applyUnitAction(
+      state,
+      CommandIntent(actor.id, GameAction.Move(farTarget))
+    )
+
+    assertEquals(Some(actor), outcome.nextState.grid.getEntity(from))
+    assertEquals(None, outcome.nextState.grid.getEntity(farTarget))
+    assertEquals(Seq(enemy.id), outcome.nextState.turnQueue)
+    assertTrue(outcome.events.isEmpty)
+
+  @Test def testTurnBasedCombatEngineAllowsJumpOverPassableObstacleForArcher(): Unit =
+    val actor = Entity.archer(EntityId("jumper"), Faction.Player)
+    val enemy = Entity.soldier(EntityId("enemy"), Faction.AI)
+    val bush = Entity.bush(EntityId("bush"))
+    val from = Coordinate(4, 0)
+    val to = Coordinate(4, 2)
+    val state = GameState(
+      GamePhase.Combat,
+      Grid().setCell(actor, from).setCell(bush, Coordinate(4, 1)).setCell(enemy, Coordinate(0, 7)),
+      Seq(actor.id, enemy.id)
+    )
+
+    val outcome = TurnBasedCombatEngine.applyUnitAction(
+      state,
+      CommandIntent(actor.id, GameAction.Move(to))
+    )
+
+    assertEquals(Some(actor), outcome.nextState.grid.getEntity(to))
+    assertEquals(None, outcome.nextState.grid.getEntity(from))
+    assertEquals(Seq(enemy.id), outcome.nextState.turnQueue)
+    assertEquals(Seq(DomainEvent.ActionApplied(actor.id, GameAction.Move(to))), outcome.events)
+
+  @Test def testTurnBasedCombatEngineRejectsJumpForLowMovementUnit(): Unit =
+    val actor = Entity.soldier(EntityId("walker"), Faction.Player)
+    val enemy = Entity.soldier(EntityId("enemy"), Faction.AI)
+    val bush = Entity.bush(EntityId("bush"))
+    val from = Coordinate(4, 0)
+    val jumpTarget = Coordinate(4, 2)
+    val state = GameState(
+      GamePhase.Combat,
+      Grid().setCell(actor, from).setCell(bush, Coordinate(4, 1)).setCell(enemy, Coordinate(0, 7)),
+      Seq(actor.id, enemy.id)
+    )
+
+    val outcome = TurnBasedCombatEngine.applyUnitAction(
+      state,
+      CommandIntent(actor.id, GameAction.Move(jumpTarget))
+    )
+
+    assertEquals(Some(actor), outcome.nextState.grid.getEntity(from))
+    assertEquals(None, outcome.nextState.grid.getEntity(jumpTarget))
+    assertEquals(Seq(enemy.id), outcome.nextState.turnQueue)
+    assertTrue(outcome.events.isEmpty)
+
