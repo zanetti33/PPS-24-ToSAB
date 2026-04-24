@@ -13,6 +13,7 @@ enum ObstacleType:
 
 sealed trait Entity:
   def id: EntityId
+  def jumpCost: Option[Int] = None // None = not jumpable, Some(x) = jumpable with x = jump cost
 
 case class Character(id: EntityId, faction: Faction, role: Role, stats: Stats) extends Entity
 
@@ -20,9 +21,12 @@ case class Obstacle(
     id: EntityId,
     obstacleType: ObstacleType,
     hp: Option[Int], // None = non-damageable, Some(x) = damageable with x = hp
-    isPassable: Boolean, // true = jumpable/walkable
+    isPassable: Boolean, // true = can be walked on
     blocksVision: Boolean // true = blocks ranged attacks
-) extends Entity
+) extends Entity:
+  // For simplicity, we assume that all passable obstacles have a jump cost of 1, while non-passable obstacles cannot be jumped over.
+  // in the future, we could have more difficult to traverse obstacles
+  override def jumpCost: Option[Int] = if isPassable then Some(1) else None
 
 object Entity:
 
