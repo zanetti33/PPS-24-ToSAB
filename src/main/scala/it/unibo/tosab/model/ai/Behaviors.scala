@@ -1,7 +1,7 @@
 package it.unibo.tosab.model.ai
 
 import it.unibo.tosab.model.{GameAction, GameState}
-import it.unibo.tosab.model.entities.Character
+import it.unibo.tosab.model.entities.{Character, Obstacle, Entity}
 import it.unibo.tosab.model.grid.Coordinate
 
 object Behaviors:
@@ -45,3 +45,38 @@ object Behaviors:
         )
       )
       .map(GameAction.Move(_))
+
+  /** Returns the closest entity (enemy or destructible obstacle) to `myPos`, if any. */
+  private def closestEntityToAttack(
+      state: GameState,
+      me: Character,
+      myPos: Coordinate
+  ): Option[(Entity, Coordinate)] =
+    state.grid.allEntitiesWithPositions
+      .filter((entity, _) => entity.id != me.id && isAttackableEntity(entity, me))
+      .minByOption((_, pos) => state.grid.getDistance(myPos, pos))
+      .map((e, _) => (e, state.grid.getPosition(e.id).get))
+
+  /** Returns true if the entity is attackable (enemy or destructible obstacle). */
+  private def isAttackableEntity(entity: Entity, me: Character): Boolean =
+    entity match
+      case enemy: Character   => enemy.faction != me.faction
+      case obstacle: Obstacle => obstacle.hp.nonEmpty // only destructible obstacles (hp > 0)
+
+  /** Attacks the closest attackable entity if in range, otherwise moves towards it. */
+  val attackOrMoveToClosestEntity: Behavior = (state, me, myPos) =>
+    closestEntityToAttack(state, me, myPos)
+      .flatMap((targetEntity, targetPos) =>
+        if isInRange(state, myPos, targetPos, me.stats.attackRange) then
+          Some(GameAction.Attack(targetEntity.id))
+        else if me.stats.movementDistance > noMovementDistance then
+          Pathfinder
+            .bestReachableTowardsTarget(
+              state.grid,
+              myPos,
+              targetPos,
+              me.stats.movementDistance
+            )
+            .map(GameAction.Move(_))
+        else None
+      )

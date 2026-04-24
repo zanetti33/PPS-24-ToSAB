@@ -77,19 +77,45 @@ class PathfinderTest:
     assertTrue(distanceFromStep < distanceFromStart)
 
   @Test def testBestReachableTowardsTargetUsesMovementDistance(): Unit =
-    val startPos = Coordinate(0, 0)
-    val targetPos = Coordinate(0, 4)
+    val startPos = Coordinate(4, 0)
+    val targetPos = Coordinate(4, 4)
     val maxSteps = 2
-    val expectedBestPosition = Coordinate(0, 2)
+    val expectedBestPosition = Coordinate(4, 2)
     val grid = Grid().setCell(soldier, startPos)
 
     val bestPosition = Pathfinder.bestReachableTowardsTarget(grid, startPos, targetPos, maxSteps)
     assertEquals(Some(expectedBestPosition), bestPosition)
 
   @Test def testReachableCellsWithinReturnsEmptyWhenStepsAreNonPositive(): Unit =
-    val startPos = Coordinate(2, 2)
+    val startPos = Coordinate(4, 2)
     val noSteps = 0
     val grid = Grid().setCell(soldier, startPos)
 
     val reachable = Pathfinder.reachableCellsWithin(grid, startPos, noSteps)
     assertTrue(reachable.isEmpty)
+
+  @Test def testCanJumpOverPassableObstacle(): Unit =
+    val archer = Entity.archer(EntityId("archer1"), Faction.Player)
+    val startPos = Coordinate(4, 0)
+    val obstaclePos = Coordinate(4, 1)
+    val jumpTarget = Coordinate(4, 2)
+    val bush = Entity.bush(EntityId("bush1"))
+    val grid = Grid()
+      .setCell(archer, startPos)
+      .setCell(bush, obstaclePos)
+
+    val reachable = Pathfinder.reachableCellsWithin(grid, startPos, archer.stats.movementDistance)
+    assertTrue(reachable.contains(jumpTarget))
+
+  @Test def testCannotJumpWithLowMovementSpeed(): Unit =
+    val startPos = Coordinate(4, 0)
+    val obstaclePos = Coordinate(4, 1)
+    val jumpTarget = Coordinate(4, 2)
+    val bush = Entity.bush(EntityId("bush1"))
+    val grid = Grid()
+      .setCell(soldier, startPos)
+      .setCell(bush, obstaclePos)
+
+    val reachable = Pathfinder.reachableCellsWithin(grid, startPos, soldier.stats.movementDistance)
+    assertFalse(reachable.contains(jumpTarget))
+    assertTrue(reachable.exists(coord => grid.getDistance(startPos, coord) == 1))

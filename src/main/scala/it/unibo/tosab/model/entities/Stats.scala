@@ -24,7 +24,7 @@ object Stats:
   private val archerMagicalAttack = 5
   private val archerPhysicalDefense = 5
   private val archerMagicalDefense = 10
-  private val archerMovementDistance = 1
+  private val archerMovementDistance = 2
   private val archerSpeed = 3
   private val archerAttackRange = 2
   private val archerAttackType = Ranged

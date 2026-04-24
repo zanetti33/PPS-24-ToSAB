@@ -4,7 +4,7 @@ import it.unibo.tosab.model.GameAction.{Attack, Move, Pass}
 import it.unibo.tosab.model.engine.EngineOutcome
 import it.unibo.tosab.model.{DomainEvent, GameState, entities}
 import it.unibo.tosab.model.entities.CombatRules.{canAttack, resolveAttack}
-import it.unibo.tosab.model.entities.EntityId
+import it.unibo.tosab.model.entities.{Entity, EntityId, Character, Obstacle}
 import it.unibo.tosab.model.grid.Coordinate
 
 object ActionResolvers:
@@ -41,18 +41,29 @@ object ActionResolvers:
       && state.grid.getEntity(targetPosition).isEmpty
       && state.grid.isWithinBounds(targetPosition)
 
+  private def calculateDamageAndEvents(
+      target: Entity,
+      updatedTarget: Entity
+  ): (Int, Seq[DomainEvent]) =
+    val (oldHp, newHp) = (target, updatedTarget) match
+      case (targetCharacter: Character, updatedCharacter: Character) =>
+        (targetCharacter.stats.currentHp, updatedCharacter.stats.currentHp)
+      case (targetObstacle: Obstacle, updatedObstacle: Obstacle) =>
+        (targetObstacle.hp.getOrElse(0), updatedObstacle.hp.getOrElse(0))
+      case _ => (0, 0)
+    val damageAmount = Math.max(0, oldHp - newHp)
+    val deathEvents = if newHp <= 0 then Seq(DomainEvent.UnitDied(target.id)) else Seq.empty
+    (damageAmount, deathEvents)
+
   def resolveAttackAction(
       state: GameState,
       actorId: EntityId,
       targetId: EntityId
   ): EngineOutcome =
-    (state.getCharacterById(actorId), state.getCharacterById(targetId)) match
+    (state.getCharacterById(actorId), state.getEntityById(targetId)) match
       case (Some(attacker), Some(target)) if canAttack(state, attacker, target) =>
         val updatedTarget = resolveAttack(attacker, target)
-        val damageAmount = Math.max(0, target.stats.currentHp - updatedTarget.stats.currentHp)
-        val deathEvents =
-          if updatedTarget.stats.currentHp <= 0 then Seq(DomainEvent.UnitDied(target.id))
-          else Seq.empty
+        val (damageAmount, deathEvents) = calculateDamageAndEvents(target, updatedTarget)
         EngineOutcome(
           nextState =
             consumeTurn(state.copy(grid = state.grid.replaceEntity(updatedTarget)), actorId),
