@@ -28,6 +28,11 @@ class CharacterAITest:
       .copy(
         stats = Stats.baseSoldierStats.copy(movementDistance = movementDistanceTwo)
       )
+  private val aiImmobileSoldier: Character =
+    Entity
+      .soldier(EntityId("ai-immobile"), Faction.AI)
+      .copy(stats = Stats.baseSoldierStats.copy(movementDistance = 0))
+  private val aiArcher: Character = Entity.archer(EntityId("ai-archer"), Faction.AI)
 
   @Test def testDoesNothingAIAlwaysReturnsPass(): Unit =
     val action = DoesNothingCharacterAI.determineNextAction(state, unitId)
@@ -92,3 +97,38 @@ class CharacterAITest:
     val combatState = GameState(GamePhase.Combat, grid)
     val action = CleanerCharacterAI.determineNextAction(combatState, playerSoldier.id)
     assertEquals(GameAction.Attack(bush.id), action)
+
+  @Test def testBasicAIWithZeroMovementPassesWhenEnemyIsOutOfRange(): Unit =
+    val grid = Grid()
+      .setCell(aiImmobileSoldier, Coordinate(0, 0))
+      .setCell(playerSoldier, Coordinate(4, 0))
+    val combatState = GameState(GamePhase.Combat, grid)
+
+    val action = BasicCharacterAI.determineNextAction(combatState, aiImmobileSoldier.id)
+    assertEquals(GameAction.Pass, action)
+
+  @Test def testBasicAIUsesJumpWhenPassableObstacleBlocksDirectPath(): Unit =
+    val bush = Entity.bush(EntityId("bush-jump"))
+    val grid = Grid()
+      .setCell(aiArcher, Coordinate(1, 1))
+      .setCell(bush, Coordinate(2, 1))
+      .setCell(playerSoldier, Coordinate(4, 1))
+    val combatState = GameState(GamePhase.Combat, grid)
+
+    val action = BasicCharacterAI.determineNextAction(combatState, aiArcher.id)
+    assertEquals(GameAction.Move(Coordinate(3, 1)), action)
+
+  @Test def testCleanerAIIgnoresNonAttackableRockAndMoves(): Unit =
+    val rock = Entity.rock(EntityId("rock1"))
+    val grid = Grid()
+      .setCell(aiSoldier, Coordinate(0, 0))
+      .setCell(rock, Coordinate(0, 1))
+      .setCell(playerSoldier, Coordinate(4, 0))
+    val combatState = GameState(GamePhase.Combat, grid)
+
+    val action = CleanerCharacterAI.determineNextAction(combatState, aiSoldier.id)
+    assertTrue(action match
+      case GameAction.Move(_) => true
+      case _                  => false
+    )
+
