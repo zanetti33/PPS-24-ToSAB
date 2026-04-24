@@ -1,19 +1,44 @@
 package it.unibo.tosab.model.ai
 
 import scala.collection.immutable.Queue
-import it.unibo.tosab.model.entities.Entity
+import it.unibo.tosab.model.entities.{Entity, Obstacle}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 import it.unibo.tosab.model.grid.HexagonalGrid
 
 object Pathfinder:
   private val initialDistanceFromStart = 0
   private val singleStepMovementDistance = 1
+  private val jumpMovementCost = 2
 
-  private def traversableNeighbors(grid: Grid, position: Coordinate): Set[Coordinate] =
+  private def traversableNeighbors(
+      grid: Grid,
+      position: Coordinate,
+      movementSpeed: Int
+  ): Set[(Coordinate, Int)] =
     val hexGrid = HexagonalGrid(grid.size)
-    hexGrid
+
+    val directNeighbors = hexGrid
       .getNeighbors(position)
       .filter(nextPosition => grid.getEntity(nextPosition).isEmpty)
+      .map(pos => (pos, singleStepMovementDistance))
+
+    val jumpableCells =
+      if movementSpeed >= jumpMovementCost then
+        hexGrid.getNeighbors(position).flatMap { neighborPos =>
+          grid.getEntity(neighborPos) match
+            case Some(obstacle: Obstacle) if obstacle.isPassable =>
+              val deltaX = neighborPos.x - position.x
+              val deltaY = neighborPos.y - position.y
+              val jumpTarget = Coordinate(position.x + 2 * deltaX, position.y + 2 * deltaY)
+
+              if grid.isWithinBounds(jumpTarget) && grid.getEntity(jumpTarget).isEmpty then
+                Some((jumpTarget, jumpMovementCost))
+              else None
+            case _ => None
+        }
+      else Set.empty
+
+    directNeighbors ++ jumpableCells
 
   /** Returns all cells reachable from `startPos` within `maxSteps` steps. */
   def reachableCellsWithin(
@@ -26,23 +51,37 @@ object Pathfinder:
       @annotation.tailrec
       def bfs(
           toVisit: Queue[(Coordinate, Int)],
-          visited: Set[Coordinate]
+          visited: Set[Coordinate],
+          costs: Map[Coordinate, Int]
       ): Set[Coordinate] =
         toVisit.dequeueOption match
           case None => visited - startPos
-          case Some(((_, stepsFromStart), remainingQueue)) if stepsFromStart >= maxSteps =>
-            bfs(remainingQueue, visited)
-          case Some(((position, stepsFromStart), remainingQueue)) =>
-            val unseenNeighbors = traversableNeighbors(grid, position).diff(visited)
-            val nextDistance = stepsFromStart + singleStepMovementDistance
-            val queueWithNeighbors = unseenNeighbors.foldLeft(remainingQueue)((queue, neighbor) =>
-              queue.enqueue((neighbor, nextDistance))
-            )
-            bfs(queueWithNeighbors, visited ++ unseenNeighbors)
+          case Some(((_, costFromStart), remainingQueue)) if costFromStart > maxSteps =>
+            bfs(remainingQueue, visited, costs)
+          case Some(((position, costFromStart), remainingQueue)) =>
+            val neighbors = traversableNeighbors(grid, position, maxSteps)
+            val unseenNeighbors = neighbors.filter((c, _) => !visited.contains(c))
+
+            val (newQueue, newCosts, added) =
+              unseenNeighbors.foldLeft((remainingQueue, costs, Set.empty[Coordinate])) {
+                case ((queue, costMap, addedSet), (neighbor, neighborCost)) =>
+                  val newCost = costFromStart + neighborCost
+
+                  if newCost <= maxSteps && newCost < costMap.getOrElse(neighbor, Int.MaxValue) then
+                    (
+                      queue.enqueue((neighbor, newCost)),
+                      costMap + (neighbor -> newCost),
+                      addedSet + neighbor
+                    )
+                  else (queue, costMap, addedSet)
+              }
+
+            bfs(newQueue, visited ++ added, newCosts)
 
       val initialQueue = Queue((startPos, initialDistanceFromStart))
       val initialVisited = Set(startPos)
-      bfs(initialQueue, initialVisited)
+      val initialCosts = Map(startPos -> initialDistanceFromStart)
+      bfs(initialQueue, initialVisited, initialCosts)
 
   /** Picks the reachable cell within `maxSteps` that minimizes distance to `targetPos`. */
   def bestReachableTowardsTarget(

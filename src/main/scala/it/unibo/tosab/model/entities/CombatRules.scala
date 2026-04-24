@@ -30,21 +30,35 @@ object CombatRules:
 
     AttackProfile(damageList.toSeq)
 
-  def canAttack(state: GameState, attacker: Character, target: Character): Boolean =
+  def canAttack(state: GameState, attacker: Character, target: Entity): Boolean =
     (for
       attackerPosition <- state.getPositionOf(attacker.id)
       targetPosition <- state.getPositionOf(target.id)
-    yield attacker.faction != target.faction &&
-      attacker.isAlive &&
-      target.isAlive &&
-      state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange)
+    yield target match
+      case targetCharacter: Character =>
+        attacker.faction != targetCharacter.faction &&
+        attacker.isAlive &&
+        targetCharacter.isAlive &&
+        state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
+      case targetObstacle: Obstacle =>
+        attacker.isAlive &&
+        !targetObstacle.isDestroyed &&
+        state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
+    )
       .getOrElse(false)
 
-  def resolveAttack(attacker: Character, target: Character): Character =
+  def resolveAttack(attacker: Character, target: Entity): Entity =
     val attackProfile = createDamage(attacker)
-    attackProfile.damages.foldLeft(target)((currentTarget, damage) =>
-      currentTarget.takeDamage(damage)
-    )
+    target match
+      case targetCharacter: Character =>
+        attackProfile.damages.foldLeft(targetCharacter)((currentTarget, damage) =>
+          currentTarget.takeDamage(damage)
+        )
+      case targetObstacle: Obstacle if targetObstacle.hp.nonEmpty =>
+        attackProfile.damages.foldLeft(targetObstacle)((currentTarget, damage) =>
+          currentTarget.takeDamage(damage)
+        )
+      case _ => target
 
   extension (damage: DamageInstance)
     def calculatedAgainst(targetStats: Stats): Int = calculateDamage(damage, targetStats)

@@ -141,5 +141,6 @@ class DamageTest:
     )
 
     val updatedTarget = CombatRules.resolveAttack(attacker, target)
-
-    assert(updatedTarget.stats.currentHp == expectedResolvedTargetHp)
+    updatedTarget match
+      case c: Character => assert(c.stats.currentHp == expectedResolvedTargetHp)
+      case _            => assert(false)

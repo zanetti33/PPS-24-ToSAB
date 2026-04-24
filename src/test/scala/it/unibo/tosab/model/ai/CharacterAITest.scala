@@ -4,7 +4,11 @@ import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.GameAction
 import it.unibo.tosab.model.{GamePhase, GameState}
-import it.unibo.tosab.model.ai.CharacterAI.{BasicCharacterAI, DoesNothingCharacterAI}
+import it.unibo.tosab.model.ai.CharacterAI.{
+  BasicCharacterAI,
+  CleanerCharacterAI,
+  DoesNothingCharacterAI
+}
 import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Faction, Stats}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
@@ -78,3 +82,13 @@ class CharacterAITest:
 
     val action = BasicCharacterAI.determineNextAction(combatState, aiFastSoldier.id)
     assertEquals(GameAction.Move(expectedLongMoveTarget), action)
+
+  @Test def testCleanerAIPrefersAttackingNearbyBushOverMovingToDistantEnemy(): Unit =
+    val bush = Entity.bush(EntityId("bush1"))
+    val grid = Grid()
+      .setCell(aiSoldier, aiStartPositionForLongMove)
+      .setCell(bush, Coordinate(3, 0))
+      .setCell(playerSoldier, playerTargetPositionForLongMove)
+    val combatState = GameState(GamePhase.Combat, grid)
+    val action = CleanerCharacterAI.determineNextAction(combatState, playerSoldier.id)
+    assertEquals(GameAction.Attack(bush.id), action)
