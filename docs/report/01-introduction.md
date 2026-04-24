@@ -7,7 +7,7 @@
 ## Introduzione
 Il progetto consiste in un piccolo gioco auto-battler,
 sviluppato in Scala, che simula combattimenti tra unità di
-due fazioni(**Player** ed **AI**) su una griglia esagonale.
+due fazioni(**Player** e **AI**) su una griglia esagonale.
 Le entità possono essere **Obstacles** o **Characters**, i 
 quali a loro volta si dividono in più ruoli.
 Ogni ruolo presenta varie caratteristiche (es. tipo di 
@@ -23,6 +23,6 @@ avversarie; successivamente, al via, queste, a turni,
 inizieranno a muoversi e combattere autonomamente.
 
 La partita prosegue fino a quando non si arriva
-all'eminazione dell'intera fazione nemica, che decreta la
+all'eliminazione dell'intera fazione nemica, che decreta la
 vittoria/sconfitta, o fino a quando non si termina il numero
-prestabilito di turni giungendo ad un pareggio.
+prestabilito di turni giungendo a un pareggio.

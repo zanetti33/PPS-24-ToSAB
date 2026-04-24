@@ -49,7 +49,7 @@ dimensioni predefinite
 mappa, rispettando le regole di posizionamento (ad esempio,
 non posizionare unità su caselle occupate o fuori dal 
 proprio lato della mappa)
-4. Le truppe nemiche devo essere piazzate da un'IA, che 
+4. Le truppe nemiche devo essere piazzate da un'unità di IA, che 
 deve posizionare le unità in modo strategico, rispettando 
 le stesse regole di posizionamento dell'utente
 5. Ogni unità deve avere specifiche statistiche:

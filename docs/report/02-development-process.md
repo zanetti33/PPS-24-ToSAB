@@ -50,7 +50,7 @@ del team o in pair programming, viene pubblicata sul branch
 principale di sviluppo.
 A questo fanno eccezione operazioni di configurazione e/o 
 di documentazione che possono essere direttamente prodotte 
-insieme e committate sul main.
+insieme e messe sul main.
 
 - main
 - feature/*
@@ -77,4 +77,4 @@ per il deployment e la manutenzione, rientranti nella
 *continuous integration/delivery*.
 Da cambiare con i nostri
 Continuous Integration (CI): Il workflow pr-test.yml esegue i test su ogni pull request aperta o sincronizzata sul branch main dal branch develop. Questo garantisce l’integrità continua del progetto e da la possibilità a tutti gli sviluppatori se una pull request ha fatto passare o meno tutti i test.
-Continuous Delivery (CD)/Deployment: Il workflow release.yml gestisce il rilascio automatico del progetto. Si attiva su tag semantici (es. v*.*.*) e produce un JAR eseguibile (RiseOfTheMachine.jar) utilizzando sbt assembly, che viene poi caricato come release su GitHub. Questo permette di avere una base stabile su cui iterare dopo ogni sprint.
+Continuous Delivery (CD)/Deployment: Il workflow release.yml gestisce il rilascio automatico del progetto. Si attiva su tag semantici (es. v*.*.*) e produce un JAR eseguibile (ToSAB-assembly-*.jar) utilizzando sbt assembly, che viene poi caricato come release su GitHub.

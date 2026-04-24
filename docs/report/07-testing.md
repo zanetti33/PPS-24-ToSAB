@@ -42,7 +42,7 @@ questo ha reso possibile generare un report di copertura.
 
 ...
 
-Il grado di copertura dei test è stato monitorato attentamente durante tutto il processo di sviluppo, con l’obiettivo di raggiungere una copertura superiore al 90% del codice. Grazie all’adozione di una strategia di testing rigorosa e all’utilizzo di strumenti di analisi della copertura, siamo riusciti a identificare e colmare eventuali lacune nei test, garantendo una solida base di test per tutte le componenti del sistema. La copertura è stata misurata sia a livello di linee di codice che a livello di branch, assicurando che tutte le possibili condizioni e scenari siano stati adeguatamente testati.
+Il grado di copertura dei test è stato monitorato con l’obiettivo di raggiungere una copertura superiore al 90% del codice. Grazie all’adozione di una strategia di testing rigorosa e all’utilizzo di strumenti di analisi della copertura, siamo riusciti a identificare e colmare eventuali lacune nei test, garantendo una solida base di test per tutte le componenti del sistema. La copertura è stata misurata sia a livello di linee di codice che a livello di branch, assicurando che tutte le possibili condizioni e scenari siano stati adeguatamente testati.
 
 ### Esempi di test rilevanti
 Di seguito sono riportati alcuni esempi di test 

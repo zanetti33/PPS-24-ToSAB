@@ -1,17 +1,12 @@
 ## Retrospettiva
 
-descrizione finale dettagliata dell'andamento dello sviluppo,
-del backlog, delle iterazioni; commenti finali
-
-I documenti relativi alle varie iterazioni (sprint), 
-compresi quelli di pianificazione e retrospettiva, sono 
-consultabili nelle varie pagine di backlog. 
-
 In questa sezione vogliamo condividere un’analisi 
 retrospettiva del processo di sviluppo del progetto, 
 descrivendone l’ evoluzione, i punti di forza e le 
 difficoltà incontrate.
+
 ### Evoluzione del processo di sviluppo
+
 #### Daily Meetings
 Durante tutto il processo di sviluppo, abbiamo mantenuto 
 una cadenza quasi giornaliera per i nostri incontri, che 
@@ -24,15 +19,11 @@ all’importanza degli argomenti trattati, ma abbiamo cercato
 di mantenerli brevi ed efficaci, concentrandoci sui punti
 chiave e sulle decisioni da prendere.
 
-Con il progredire del progetto e l’evoluzione dell’
-organizzazione del gruppo, i daily meeting sono stati 
-progressivamente ridotti: la frequenza degli incontri è 
-diminuita a favore di un confronto più informale e continuo,
-favorito dalla disponibilità e flessibilità dei componenti.
 Questo cambio non ha compromesso la qualità della 
 collaborazione, grazie alla possibilità di confrontarci 
 frequentemente e alla dimensione contenuta del team, che ha
 reso superflua un’organizzazione troppo rigida.
+
 #### Sprint Planning e Backlog
 Il processo di pianificazione degli sprint è stato 
 strutturato in modo da garantire una chiara definizione 
@@ -40,14 +31,16 @@ degli obiettivi e delle attività da svolgere in ciascuna
 iterazione. 
 
 Il product backlog è stato redatto dal product owner, con 
-il contributo di tutto il team, aggiornato regolarmente in 
-base ai feedback ricevuti e alle esigenze emergenti. 
+il contributo di tutto il team. Durante il processo di sviluppo
+sono stati integrati task di contorno o ulteriori attività 
+a seguito di esigenze emerse. 
 Ogni sprint è stato pianificato con attenzione, assegnando 
 le attività ai membri del team in modo equilibrato e 
 tenendo conto delle competenze e delle preferenze 
 individuali. Questo ha permesso di mantenere un flusso di
 lavoro continuo e di consegnare regolarmente funzionalità
 funzionanti.
+
 #### Sprint Review e Feedback
 Alla fine di ogni sprint, abbiamo tenuto una sprint review 
 per presentare i risultati ottenuti e per raccogliere 
@@ -57,6 +50,7 @@ progressi fatti, per discutere delle difficoltà incontrate
 e per pianificare le attività future. Il feedback ricevuto 
 è stato prezioso per migliorare il processo di sviluppo e 
 per adattare il backlog in base alle esigenze riscontrate.
+
 #### Feature branch & Pair programming
 Abbiamo adottato un approccio Agile leggero, focalizzato 
 sulla produttività e sull’efficienza comunicativa. L’uso 
@@ -65,7 +59,7 @@ buon controllo delle modifiche, lavorare in modo asincrono
 e documentare le evoluzioni del codice in modo tracciabile.
 Allo stesso tempo, molte delle funzionalità sono state 
 sviluppate tramite sessioni vocali collaborative su 
-Microsoft Teams, assimilabili a momenti di pair programming.
+Discord, assimilabili a momenti di pair programming.
 Questo tipo di interazione ha garantito rapidità 
 decisionale e condivisione continua, particolarmente utile 
 in un gruppo ristretto come il nostro, dove la 
@@ -74,12 +68,15 @@ processi formali e burocratici. In sintesi, abbiamo trovato
 un equilibrio tra struttura e agilità, evitando carichi 
 organizzativi inutili e privilegiando strumenti semplici e
 momenti di confronto efficaci.
+
 ### Punti di forza e difficoltà
+
 #### Punti di forza
 - Comunicazione costante: La cadenza quasi giornaliera dei nostri incontri ha permesso di mantenere una comunicazione fluida tra i membri del team, facilitando la risoluzione di problemi e la pianificazione delle attività.
 - Pianificazione efficace: La struttura del backlog e la pianificazione degli sprint hanno garantito un flusso di lavoro organizzato e una consegna regolare di funzionalità funzionanti.
 - Feedback costruttivo: Le sprint review hanno fornito un’opportunità per riflettere sui progressi e per raccogliere feedback prezioso, che ha contribuito a migliorare il processo di sviluppo.
-#### Difficoltà incontrate 
+
+#### Difficoltà incontrate
 
 ### Commenti finali
 Il gruppo ha riconosciuto come il linguaggio Scala si 
