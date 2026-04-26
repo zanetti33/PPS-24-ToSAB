@@ -1,18 +1,15 @@
 package it.unibo.tosab.model.grid
 import it.unibo.tosab.model.entities.*
 
-class PlacementManager(navigation: GridManager):
-  private val factionSplitRow = navigation.size / 2
+class PlacementManager(gridSurface: GridManager):
+  private val factionSplitRow = gridSurface.size / 2
 
   def isPositionValid(
       entity: Entity,
       pos: Coordinate,
       currentCells: Map[Coordinate, Entity]
   ): Boolean =
-    navigation.isWithinBounds(pos) && !currentCells.contains(pos) && isRightField(
-      entity,
-      pos
-    )
+    gridSurface.isWithinBounds(pos) && !currentCells.contains(pos) && isRightField(entity, pos)
 
   def generateRandomPosition(grid: Grid): Coordinate =
     val pos = Coordinate(scala.util.Random.nextInt(grid.size), scala.util.Random.nextInt(grid.size))

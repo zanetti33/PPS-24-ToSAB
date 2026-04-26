@@ -4,9 +4,9 @@ import org.junit.*
 import org.junit.Assert.*
 
 class GridTest:
-  import it.unibo.tosab.model.grid.Grid
+  import it.unibo.tosab.model.grid.GridFactory
 
-  val grid = Grid()
+  val grid: Grid = GridFactory.createHexagonal(8)
   val soldier: Character = Entity.soldier(EntityId("soldier"), Faction.Player)
   val wizard: Character = Entity.mage(EntityId("wizard"), Faction.AI)
   val wall: Obstacle = Entity.wall(EntityId("wall"))
