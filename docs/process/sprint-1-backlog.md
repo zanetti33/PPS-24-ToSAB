@@ -1,4 +1,7 @@
-## 24/03/2026
+## Sprint 1 - Backlog
+
+24/03/2026
+
 | Task / Issue          | ID  | Epica   | Ore stimate | Presa in carico da         |
 |-----------------------|-----|---------|-------------|----------------------------|
 | Definizione requisiti | 0.1 | #       | 4           | Tutti (definizione comune) |
@@ -9,14 +12,15 @@
 | GameState Globale     | 3.1 | Motore  | 5           | Lorenzo Zanetti            |
 | Main Bootstrap        | 0.3 | #       | 5           | Tutti (definizione comune) |
 
-### Scelte tecnoligiche iniziali
+### Scelte tecnologiche iniziali
 - Il team ha deciso di non concentrarsi inizialmente sull’
 interfaccia grafica.
 - La prima versione sarà eseguita da terminale (CLI), 
 stampando la griglia della partita e ricevendo input da 
-tastiera per le mosse.
+tastiera per inserire le truppe.
 - L’intero sviluppo verrà realizzato in modo da poter
 facilmente aggiungere una GUI in futuro.
+
 ### Obiettivi sprint
 - Definire i requisiti funzionali e non funzionali del
 progetto, in modo da avere una chiara comprensione di ciò
@@ -25,14 +29,14 @@ che deve essere realizzato e delle aspettative del cliente.
 pattern di progettazione adatto (es. Model-View-Update) e
 definendo le interfacce tra i componenti principali.
 - Implementare le funzionalità di base del dominio, come
-la modellazione delle unità, delle statistiche e delle 
-fazioni.
+la modellazione delle unità e delle statistiche.
 - Creare la struttura di base per la mappa e il GameState, 
 in modo da avere un framework su cui costruire le 
 funzionalità di gioco.
 - Stabilire una base di codice solida e ben organizzata, 
 con una strategia di versionamento chiara e un processo di
 sviluppo collaborativo efficace.
+
 ### Sprint review e risultati ottenuti
 Alla fine di questa sprint, il team ha presentato una
 versione iniziale del gioco, con una mappa di base, unità

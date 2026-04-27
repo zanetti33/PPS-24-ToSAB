@@ -1,4 +1,7 @@
-## 04/04/2026
+## Sprint 2 - Backlog
+
+04/04/2026
+
 | Task / Issue                | ID   | Epica   | Ore stimate | Presa in carico da |
 |-----------------------------|------|---------|-------------|--------------------|
 | Generazione Procedurale     | 2.2  | Mappa   | 8           | Alessandro Zanzi   |
@@ -34,14 +37,16 @@ creando un sistema di input da terminale che permetta all’
 utente di selezionare le unità e posizionarle sulla mappa 
 in modo intuitivo, con feedback visivo o testuale per 
 confermare le azioni.
+
 ### Sprint review e risultati ottenuti
-Alla fine di questa sprint, il team ha presentato una mappa
-generata proceduralmente, con ostacoli posizionati in modo
-casuale, e un sistema di piazzamento delle truppe manuale
-funzionante. Le unità sono state modellate con le loro 
-statistiche, e la logica di inizializzazione dei turni è 
-stata implementata, ordinando le unità in base alla loro 
-velocità. La logica di movimento è stata sviluppata, 
+Alla fine di questa sprint, il team ha presentato un sistema 
+funzionante che permette all'utente di inserire manualmente le 
+proprie truppe in una mappa generata proceduralmente
+(con ostacoli posizionati in casualmente). 
+Le unità sono state suddivise in Personaggi e Ostacoli (definendone le
+statistiche) ed è stata implementata la logica di inizializzazione 
+dei turni, ordinando le unità in base alla loro velocità. 
+La logica di movimento è stata sviluppata, 
 permettendo alle unità di avvicinarsi ai nemici. 
 
 Durante la review, è stato discusso il funzionamento del 

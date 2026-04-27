@@ -44,12 +44,12 @@ all'utente e di raccogliere i suoi input. Si occupa di
 tutto ciò che riguarda l'interfaccia utente, inclusa la
 visualizzazione della mappa, delle unità e dei log di 
 gioco. È progettata per essere il più possibile 
-indipendente di Model e dall'Update, in modo da poter 
+indipendente da Model e Update, in modo da poter 
 essere facilmente modificata o sostituita senza influire 
 sulla logica di gioco sottostante.
 
 ### Vantaggi dell'architettura Model-Update-View
-L'adozione del pattern *MUV* ci permette di mantenere una 
+L'adozione del pattern MUV ci permette di mantenere una 
 chiara separazione delle responsabilità tra i componenti 
 del sistema, facilitando la manutenzione, l'estensibilità
 e la testabilità del codice.
@@ -60,7 +60,7 @@ migliorare la prevedibilità del comportamento del sistema
 nel tempo.
 
 Il design modulare consente di aggiungere facilmente nuove
-viste (ad esempio una GUI), nuove modalità di *input*, o nuove 
+viste (ad esempio una GUI), nuove modalità di input, o nuove 
 strategie e abilità di gioco senza alterare la logica di 
 base di Model.
 

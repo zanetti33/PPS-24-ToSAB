@@ -1,4 +1,6 @@
-## 14/04/2026
+## Sprint 3 - Backlog
+14/04/2026
+
 | Task / Issue        | ID  | Epica  | Ore stimate | Presa in carico da |
 |---------------------|-----|--------|-------------|--------------------|
 | Piazzamento IA      | 2.4 | Mappa  | 8           | Alessandro Zanzi   |
@@ -10,13 +12,14 @@
 
 Questo backlog assume come già coperti o avviati i task `1.1`, `1.2`, `1.3`, `1.4`, `2.1`, `2.2`, `2.3`, `3.1`, `3.2`,
 `3.3`, `4.1` e il task extra `4.4*`. 
-Questa sprint è quindi focalizzata sul completamento del combattimento start-to-finish e della relativa cronaca 
+La sprint è focalizzata sul completamento del combattimento start-to-finish e della relativa cronaca 
 testuale.
-#### Obiettivi sprint
+
+### Obiettivi sprint
+
 - Implementare la logica di piazzamento IA, creando un 
 algoritmo che posizioni automaticamente le truppe nemiche 
-sulla mappa in modo strategico(truppe con più vita davanti 
-e quelle con meno vita dietro), rispettando le stesse 
+sulla mappa in modo strategico, rispettando le stesse 
 regole di posizionamento dell’utente.
 - Sviluppare la logica di attacco, implementando una 
 funzione che calcoli i danni inflitti da un’unità a un’
@@ -36,20 +39,21 @@ strutturato.
 - Sviluppare un output a terminale, creando una stampa 
 formattata della cronaca dello scontro che permetta all’
 utente di seguire l’evoluzione del combattimento.
-#### Sprint review e risultati ottenuti
+
+### Sprint review e risultati ottenuti
 Alla fine di questa sprint, il team ha presentato una 
 versione del gioco in cui le truppe nemiche vengono 
-posizionate automaticamente da un IA; dopo un confronto si 
+posizionate automaticamente da un IA. Dopo un confronto si 
 è optato per la suddivisione della mappa in fasce in modo 
-da facilitare il piazzamento strategico del IA(truppe con 
+da facilitare il piazzamento strategico del IA (truppe con 
 più vita avanti e quelle con meno vita dietro).
-La logica di attacco è stata implementata, e le unità 
+La logica di attacco è stata implementata e le unità 
 vengono rimosse correttamente quando i loro HP sono <= a 0.
-La condizione di fine partita è stata implementata, 
-permettendo al gioco di terminare quando una fazione è 
-completamente eliminata; è stata valutata la possibilità 
-che lo scontro finisca in pareggio qual'ora si superino un
-numero prestabilito di turni. Il sistema di logging è stato
-sviluppato, tracciando gli eventi chiave del combattimento,
-e l’output a terminale è stato implementato, fornendo una 
-cronaca testuale dello scontro.
+La condizione di fine partita è stata finalizzata, 
+permettendo al combattimento di terminare quando una fazione è stata
+completamente eliminata. 
+Inoltre, è stata valutata la possibilità che lo scontro finisca in 
+pareggio qualora si raggiunga un numero prestabilito di turni. 
+Il sistema di logging è stato sviluppato, tracciando gli eventi chiave 
+del combattimento ed è stato implementato l’output a terminale, 
+fornendo una cronaca testuale dello scontro.

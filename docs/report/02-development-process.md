@@ -2,32 +2,42 @@
 
 Per il processo di sviluppo abbiamo scelto di seguire una
 metodologia *Agile*, in particolare abbiamo adottato 
-*Scrum* come framework di lavoro. 
+**Scrum** come framework di lavoro. 
 
-Abbiamo suddiviso il progetto in *epiche*; effettuando 
-*sprint*, della durata di una settimana/dieci giorni, all'
-inizio delle quali, andremo a stilare delle attività 
-(relative ad una o più epiche) basandoci sulla loro
+### Scrum
+
+Abbiamo suddiviso il progetto in *sprint* della durata di una 
+settimana/dieci giorni, in cui andremo a stilare una lista delle 
+attività da completare (relative ad una o più *epiche*) basandoci sulla loro
 priorità. La divisione delle attività è stata effettuata in
 modo da garantire un flusso di lavoro continuo e una 
-consegna regolare di funzionalità funzionanti. Si è cercato
+consegna regolare di prodotti funzionanti. Si è cercato
 di bilanciare il carico di lavoro tra i membri del team, 
 tenendo conto delle competenze e delle preferenze 
 individuali, cercando di tenere un filo logico del lavoro
 prodotto in tutto il progetto.
 
-Il product owner del team ha redatto un product backlog nel
-quale si è tenuto traccia dei task, indicando per ciascuno
+### Primo incontro (Sprint Planning)
+
+Sono stati definiti i ruoli di ciascun membro del team:
+
+- Product owner: Lorenzo Zanetti
+- Committente: Fabio Pedrini
+- Responsabile del testing: Alessandro Zanzi
+- Sviluppatori: tutti i membri del team
+
+Il team ha redatto un [product-backlog](../process/product-backlog.md)
+nel quale si è tenuto traccia dei task, indicando per ciascuno
 il grado di difficoltà di progettazione e/o implementazione
 e l’effort richiesto in ciascuno sprint.
+Il product owner è responsabile della gestione del backlog, assicurandosi
+che sia sempre aggiornato e che le attività siano ben definite e prioritarizzate.
+Il committente è responsabile di fornire feedback e indicazioni sulle funzionalità da 
+sviluppare, garantendo l'usabilità e qualità del prodotto.
+Il responsabile del testing si occupa di definire e 
+implementare le strategie di test, assicurando che il prodotto sia affidabile e privo di bug.
 
-Ci siamo posti come obiettivo quello di fornire una 
-versione funzionante del prodotto alla fine di ogni sprint,
-in modo da poter ricevere feedback tempestivi e apportare
-eventuali modifiche al backlog in base alle esigenze 
-riscontrate.
-
-Durante le riunioni di sprint review andremo a 
+Durante le riunioni di *sprint review* andremo a 
 discutere di eventuali problemi riscontrati, come 
 risolverli ed eventuali modifiche da apportare al backlog.
 
@@ -36,10 +46,22 @@ sviluppo, avvengono con cadenza quasi giornaliera, di
 persona o in chiamata su Discord e con durate differenti in
 base all’importanza.
 
-Per la metodologia di versionamento abbiamo adottato una 
-strategia di branching basata sul *Github Flow*. Il branch 
-**main** sarà la fonte di verità e da esso verranno creati 
-altri branch, per lo sviluppo di nuove funzionalità, per la 
+Negli **incontri successivi**, saranno definiti i task da completare in ciascuno sprint,
+assegnando le attività ai membri del team. In ciascuno sprint
+verrà redatto uno sprint backlog ([primo sprint backlog](../process/sprint-1-backlog.md))
+in modo da tenere traccia delle attività da completare e del loro stato di avanzamento.
+Ci siamo posti come obiettivo quello di fornire una
+versione funzionante del prodotto alla fine di ogni sprint,
+in modo da poter ricevere feedback tempestivi e apportare
+eventuali modifiche al backlog in base alle esigenze
+riscontrate.
+
+### Continuous Integration
+
+L’intero progetto è stato gestito tramite **GitHub**.
+È stata adottata una strategia di branching basata sul *Github Flow*. 
+Il branch **main** sarà la fonte di verità e da esso verranno creati 
+altri branch per lo sviluppo di nuove funzionalità, per la 
 correzione di bug e per il refactoring del codice. 
 
 Ogni branch dovrà essere sottoposto a una *pull request*
@@ -52,29 +74,13 @@ A questo fanno eccezione operazioni di configurazione e/o
 di documentazione che possono essere direttamente prodotte 
 insieme e messe sul main.
 
-- main
-- feature/*
-- fix/*
-- refactor/*
+### Strumenti di test, build e formattazione
 
-Nel primo incontro abbiamo quindi provveduto alla redazione
-del [product-backlog](../process/product-backlog.md) e del backlog relativo alla 
-prima sprint ([backlog prima sprint](../process/sprint-1-backlog.md)). Sono stati 
-definiti i ruoli di ciascun membro del team, con un focus 
-particolare sul product owner(Lorenzo Zanetti), che si è 
-occupato di mantenere il backlog aggiornato e di definire 
-le priorità delle attività; il committente(Fabio Pedrini),
-che ha fornito feedback e indicazioni durante tutto il 
-processo di sviluppo; e il responsabile del testing
-(Alessandro Zanzi), che ha definito i criteri di 
-accettazione per le funzionalità sviluppate e ha 
-coordinato le attività di testing.
-
-Per supportare il processo agile, il team utilizza 
-strumenti volti a migliorare l’efficienza e a concentrarsi 
-sullo sviluppo. Il progetto ha integrato pratiche moderne 
-per il deployment e la manutenzione, rientranti nella 
-*continuous integration/delivery*.
-Da cambiare con i nostri
-Continuous Integration (CI): Il workflow pr-test.yml esegue i test su ogni pull request aperta o sincronizzata sul branch main dal branch develop. Questo garantisce l’integrità continua del progetto e da la possibilità a tutti gli sviluppatori se una pull request ha fatto passare o meno tutti i test.
-Continuous Delivery (CD)/Deployment: Il workflow release.yml gestisce il rilascio automatico del progetto. Si attiva su tag semantici (es. v*.*.*) e produce un JAR eseguibile (ToSAB-assembly-*.jar) utilizzando sbt assembly, che viene poi caricato come release su GitHub.
+Per il testing si è scelto di utilizzare **ScalaTest** come framework 
+di automazione, essendo una tecnologia matura e ben integrata 
+nell’ecosistema Scala. 
+Come build tool è stato scelto **sbt**, in quanto nasce specificatamente 
+per Scala e offre un’ottima gestione delle dipendenze. 
+Inoltre, è stato utilizzato **scalafmt** per formattare automaticamente 
+il codice sorgente rendendolo coerente e standardizzato 
+all’interno del team.
