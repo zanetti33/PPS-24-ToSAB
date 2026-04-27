@@ -5,15 +5,17 @@ import org.junit.Assert.*
 
 class ObstacleManagerTest:
 
+  val grid: Grid = GridFactory.createHexagonal(8)
+
   @Test def testPlaceObstacles(): Unit =
-    val grid = GridFactory.createHexagonal(8).placeObstacles()
-    val occupiedCells = grid.getOccupiedCells
+    val updatedGrid = grid.placeObstacles()
+    val occupiedCells = updatedGrid.getOccupiedCells
     assertTrue(occupiedCells.nonEmpty)
     for cell <- occupiedCells do
-      val entity = grid.getEntity(cell)
+      val entity = updatedGrid.getEntity(cell)
       assertTrue(entity.exists(_.isInstanceOf[Obstacle]))
 
   @Test def testPlaceObstaclesRandomCount(): Unit =
-    val grid = GridFactory.createHexagonal(8).placeObstacles()
-    assertTrue(grid.getOccupiedCells.nonEmpty)
-    assertTrue(grid.getOccupiedCells.size <= 8)
+    val updatedGrid = grid.placeObstacles()
+    assertTrue(updatedGrid.getOccupiedCells.nonEmpty)
+    assertTrue(updatedGrid.getOccupiedCells.size <= 8)

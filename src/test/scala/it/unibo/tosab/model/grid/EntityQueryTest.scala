@@ -7,49 +7,46 @@ class EntityQueryTest:
 
   val soldier: Character = Entity.soldier(EntityId("soldier"), Faction.Player)
   val wizard: Character = Entity.mage(EntityId("wizard"), Faction.AI)
+  val grid: Grid = GridFactory.createHexagonal(8)
 
   @Test def testGetPosition(): Unit =
-    val grid = GridFactory.createHexagonal(8).setCell(wizard, Coordinate(3, 3))
-    assertEquals(Some(Coordinate(3, 3)), grid.getPosition(wizard))
+    val updatedGrid = grid.setCell(wizard, Coordinate(3, 3))
+    assertEquals(Some(Coordinate(3, 3)), updatedGrid.getPosition(wizard))
 
   @Test def testGetPositionById(): Unit =
-    val grid = GridFactory.createHexagonal(8).setCell(wizard, Coordinate(3, 3))
-    assertEquals(Some(Coordinate(3, 3)), grid.getPosition(wizard.id))
+    val updatedGrid = grid.setCell(wizard, Coordinate(3, 3))
+    assertEquals(Some(Coordinate(3, 3)), updatedGrid.getPosition(wizard.id))
 
   @Test def testAllEntities(): Unit =
-    val grid = GridFactory
-      .createHexagonal(8)
+    val updatedGrid = grid
       .setCell(soldier, Coordinate(4, 1))
       .setCell(wizard, Coordinate(2, 2))
-    val entities = grid.allEntities
+    val entities = updatedGrid.allEntities
     assertEquals(2, entities.size)
     assertTrue(entities.exists(_.id == soldier.id))
     assertTrue(entities.exists(_.id == wizard.id))
 
   @Test def testAllEntitiesWithPositions(): Unit =
-    val grid = GridFactory
-      .createHexagonal(8)
+    val updatedGrid = grid
       .setCell(soldier, Coordinate(4, 1))
       .setCell(wizard, Coordinate(2, 2))
-    val entitiesWithPos = grid.allEntitiesWithPositions
+    val entitiesWithPos = updatedGrid.allEntitiesWithPositions
     assertEquals(2, entitiesWithPos.size)
     assertTrue(entitiesWithPos.exists((e, _) => e.id == soldier.id))
     assertTrue(entitiesWithPos.exists((e, _) => e.id == wizard.id))
 
   @Test def testFilterEntities(): Unit =
-    val grid = GridFactory
-      .createHexagonal(8)
+    val updatedGrid = grid
       .setCell(soldier, Coordinate(4, 1))
       .setCell(wizard, Coordinate(2, 2))
-    val aiEntities = grid.filterEntities(e => e.asInstanceOf[Character].isAnEnemy)
+    val aiEntities = updatedGrid.filterEntities(e => e.asInstanceOf[Character].isAnEnemy)
     assertFalse(aiEntities.exists(_.id == soldier.id))
     assertTrue(aiEntities.exists(_.id == wizard.id))
 
   @Test def testCollectEntities(): Unit =
-    val grid = GridFactory
-      .createHexagonal(8)
+    val updatedGrid = grid
       .setCell(soldier, Coordinate(4, 1))
       .setCell(wizard, Coordinate(2, 2))
-    val mages = grid.collectEntities { case c: Character if c.role == Role.Mage => c }
+    val mages = updatedGrid.collectEntities { case c: Character if c.role == Role.Mage => c }
     assertEquals(1, mages.size)
     assertTrue(mages.exists(_.id == wizard.id))
