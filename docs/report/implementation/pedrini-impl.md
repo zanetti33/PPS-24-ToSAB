@@ -24,25 +24,25 @@ classDiagram
 direction TB
 
     class Entity {
-        <<sealed trait>>
+        <<sealed_trait>>
         +String id
     }
 
     class Character {
-        <<case class>>
+        <<case_class>>
         +Faction faction
         +Role role
     }
 
     class Obstacle {
-        <<case class>>
+        <<case_class>>
         +Option~Int~ hp
         +Boolean isPassable
         +Boolean blocksVision
     }
 
     class Stats {
-        <<case class>>
+        <<case_class>>
     }
 
     %% Ereditarietà (Sum Type)
@@ -59,7 +59,7 @@ classDiagram
     direction LR
 
     class Damageable~T~ {
-        <<type class>>
+        <<type_class>>
         +takeDamage(entity: T, amount: DamageInstance) T
     }
 
@@ -72,11 +72,11 @@ classDiagram
     }
 
     class Character {
-        <<ADT Data>>
+        <<ADT>>
     }
 
     class Obstacle {
-        <<ADT Data>>
+        <<ADT>>
     }
 
     Damageable~T~ <|.. DamageableCharacter : implementa
