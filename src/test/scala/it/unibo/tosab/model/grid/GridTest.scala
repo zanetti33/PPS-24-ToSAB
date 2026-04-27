@@ -73,7 +73,6 @@ class GridTest:
   @Test def testPopulateGrid(): Unit =
     val updatedGrid = grid.placeObstacles()
     val occupiedCells = updatedGrid.getOccupiedCells
-    println(occupiedCells)
     assertTrue(occupiedCells.nonEmpty)
     for cell <- occupiedCells do
       val entity = updatedGrid.getEntity(cell)
