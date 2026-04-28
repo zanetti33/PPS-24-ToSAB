@@ -5,6 +5,7 @@ import it.unibo.tosab.model.{GameAction, GameState}
 import it.unibo.tosab.model.entities.{Character, Entity, Obstacle}
 import it.unibo.tosab.model.grid.Coordinate
 
+/** Reusable AI decision behaviors that return optional game actions. */
 object Behaviors:
   private val noMovementDistance = 0
 
@@ -27,6 +28,7 @@ object Behaviors:
   private def isInRange(state: GameState, from: Coordinate, to: Coordinate, range: Int): Boolean =
     state.grid.getDistance(from, to) <= range
 
+  /** Returns true when line of sight between source and target is clear. */
   private def isVisible(state: GameState, from: Coordinate, to: Coordinate): Boolean =
     state.grid.isLineOfSightClear(from, to)
 

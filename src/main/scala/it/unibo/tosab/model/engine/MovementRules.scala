@@ -2,12 +2,18 @@ package it.unibo.tosab.model.engine
 
 import it.unibo.tosab.model.grid.{Coordinate, Grid, HexagonalGrid}
 
+/** Strategy for computing legal movement options from a position. */
 trait MovementRules:
-  /** Given a grid and a position, returns a set of available moves from that position. Each move is
-    * represented as a tuple of the target coordinate and the associated movement cost.
+  /**
+    * Computes available moves from a position with their movement costs.
+    *
+    * @param grid current grid
+    * @param position origin position
+    * @return set of reachable neighbors `(coordinate, cost)`
     */
   def availableMoves(grid: Grid, position: Coordinate): Set[(Coordinate, Int)]
 
+/** Default movement rules: step on empty neighbors or jump over entities with jump cost. */
 object StandardMovementRules extends MovementRules:
   private val singleStepMovementCost = 1
 

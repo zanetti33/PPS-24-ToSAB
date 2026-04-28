@@ -5,10 +5,18 @@ import it.unibo.tosab.model.entities.*
 import it.unibo.tosab.model.grid.{Coordinate, Grid, GridLane, Lane}
 import it.unibo.tosab.update.GameSetup
 
+/** Utility that auto-places AI troops during setup. */
 object PlacementAI:
   private val emptyLaneStart = 0
   private val minTroops = 0
 
+  /**
+    * Creates AI troops and places them by lane priority (front/middle/back by role).
+    *
+    * @param grid initial grid
+    * @param troopsNumber number of AI troops to place
+    * @return updated grid with AI troop placements
+    */
   def placeAITroops(grid: Grid, troopsNumber: Int = GameSetup.getMaxNumberOfTroops): Grid =
     val rolesToPlace = getTroopRoles(troopsNumber)
 

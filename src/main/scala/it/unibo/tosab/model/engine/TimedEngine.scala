@@ -2,6 +2,12 @@ package it.unibo.tosab.model.engine
 
 import it.unibo.tosab.model.{GamePhase, GameState}
 
+/**
+  * Engine decorator that ends the game after a fixed number of rounds.
+  *
+  * @param base wrapped engine used for normal behavior
+  * @param maxTurns maximum number of rounds before forcing `GameOver`
+  */
 class TimedEngine(val base: Engine, val maxTurns: Int) extends Engine:
   private var currentTurnCount = 0
 

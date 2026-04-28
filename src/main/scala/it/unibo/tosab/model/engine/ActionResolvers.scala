@@ -7,13 +7,23 @@ import it.unibo.tosab.model.entities.CombatRules.{canAttack, resolveAttack}
 import it.unibo.tosab.model.entities.{Entity, EntityId, Character, Obstacle}
 import it.unibo.tosab.model.grid.Coordinate
 
+/** Helpers that resolve concrete actions into state transitions and domain events. */
 object ActionResolvers:
+  /** Resolves a pass action by consuming the actor turn. */
   def resolvePass(state: GameState, actorId: EntityId): EngineOutcome =
     EngineOutcome(
       nextState = consumeTurn(state, actorId),
       events = Seq(DomainEvent.ActionApplied(actorId, Pass))
     )
 
+  /**
+    * Resolves a move action when the target is reachable within movement distance.
+    *
+    * @param state current game state
+    * @param actorId acting character id
+    * @param targetPosition requested destination
+    * @return updated outcome; invalid moves consume turn without moving
+    */
   def resolveMove(
       state: GameState,
       actorId: EntityId,
@@ -58,6 +68,14 @@ object ActionResolvers:
     val deathEvents = if newHp <= 0 then Seq(DomainEvent.UnitDied(target.id)) else Seq.empty
     (damageAmount, deathEvents)
 
+  /**
+    * Resolves an attack action when attacker and target satisfy combat constraints.
+    *
+    * @param state current game state
+    * @param actorId attacker id
+    * @param targetId target entity id
+    * @return updated outcome with action, damage and optional death events
+    */
   def resolveAttackAction(
       state: GameState,
       actorId: EntityId,
