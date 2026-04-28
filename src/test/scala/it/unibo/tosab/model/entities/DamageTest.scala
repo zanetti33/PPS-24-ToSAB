@@ -144,3 +144,23 @@ class DamageTest:
     updatedTarget match
       case c: Character => assert(c.stats.currentHp == expectedResolvedTargetHp)
       case _            => assert(false)
+
+  @Test def testDamageableObstacleTakesDamage(): Unit =
+    val obstacle = Obstacle(
+      EntityId("bush"),
+      ObstacleType.Bush,
+      Some(targetHpAfterAttack),
+      isPassable = true,
+      blocksVision = false
+    )
+    val attacker = Character(
+      attackerId,
+      Faction.Player,
+      Role.Soldier,
+      Stats(physicalAttack = attackerPhysicalAttack)
+    )
+
+    val updatedTarget = CombatRules.resolveAttack(attacker, obstacle)
+    updatedTarget match
+      case o: Obstacle => assert(o.hp.get == lowDamageAmount)
+      case _           => assert(false)
