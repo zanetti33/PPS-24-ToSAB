@@ -26,5 +26,5 @@ import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
 
   println("\nStarting Combat Phase...")
   GameLoop.subscribe(ConsoleGameLogger)
-  GameLoop.run(updatedState)(using CharacterAI.CleanerCharacterAI, TurnBasedCombatEngine)
+  GameLoop.run(updatedState)(using CharacterAI.BasicCharacterAI, TurnBasedCombatEngine)
   GameLoop.unsubscribe(ConsoleGameLogger)
