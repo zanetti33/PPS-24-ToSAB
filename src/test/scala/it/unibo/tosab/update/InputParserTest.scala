@@ -34,4 +34,7 @@ class InputParserTest:
 
   @Test def testParseInvalidFormat(): Unit =
     val commands = InputParser.parse("Hello world")
-    assertEquals(List(SetupCommand.Invalid("Invalid format. Use: <id> (<x>,<y>) or write 'start'.")), commands)
+    assertEquals(
+      List(SetupCommand.Invalid("Invalid format. Use: <id> (<x>,<y>) or write 'start'.")),
+      commands
+    )
