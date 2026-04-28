@@ -1,4 +1,4 @@
-## Indice
+# Indice
 
 1. [Introduzione](#introduzione)
 2. [Processo di sviluppo](#processo-di-sviluppo)

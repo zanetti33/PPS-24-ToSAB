@@ -1,10 +1,10 @@
-## Processo di sviluppo
+# Processo di sviluppo
 
 Per il processo di sviluppo abbiamo scelto di seguire una
 metodologia *Agile*, in particolare abbiamo adottato 
 **Scrum** come framework di lavoro. 
 
-### Scrum
+## Scrum
 
 Abbiamo suddiviso il progetto in *sprint* della durata di una 
 settimana/dieci giorni, in cui andremo a stilare una lista delle 
@@ -17,7 +17,7 @@ tenendo conto delle competenze e delle preferenze
 individuali, cercando di tenere un filo logico del lavoro
 prodotto in tutto il progetto.
 
-### Primo incontro (Sprint Planning)
+## Primo incontro (Sprint Planning)
 
 Sono stati definiti i ruoli di ciascun membro del team:
 
@@ -74,7 +74,7 @@ A questo fanno eccezione operazioni di configurazione e/o
 di documentazione che possono essere direttamente prodotte 
 insieme e messe sul main.
 
-### Strumenti di test, build e formattazione
+## Strumenti di test, build e formattazione
 
 Per il testing si è scelto di utilizzare **ScalaTest** come framework 
 di automazione, essendo una tecnologia matura e ben integrata 

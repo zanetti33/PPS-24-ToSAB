@@ -1,6 +1,6 @@
-## Requirement specification
+# Requirement specification
 
-### Requisiti di business
+## Requisiti di business
 
 - Sviluppare un sistema in grado di simulare lo svolgimento
 di un combattimento automatico, a turni, tra le unità di 
@@ -9,7 +9,7 @@ due fazioni.
 posizionare le proprie unità sul proprio lato della mappa e 
 simulare il combattimento contro un avversario (IA).
 
-### Requisiti funzionali
+## Requisiti funzionali
 
 #### Requisiti utente
 
@@ -38,7 +38,7 @@ modalità l'utente potrà (opzionale):
    ma potrà ricominciare da capo con un nuovo set di unità 
    acquistate.
 
-#### Requisiti di sistema
+### Requisiti di sistema
 
 Il sistema deve essere in grado di: 
 
@@ -80,7 +80,7 @@ seguendo regole di combattimento predefinite:
    predefinito di turni.
    
 
-### Requisiti non funzionali
+## Requisiti non funzionali
 
 1. Dare al sistema un'architettura modulare, in modo da 
 facilitare l'estensione e la manutenzione del codice.
@@ -91,7 +91,7 @@ efficace.
 (discretamente) strategiche basate sulla situazione attuale
 del combattimento.
 
-### Requisiti di implementazione
+## Requisiti di implementazione
 
 - JDK 21
 - Scala 3.2 o superiore
