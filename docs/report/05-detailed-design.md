@@ -183,8 +183,8 @@ classDiagram
     GameLoopPublisher o-- GameLoopSubscriber : notifies
 ```
 
-Come si vede dal diagramma GameLoop fa utilizzo del componente CharacterAI (mostrato sopra ) 
-e dell'Engine (che mostreremo in seguito), ma non ha alcuna dipendenza diretta da View o Logger.
+Come si vede dal diagramma `GameLoop` fa utilizzo del componente `CharacterAI` (mostrato [sopra](#characterai)) 
+e dell'Engine (che mostreremo in [seguito](#engine)), ma non ha alcuna dipendenza diretta da View o Logger.
 
 ### Engine
 
