@@ -120,7 +120,7 @@ classDiagram
     }
     
     class Behavior {
-        <<type alias>>
+        <<type_alias>>
         +(GameState, Character, Coordinate) => Option~GameAction~
     }
     
