@@ -1,7 +1,7 @@
 package it.unibo.tosab.model.ai
 
 import scala.collection.immutable.Queue
-import it.unibo.tosab.model.entities.{Entity, Obstacle}
+import it.unibo.tosab.model.entities.Obstacle
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 import it.unibo.tosab.model.grid.HexagonalGrid
 

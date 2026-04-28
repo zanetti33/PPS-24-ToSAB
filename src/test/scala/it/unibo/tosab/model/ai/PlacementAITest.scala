@@ -2,7 +2,7 @@ package it.unibo.tosab.model.ai
 
 import org.junit.*
 import org.junit.Assert.*
-import it.unibo.tosab.model.grid.{Grid, GridLane, HexagonalGrid, Lane, PlacementManager}
+import it.unibo.tosab.model.grid.{Grid, GridLane, Lane}
 import it.unibo.tosab.model.ai.PlacementAI
 import it.unibo.tosab.model.entities.{Character, Role}
 
