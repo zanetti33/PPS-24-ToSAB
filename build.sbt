@@ -4,7 +4,7 @@ lazy val root = project
   .in(file("."))
   .settings(
     name := "ToSAB",
-    version := "0.1.0",
+    version := "1.0.0",
     scalaVersion := scala3Version,
 
     // Testing library
@@ -15,5 +15,5 @@ lazy val root = project
     assembly / assemblyJarName := s"${name.value}-assembly-${version.value}.jar",
 
     // The exact path of the application entry point
-    assembly / mainClass := Some("it.unibo.tosab.Main")
+    assembly / mainClass := Some("it.unibo.tosab.runApp")
   )

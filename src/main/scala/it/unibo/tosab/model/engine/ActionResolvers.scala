@@ -36,10 +36,13 @@ object ActionResolvers:
       targetPosition: Coordinate,
       actor: entities.Character,
       actorPosition: Coordinate
-  ) =
-    state.grid.getDistance(actorPosition, targetPosition) <= actor.stats.movementDistance
-      && state.grid.getEntity(targetPosition).isEmpty
-      && state.grid.isWithinBounds(targetPosition)
+  ) = Pathfinder
+    .reachableCellsWithin(
+      state.grid,
+      actorPosition,
+      actor.stats.movementDistance
+    )
+    .contains(targetPosition)
 
   private def calculateDamageAndEvents(
       target: Entity,

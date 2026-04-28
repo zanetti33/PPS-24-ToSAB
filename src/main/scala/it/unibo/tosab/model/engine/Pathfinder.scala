@@ -1,44 +1,13 @@
-package it.unibo.tosab.model.ai
+package it.unibo.tosab.model.engine
+
+import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
 import scala.collection.immutable.Queue
-import it.unibo.tosab.model.entities.Obstacle
-import it.unibo.tosab.model.grid.{Coordinate, Grid}
-import it.unibo.tosab.model.grid.HexagonalGrid
 
 object Pathfinder:
   private val initialDistanceFromStart = 0
   private val singleStepMovementDistance = 1
-  private val jumpMovementCost = 2
-
-  private def traversableNeighbors(
-      grid: Grid,
-      position: Coordinate,
-      movementSpeed: Int
-  ): Set[(Coordinate, Int)] =
-    val hexGrid = HexagonalGrid(grid.size)
-
-    val directNeighbors = hexGrid
-      .getNeighbors(position)
-      .filter(nextPosition => grid.getEntity(nextPosition).isEmpty)
-      .map(pos => (pos, singleStepMovementDistance))
-
-    val jumpableCells =
-      if movementSpeed >= jumpMovementCost then
-        hexGrid.getNeighbors(position).flatMap { neighborPos =>
-          grid.getEntity(neighborPos) match
-            case Some(obstacle: Obstacle) if obstacle.isPassable =>
-              val deltaX = neighborPos.x - position.x
-              val deltaY = neighborPos.y - position.y
-              val jumpTarget = Coordinate(position.x + 2 * deltaX, position.y + 2 * deltaY)
-
-              if grid.isWithinBounds(jumpTarget) && grid.getEntity(jumpTarget).isEmpty then
-                Some((jumpTarget, jumpMovementCost))
-              else None
-            case _ => None
-        }
-      else Set.empty
-
-    directNeighbors ++ jumpableCells
+  private val movementRules: MovementRules = StandardMovementRules
 
   /** Returns all cells reachable from `startPos` within `maxSteps` steps. */
   def reachableCellsWithin(
@@ -59,7 +28,7 @@ object Pathfinder:
           case Some(((_, costFromStart), remainingQueue)) if costFromStart > maxSteps =>
             bfs(remainingQueue, visited, costs)
           case Some(((position, costFromStart), remainingQueue)) =>
-            val neighbors = traversableNeighbors(grid, position, maxSteps)
+            val neighbors = movementRules.availableMoves(grid, position)
             val unseenNeighbors = neighbors.filter((c, _) => !visited.contains(c))
 
             val (newQueue, newCosts, added) =

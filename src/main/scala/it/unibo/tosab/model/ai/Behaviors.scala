@@ -1,7 +1,8 @@
 package it.unibo.tosab.model.ai
 
+import it.unibo.tosab.model.engine.Pathfinder
 import it.unibo.tosab.model.{GameAction, GameState}
-import it.unibo.tosab.model.entities.{Character, Obstacle, Entity}
+import it.unibo.tosab.model.entities.{Character, Entity, Obstacle}
 import it.unibo.tosab.model.grid.Coordinate
 
 object Behaviors:
