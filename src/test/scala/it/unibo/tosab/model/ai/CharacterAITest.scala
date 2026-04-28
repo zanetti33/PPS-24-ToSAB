@@ -131,4 +131,3 @@ class CharacterAITest:
       case GameAction.Move(_) => true
       case _                  => false
     )
-

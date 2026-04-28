@@ -239,4 +239,3 @@ class EngineTest:
     assertEquals(None, outcome.nextState.grid.getEntity(jumpTarget))
     assertEquals(Seq(enemy.id), outcome.nextState.turnQueue)
     assertTrue(outcome.events.isEmpty)
-

@@ -3,10 +3,9 @@ package it.unibo.tosab.model.engine
 import it.unibo.tosab.model.grid.{Coordinate, Grid, HexagonalGrid}
 
 trait MovementRules:
-  /**
-   * Given a grid and a position, returns a set of available moves from that position.
-   * Each move is represented as a tuple of the target coordinate and the associated movement cost.
-   */
+  /** Given a grid and a position, returns a set of available moves from that position. Each move is
+    * represented as a tuple of the target coordinate and the associated movement cost.
+    */
   def availableMoves(grid: Grid, position: Coordinate): Set[(Coordinate, Int)]
 
 object StandardMovementRules extends MovementRules:
