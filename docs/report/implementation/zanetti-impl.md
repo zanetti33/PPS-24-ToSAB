@@ -46,28 +46,102 @@ realizzate tramite l'utilizzo delle collection di Scala. Ad esempio:
 
 ### Pathfinding
 
-TODO
+Per permettere alle entità di muoversi strategicamente verso un bersaglio, 
+ho implementato il motore di navigazione spaziale nel _Singleton_ `Pathfinder`.
+Il nucleo di questo modulo è la funzione `reachableCellsWithin`, 
+che calcola tutte le celle raggiungibili da una posizione iniziale entro un raggio di X passi. 
+L'algoritmo impiegato è una classica BFS (Breadth-First Search) implementata in modo funzionale. 
+Il metodo interno `bfs` è ricorsivo, sfrutta l'annotazione `@annotation.tailrec` per garantire la 
+_stack-safety_ e opera manipolando strutture dati immutabili, come `Queue` e `Set`.
+
+```scala
+@annotation.tailrec
+def bfs(
+    toVisit: Queue[(Coordinate, Int)],
+    visited: Set[Coordinate],
+    costs: Map[Coordinate, Int]
+): Set[Coordinate] =
+  toVisit.dequeueOption match
+    case None => visited - startPos
+    case Some(((_, costFromStart), remainingQueue)) if costFromStart > maxSteps =>
+      bfs(remainingQueue, visited, costs)
+    case Some(((position, costFromStart), remainingQueue)) =>
+      val neighbors = movementRules.availableMoves(grid, position)
+      val unseenNeighbors = neighbors.filter((c, _) => !visited.contains(c))
+      val (newQueue, newCosts, added) =
+        unseenNeighbors.foldLeft((remainingQueue, costs, Set.empty[Coordinate])) {
+          case ((queue, costMap, addedSet), (neighbor, neighborCost)) =>
+            val newCost = costFromStart + neighborCost
+
+            if newCost <= maxSteps && newCost < costMap.getOrElse(neighbor, Int.MaxValue) then
+              (
+                queue.enqueue((neighbor, newCost)),
+                costMap + (neighbor -> newCost),
+                addedSet + neighbor
+              )
+            else (queue, costMap, addedSet)
+        }
+
+      bfs(newQueue, visited ++ added, newCosts)
+```
+
+La determinazione delle celle adiacenti e dei relativi costi di movimento è stata astratta e
+delegata al componente `MovementRules` (di default `StandardMovementRules`).
+Questo approccio disaccoppia l'algoritmo di ricerca vero e proprio dalle specifiche regole 
+di spostamento del gioco. All'interno della BFS, infatti, le celle esplorabili vengono semplicemente 
+recuperate invocando `movementRules.availableMoves(grid, position)`, permettendo di modificare 
+la logica di movimento (ad esempio, inserendo terreni difficili o regole di volo) 
+senza dover alterare in alcun modo l'algoritmo del Pathfinder.
+Infine, funzioni "Greedy" come `bestReachableTowardsTarget` utilizzano le celle scoperte dalla BFS ordinandole 
+per minimizzare in modo deterministico la distanza spaziale rispetto all'obiettivo finale.
 
 ### Regole di Combattimento e Danni (CombatRules)
 
 La complessità del combattimento è gestita e isolata all'interno del modulo `CombatRules` e 
-tramite le astrazioni modellate nel file `Damage.scala`.
-I danni sono stati modellati con un'`enum DamageType` che può assumere i casi `Physical` o `Magical`.
-Ogni attacco genera un `AttackProfile` composto da diverse
+tramite le astrazioni modellate nel file `Damage.scala`:
 
-TODO: pezzetto di codice DamageInstance
+```scala
+enum DamageType:
+  case Physical, Magical
+
+case class DamageInstance(amount: Int, damageType: DamageType)
+
+case class AttackProfile(damages: Seq[DamageInstance]):
+  def isEmpty: Boolean = damages.isEmpty
+  def totalDamageInstances: Int = damages.length
+  def hasPhysicalDamage: Boolean = damages.exists(_.damageType == DamageType.Physical)
+  def hasMagicalDamage: Boolean = damages.exists(_.damageType == DamageType.Magical)
+  def isMixedDamage: Boolean = hasPhysicalDamage && hasMagicalDamage
+```
 
 il quale viene poi valutato in relazione alle difese specifiche del bersaglio (`physicalDefense` e `magicalDefence`).
-Per la determinazione della validità di un attacco, la funzione `canAttack` sfrutta una _for comprehension_. 
+Per la determinazione della validità di un attacco, la funzione `canAttack` sfrutta una _for comprehension_:
 
-TODO: mettere pezzetto di codice
+```scala
+def canAttack(state: GameState, attacker: Character, target: Entity): Boolean =
+    (for
+      attackerPosition <- state.getPositionOf(attacker.id)
+      targetPosition <- state.getPositionOf(target.id)
+    yield target match
+      case targetCharacter: Character =>
+        attacker.faction != targetCharacter.faction &&
+        attacker.isAlive &&
+        targetCharacter.isAlive &&
+        state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
+      case targetObstacle: Obstacle =>
+        attacker.isAlive &&
+        !targetObstacle.isDestroyed &&
+        state.grid.getDistance(attackerPosition, targetPosition) <= attacker.stats.attackRange
+    )
+      .getOrElse(false)
+```
 
 La funzione di risoluzione (`resolveAttack`) utilizza, invece, la _higher-order function_ `foldLeft`
 per iterare in successione tutte le `DamageInstance` contenute nel profilo d'attacco, 
 applicando il danno misto e calcolando man mano i punti ferita risultanti prima di generare l'entità aggiornata.
 Infine, per mantenere il resto della _business logic_ conciso e semantico, 
 ho fatto grande uso degli _extension methods_. Alcuni esempi sono:
-- `attacker.canAttack(target)`
+- `attacker.canAttack(target, state)`
 - `targetObstacle.isDestroyed` 
 - `damage.calculatedAgainst(stats)`
 
