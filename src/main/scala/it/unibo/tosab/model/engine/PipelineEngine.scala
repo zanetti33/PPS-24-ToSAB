@@ -1,10 +1,8 @@
 package it.unibo.tosab.model.engine
 
-import it.unibo.tosab.model.GameAction.{Attack, Move, Pass}
 import it.unibo.tosab.model.GamePhase.Combat
-import it.unibo.tosab.model.{DomainEvent, GameAction, GameState, entities}
-import it.unibo.tosab.model.entities.{CombatRules, EntityId}
-import it.unibo.tosab.model.entities.CombatRules.{canAttack, resolveAttack}
+import it.unibo.tosab.model.{GameAction, GameState}
+import it.unibo.tosab.model.entities.EntityId
 
 type EngineRule = EngineOutcome => EngineOutcome
 

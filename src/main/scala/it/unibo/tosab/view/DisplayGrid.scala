@@ -1,7 +1,7 @@
 package it.unibo.tosab.view
 
 import it.unibo.tosab.model.entities.ObstacleType.*
-import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Faction, Obstacle, ObstacleType}
+import it.unibo.tosab.model.entities.{Character, Entity, EntityId, Obstacle, ObstacleType}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 
 object DisplayGrid:

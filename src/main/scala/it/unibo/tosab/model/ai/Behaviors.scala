@@ -27,10 +27,15 @@ object Behaviors:
   private def isInRange(state: GameState, from: Coordinate, to: Coordinate, range: Int): Boolean =
     state.grid.getDistance(from, to) <= range
 
+  private def isVisible(state: GameState, from: Coordinate, to: Coordinate): Boolean =
+    state.grid.isLineOfSightClear(from, to)
+
   /** Attacks the closest enemy if it is within attack range, otherwise returns None. */
   val attackClosestEnemy: Behavior = (state, me, myPos) =>
     closestEnemy(state, me, myPos)
-      .filter((_, enemyPos) => isInRange(state, myPos, enemyPos, me.stats.attackRange))
+      .filter((_, enemyPos) =>
+        isInRange(state, myPos, enemyPos, me.stats.attackRange) && isVisible(state, myPos, enemyPos)
+      )
       .map((enemy, _) => GameAction.Attack(enemy.id))
 
   /** Moves towards the closest enemy using the actor's movement distance, if reachable. */

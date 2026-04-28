@@ -1,4 +1,4 @@
-## Design architetturale
+# Design architetturale
 
 L'architettura del sistema si basa sul pattern 
 **Model-Update-View** (MUV), un'evoluzione del paradigma 
@@ -13,12 +13,12 @@ flowchart TD
     V[View]
     U[Update]
     
-    U -->|updates state| M 
-    M -->|renders| V
-    M -->|updated| U
-    V -->|user input| U
+    U -->|Creates New State| M 
+    M -->|Renders State| V
+    M -->|Current State| U
+    V -->|User Input| U
 ```
-### Model
+## Model
 Il **Model** rappresenta lo stato del gioco, inclusi i 
 dati relativi alla mappa, alle unità, alle statistiche e a
 qualsiasi altra informazione necessaria per la simulazione.
@@ -28,9 +28,9 @@ produce un nuovo modello invece di modificare quello
 esistente. Questo approccio facilita la gestione dello 
 stato e rende più semplice il debug e i test.
 
-### Update
+## Update
 L'**Update** è responsabile di gestire la logica di gioco e
-di aggiornare il Model in risposta agli input dell'utente o
+di aggiornare il Model in risposta agli _input_ dell'utente o
 agli eventi di gioco. Questo componente contiene tutte le
 regole di gioco, come il movimento delle unità, il calcolo
 dei danni, la gestione dei turni e così via. L'Update 
@@ -38,31 +38,46 @@ riceve *input* dalla View e produce un nuovo Model basato su
 tali *input*, mantenendo la logica di gioco separata dalla 
 rappresentazione visiva.
 
-### View
+## View
 La **View** è responsabile di presentare lo stato del gioco
-all'utente e di raccogliere i suoi input. Si occupa di 
+all'utente e di raccogliere i suoi *input*. Si occupa di 
 tutto ciò che riguarda l'interfaccia utente, inclusa la
 visualizzazione della mappa, delle unità e dei log di 
 gioco. È progettata per essere il più possibile 
-indipendente di Model e dall'Update, in modo da poter 
+indipendente da Model e Update, in modo da poter 
 essere facilmente modificata o sostituita senza influire 
 sulla logica di gioco sottostante.
 
-### Vantaggi dell'architettura Model-Update-View
-L'adozione del pattern *MUV* ci permette di mantenere una 
-chiara separazione delle responsabilità tra i componenti 
-del sistema, facilitando la manutenzione, l'estensibilità
-e la testabilità del codice.
+## Ciclo di vita e fasi di gioco
 
-Inoltre, l'approccio immutabile di Model contribuisce a 
-ridurre i bug legati alla gestione dello stato e a 
-migliorare la prevedibilità del comportamento del sistema 
-nel tempo.
+Questo diagramma a stati illustra le fasi principali del ciclo di vita del gioco,
+dalla fase di setup iniziale, attraverso i round di combattimento, fino alla conclusione del gioco.
 
-Il design modulare consente di aggiungere facilmente nuove
-viste (ad esempio una GUI), nuove modalità di *input*, o nuove 
-strategie e abilità di gioco senza alterare la logica di 
-base di Model.
+```mermaid
+stateDiagram-v2
+    [*] --> Setup
+    Setup --> Combat : Completed Setup
 
-Ogni componente può essere testato in isolamento, 
-facilitando l’identificazione e la correzione dei bug.
+    state Combat {
+        [*] --> startNewRound : Turn Start
+
+        startNewRound --> TurnoAttivo : Generate Turn Queue
+
+        TurnoAttivo --> TurnoAttivo : Move/Attack/Pass
+        TurnoAttivo --> startNewRound : Empty Turn Queue
+    }
+
+    startNewRound --> GameOver : Max Turns Reached
+    TurnoAttivo --> GameOver : Victory Condition Met
+    GameOver --> [*]
+```
+
+## Vantaggi dell'architettura Model-Update-View
+L'adozione del pattern MUV e del paradigma funzionale 
+offre i seguenti vantaggi:
+1. **Separazione delle Responsabilità**: la logica di gioco è testabile in totale isolamento senza 
+dover istanziare componenti grafici o dipendenze di I/O.
+2. **Prevedibilità**: grazie all'immutabilità, dato uno stato S e un *input* I, 
+l'`Engine` produrrà sempre lo stesso nuovo stato S'.
+3. **Estendibilità Grafica**: il design modulare consente di aggiungere facilmente nuove viste 
+(ad esempio passando da una console a una GUI in ScalaFX/Swing) senza alterare la logica del modello.

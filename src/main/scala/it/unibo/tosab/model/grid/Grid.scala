@@ -2,10 +2,13 @@ package it.unibo.tosab.model.grid
 
 import it.unibo.tosab.model.entities.{Entity, EntityId}
 
-case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
-  private val hexGrid = HexagonalGrid(size)
-  private val gridPlacement = PlacementManager(hexGrid)
+case class Grid(size: Int, cells: Map[Coordinate, Entity], gridManager: GridManager):
+  private val gridPlacement = PlacementManager(gridManager)
+  private val lineOfSightManager = HexagonalLineOfSightManager(gridManager)
+  private lazy val gridMovement = HexagonalGridMovement(this, gridManager)
+  private val obstacleManager = ObstacleManager(this, gridPlacement, size)
 
+  // Core grid operations
   def setCell(entity: Entity, position: Coordinate): Grid =
     if gridPlacement.isPositionValid(entity, position, cells) then
       this.copy(cells = this.cells + (position -> entity))
@@ -14,40 +17,37 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def getEntity(position: Coordinate): Option[Entity] =
     cells.get(position)
 
-  def getPosition(entity: Entity): Option[Coordinate] =
-    getPosition(entity.id)
-
-  def getPosition(entityId: EntityId): Option[Coordinate] =
-    cells.find((_, e) => e.id == entityId).map(_._1)
-
   def getOccupiedCells: Set[Coordinate] =
     cells.keySet
 
-  def getDistance(p1: Coordinate, p2: Coordinate): Int =
-    hexGrid.getDistance(p1, p2)
-
-  def isWithinBounds(position: Coordinate): Boolean =
-    hexGrid.isWithinBounds(position)
-
-  def getAdjacentAvailableCells(entity: Entity): Set[Coordinate] =
-    val occupiedCells = getOccupiedCells
-    val entityPositions = cells.filter((_, e) => e.id == entity.id).keys.toSet
-    entityPositions.flatMap(hexGrid.getNeighbors).diff(occupiedCells)
-
   def getAllCells: Map[Coordinate, Entity] = cells
 
-  def allEntities: List[Entity] = cells.values.toList
+  def getDistance(p1: Coordinate, p2: Coordinate): Int =
+    gridManager.getDistance(p1, p2)
 
-  def allEntitiesWithPositions: List[(Entity, Coordinate)] = cells.toList.map {
-    case (pos, entity) => (entity, pos)
-  }
+  def isWithinBounds(position: Coordinate): Boolean =
+    gridManager.isWithinBounds(position)
+
+  // Entity query delegation
+  def getPosition(entity: Entity): Option[Coordinate] =
+    GridEntityQuery(cells).getPosition(entity)
+
+  def getPosition(entityId: EntityId): Option[Coordinate] =
+    GridEntityQuery(cells).getPosition(entityId)
+
+  def allEntities: List[Entity] =
+    GridEntityQuery(cells).allEntities
+
+  def allEntitiesWithPositions: List[(Entity, Coordinate)] =
+    GridEntityQuery(cells).allEntitiesWithPositions
 
   def filterEntities(predicate: Entity => Boolean): Iterable[Entity] =
-    allEntities.filter(predicate)
+    GridEntityQuery(cells).filterEntities(predicate)
 
   def collectEntities[T](pf: PartialFunction[Entity, T]): Iterable[T] =
-    allEntities.collect(pf)
+    GridEntityQuery(cells).collectEntities(pf)
 
+  // Entity modification
   def replaceEntity(updatedEntity: Entity): Grid =
     getPosition(updatedEntity.id)
       .map(position => copy(cells = cells.updated(position, updatedEntity)))
@@ -61,25 +61,24 @@ case class Grid(size: Int = 8, cells: Map[Coordinate, Entity] = Map.empty):
   def removeEntities(predicate: Entity => Boolean): Grid =
     copy(cells = cells.filterNot((_, entity) => predicate(entity)))
 
+  // Movement and vision delegation
   def moveEntity(entityId: EntityId, targetPosition: Coordinate): Grid =
-    getPosition(entityId) match
-      case Some(currentPosition)
-          if isWithinBounds(targetPosition) && !cells.contains(targetPosition) =>
-        cells
-          .get(currentPosition)
-          .map(entity => copy(cells = cells - currentPosition + (targetPosition -> entity)))
-          .getOrElse(this)
-      case _ => this
+    gridMovement.moveEntity(entityId, targetPosition)
 
+  def getAdjacentAvailableCells(entity: Entity): Set[Coordinate] =
+    gridMovement.getAdjacentAvailableCells(entity)
+
+  def isLineOfSightClear(from: Coordinate, to: Coordinate): Boolean =
+    lineOfSightManager.isLineOfSightClear(from, to, getOccupiedCells, getEntity)
+
+  // Obstacle management delegation
   def placeObstacles(): Grid =
-    val random = scala.util.Random.nextInt(size)
-    var grid: Grid = this
-    for i <- 0 to random do
-      val pos = gridPlacement.generateRandomPosition(grid)
-      val obstacle = scala.util.Random.nextInt(4) match
-        case 0 => Entity.wall(EntityId(s"wall_$i"))
-        case 1 => Entity.bush(EntityId(s"bush_$i"))
-        case 2 => Entity.tree(EntityId(s"tree_$i"))
-        case _ => Entity.rock(EntityId(s"rock_$i"))
-      grid = grid.setCell(obstacle, pos)
-    grid
+    obstacleManager.placeObstacles()
+
+object Grid:
+  def apply(
+      size: Int = 8,
+      cells: Map[Coordinate, Entity] = Map.empty,
+      gridManager: GridManager = HexagonalGrid(8)
+  ): Grid =
+    new Grid(size, cells, gridManager)

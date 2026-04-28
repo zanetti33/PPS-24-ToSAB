@@ -1,8 +1,8 @@
 package it.unibo.tosab.update
 
-import it.unibo.tosab.model.io.{InputParser, MonadIO, SetupCommand}
 import it.unibo.tosab.model.grid.{Coordinate, Grid}
 import it.unibo.tosab.model.entities.{Entity, EntityId, Faction, Role}
+import it.unibo.tosab.view.IO
 
 object GameSetup:
 
@@ -13,34 +13,34 @@ object GameSetup:
   def runSetupLoop(
       currentGrid: Grid,
       entityCounter: Int = 0
-  ): MonadIO[Grid] =
+  ): IO[Grid] =
     for
       _ <- printMenu()
-      _ <- MonadIO.printLine("> ")
-      userInput <- MonadIO.readString()
+      _ <- IO.printLine("> ")
+      userInput <- IO.readString()
       res <- processCommands(InputParser.parse(userInput), currentGrid, entityCounter)
-      finalGrid <- if res._3 then runSetupLoop(res._1, res._2) else MonadIO(() => res._1)
+      finalGrid <- if res._3 then runSetupLoop(res._1, res._2) else IO(() => res._1)
     yield finalGrid
 
   private def processCommands(
       commands: List[SetupCommand],
       grid: Grid,
       counter: Int
-  ): MonadIO[(Grid, Int, Boolean)] = counter match
+  ): IO[(Grid, Int, Boolean)] = counter match
     case c if c >= maxNumberOfTroops =>
-      for _ <- MonadIO.printLine("Maximum number of troops placed! Starting battle.")
+      for _ <- IO.printLine("Maximum number of troops placed! Starting battle.")
       yield (grid, counter, false)
     case _ =>
       commands match
-        case Nil => MonadIO(() => (grid, counter, true))
+        case Nil => IO(() => (grid, counter, true))
 
         case SetupCommand.StartGame :: _ =>
-          for _ <- MonadIO.printLine("Positioning complete! Start battle.")
+          for _ <- IO.printLine("Positioning complete! Start battle.")
           yield (grid, counter, false)
 
         case SetupCommand.Invalid(reason) :: tail =>
           for
-            _ <- MonadIO.printLine(s"[ERROR] $reason")
+            _ <- IO.printLine(s"[ERROR] $reason")
             res <- processCommands(tail, grid, counter)
           yield res
 
@@ -55,20 +55,20 @@ object GameSetup:
           val newGrid = grid.setCell(newEntity, position)
           if newGrid.getEntity(position).exists(_.id == id) then
             for
-              _ <- MonadIO.printLine(
+              _ <- IO.printLine(
                 s"[OK] $role placed in (${position.x}, ${position.y})."
               )
               res <- processCommands(tail, newGrid, counter + 1)
             yield res
           else
             for
-              _ <- MonadIO.printLine(
+              _ <- IO.printLine(
                 s"[ERROR] Invalid position (${position.x}, ${position.y}). Try again."
               )
               res <- processCommands(tail, newGrid, counter)
             yield res
 
-  private def printMenu(): MonadIO[Unit] = MonadIO.printLine(
+  private def printMenu(): IO[Unit] = IO.printLine(
     s"""|
          |--- POSITIONING PHASE ---
        |1: Soldier | 2: Archer | 3: Mage
