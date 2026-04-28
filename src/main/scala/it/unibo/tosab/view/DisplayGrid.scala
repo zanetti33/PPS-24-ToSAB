@@ -18,15 +18,8 @@ object DisplayGrid:
   private def getObstacleLegend(obstacleType: ObstacleType): String =
     s"|${getObstacleSymbol(obstacleType)}| = ${obstacleType.toString}"
 
-  private def clearScreen(): Unit =
-    System.out.flush()
-    print("\u001b[2J\u001b[H") // ANSI: clear screen + move cursor to home
-    System.out.flush()
-
   def display(grid: Grid): Unit =
-    clearScreen()
     val size = grid.size
-
     printColHeader(size)
 
     for row <- 0 until size do
