@@ -19,11 +19,11 @@ object TurnOrderManager:
   def determineTurnOrder(gameState: GameState): Seq[EntityId] =
     gameState.grid.allEntitiesWithPositions
       .collect { case (character: Character, pos) if character.isAlive => (character, pos) }
-      .sortBy { case (character, Coordinate(row, column)) =>
+      .sortBy { case (character: Character, pos) =>
         (
           -character.stats.speed,
-          row,
-          column
+          pos.x,
+          pos.y
         )
       }
       .map { case (character, _) => character.id }
