@@ -1,5 +1,6 @@
 package it.unibo.tosab.model.ai
 
+import it.unibo.tosab.model.engine.Pathfinder
 import org.junit.*
 import org.junit.Assert.*
 import it.unibo.tosab.model.entities.{Entity, EntityId, Faction}
@@ -93,6 +94,39 @@ class PathfinderTest:
 
     val reachable = Pathfinder.reachableCellsWithin(grid, startPos, noSteps)
     assertTrue(reachable.isEmpty)
+
+  @Test def testReachableCellsWithinReturnsEmptyWhenStepsAreNegative(): Unit =
+    val startPos = Coordinate(4, 2)
+    val negativeSteps = -1
+    val grid = Grid().setCell(soldier, startPos)
+
+    val reachable = Pathfinder.reachableCellsWithin(grid, startPos, negativeSteps)
+    assertTrue(reachable.isEmpty)
+
+  @Test def testBestReachableTowardsTargetReturnsNoneWhenSurroundedByWalls(): Unit =
+    val startPos = Coordinate(4, 4)
+    val targetPos = Coordinate(6, 6)
+    val grid = Grid()
+      .setCell(soldier, startPos)
+      .setCell(wall(id = EntityId("w1")), Coordinate(3, 3))
+      .setCell(wall(id = EntityId("w2")), Coordinate(3, 4))
+      .setCell(wall(id = EntityId("w3")), Coordinate(4, 3))
+      .setCell(wall(id = EntityId("w4")), Coordinate(4, 5))
+      .setCell(wall(id = EntityId("w5")), Coordinate(5, 3))
+      .setCell(wall(id = EntityId("w6")), Coordinate(5, 4))
+
+    val best = Pathfinder.bestReachableTowardsTarget(grid, startPos, targetPos, maxSteps = 1)
+    assertEquals(None, best)
+
+  @Test def testFindNextStepAtGridBorderStaysWithinBounds(): Unit =
+    val startPos = Coordinate(0, 0)
+    val targetPos = Coordinate(7, 7)
+    val grid = Grid().setCell(soldier, startPos)
+
+    val nextStep = Pathfinder.findNextStep(grid, startPos, targetPos)
+    assertTrue(nextStep.isDefined)
+    val validSteps = Set(Coordinate(0, 1), Coordinate(1, 0))
+    assertTrue(validSteps.contains(nextStep.get))
 
   @Test def testCanJumpOverPassableObstacle(): Unit =
     val archer = Entity.archer(EntityId("archer1"), Faction.Player)
