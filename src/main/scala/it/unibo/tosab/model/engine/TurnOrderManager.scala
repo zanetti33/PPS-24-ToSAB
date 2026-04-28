@@ -13,21 +13,23 @@ object TurnOrderManager:
       case character: Character if character.isAlive => character.id
     }.toSet
 
-  /**
-    * Removes dead/missing actors from the current queue.
+  /** Removes dead/missing actors from the current queue.
     *
-    * @param gameState current game state
-    * @return queue containing only alive character ids
+    * @param gameState
+    *   current game state
+    * @return
+    *   queue containing only alive character ids
     */
   def synchronizeTurnQueue(gameState: GameState): Seq[EntityId] =
     val aliveIds = livingCharacterIds(gameState)
     gameState.turnQueue.filter(aliveIds)
 
-  /**
-    * Computes turn order by speed descending, then stable position tie-breakers.
+  /** Computes turn order by speed descending, then stable position tie-breakers.
     *
-    * @param gameState current game state
-    * @return ordered sequence of acting character ids
+    * @param gameState
+    *   current game state
+    * @return
+    *   ordered sequence of acting character ids
     */
   def determineTurnOrder(gameState: GameState): Seq[EntityId] =
     gameState.grid.allEntitiesWithPositions

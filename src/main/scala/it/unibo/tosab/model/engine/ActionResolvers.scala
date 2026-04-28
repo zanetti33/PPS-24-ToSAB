@@ -16,13 +16,16 @@ object ActionResolvers:
       events = Seq(DomainEvent.ActionApplied(actorId, Pass))
     )
 
-  /**
-    * Resolves a move action when the target is reachable within movement distance.
+  /** Resolves a move action when the target is reachable within movement distance.
     *
-    * @param state current game state
-    * @param actorId acting character id
-    * @param targetPosition requested destination
-    * @return updated outcome; invalid moves consume turn without moving
+    * @param state
+    *   current game state
+    * @param actorId
+    *   acting character id
+    * @param targetPosition
+    *   requested destination
+    * @return
+    *   updated outcome; invalid moves consume turn without moving
     */
   def resolveMove(
       state: GameState,
@@ -68,13 +71,16 @@ object ActionResolvers:
     val deathEvents = if newHp <= 0 then Seq(DomainEvent.UnitDied(target.id)) else Seq.empty
     (damageAmount, deathEvents)
 
-  /**
-    * Resolves an attack action when attacker and target satisfy combat constraints.
+  /** Resolves an attack action when attacker and target satisfy combat constraints.
     *
-    * @param state current game state
-    * @param actorId attacker id
-    * @param targetId target entity id
-    * @return updated outcome with action, damage and optional death events
+    * @param state
+    *   current game state
+    * @param actorId
+    *   attacker id
+    * @param targetId
+    *   target entity id
+    * @return
+    *   updated outcome with action, damage and optional death events
     */
   def resolveAttackAction(
       state: GameState,

@@ -8,12 +8,14 @@ import it.unibo.tosab.model.entities.EntityId
   * action based on the current game state.
   */
 trait CharacterAI:
-  /**
-    * Chooses the next action for the given actor in the provided state.
+  /** Chooses the next action for the given actor in the provided state.
     *
-    * @param state current game state
-    * @param currentCharacterId id of the acting character
-    * @return selected action
+    * @param state
+    *   current game state
+    * @param currentCharacterId
+    *   id of the acting character
+    * @return
+    *   selected action
     */
   def determineNextAction(state: GameState, currentCharacterId: EntityId): GameAction
 

@@ -4,12 +4,14 @@ import it.unibo.tosab.model.grid.{Coordinate, Grid, HexagonalGrid}
 
 /** Strategy for computing legal movement options from a position. */
 trait MovementRules:
-  /**
-    * Computes available moves from a position with their movement costs.
+  /** Computes available moves from a position with their movement costs.
     *
-    * @param grid current grid
-    * @param position origin position
-    * @return set of reachable neighbors `(coordinate, cost)`
+    * @param grid
+    *   current grid
+    * @param position
+    *   origin position
+    * @return
+    *   set of reachable neighbors `(coordinate, cost)`
     */
   def availableMoves(grid: Grid, position: Coordinate): Set[(Coordinate, Int)]
 

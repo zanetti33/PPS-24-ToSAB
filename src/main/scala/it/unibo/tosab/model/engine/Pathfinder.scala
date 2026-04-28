@@ -10,13 +10,16 @@ object Pathfinder:
   private val singleStepMovementDistance = 1
   private val movementRules: MovementRules = StandardMovementRules
 
-  /**
-    * Returns all cells reachable from `startPos` within `maxSteps` movement points.
+  /** Returns all cells reachable from `startPos` within `maxSteps` movement points.
     *
-    * @param grid current grid
-    * @param startPos origin position
-    * @param maxSteps movement budget
-    * @return reachable coordinates excluding `startPos`
+    * @param grid
+    *   current grid
+    * @param startPos
+    *   origin position
+    * @param maxSteps
+    *   movement budget
+    * @return
+    *   reachable coordinates excluding `startPos`
     */
   def reachableCellsWithin(
       grid: Grid,
@@ -57,14 +60,18 @@ object Pathfinder:
       val initialCosts = Map(startPos -> initialDistanceFromStart)
       bfs(initialQueue, initialVisited, initialCosts)
 
-  /**
-    * Picks the reachable cell that best approaches `targetPos` within `maxSteps`.
+  /** Picks the reachable cell that best approaches `targetPos` within `maxSteps`.
     *
-    * @param grid current grid
-    * @param startPos origin position
-    * @param targetPos desired target
-    * @param maxSteps movement budget
-    * @return best reachable position, if any
+    * @param grid
+    *   current grid
+    * @param startPos
+    *   origin position
+    * @param targetPos
+    *   desired target
+    * @param maxSteps
+    *   movement budget
+    * @return
+    *   best reachable position, if any
     */
   def bestReachableTowardsTarget(
       grid: Grid,
@@ -82,13 +89,16 @@ object Pathfinder:
         )
       )
 
-  /**
-    * Greedy one-step version of `bestReachableTowardsTarget`.
+  /** Greedy one-step version of `bestReachableTowardsTarget`.
     *
-    * @param grid current grid
-    * @param startPos origin position
-    * @param targetPos desired target
-    * @return best adjacent step toward target, if available
+    * @param grid
+    *   current grid
+    * @param startPos
+    *   origin position
+    * @param targetPos
+    *   desired target
+    * @return
+    *   best adjacent step toward target, if available
     */
   def findNextStep(
       grid: Grid,
