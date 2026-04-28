@@ -32,17 +32,17 @@ object ActionResolvers:
       actorId: EntityId,
       targetPosition: Coordinate
   ): EngineOutcome =
-    (state.getCharacterById(actorId), state.getPositionOf(actorId)) match
-      case (Some(actor), Some(actorPosition))
-          if validMove(state, targetPosition, actor, actorPosition) =>
-        EngineOutcome(
-          nextState = consumeTurn(
-            state.copy(grid = state.grid.moveEntity(actorId, targetPosition)),
-            actorId
-          ),
-          events = Seq(DomainEvent.ActionApplied(actorId, Move(targetPosition)))
-        )
-      case _ => EngineOutcome(nextState = consumeTurn(state, actorId))
+    val successfulOutcome = for
+      actor <- state.getCharacterById(actorId)
+      actorPosition <- state.getPositionOf(actorId)
+      if validMove(state, targetPosition, actor, actorPosition)
+    yield EngineOutcome(
+      nextState =
+        consumeTurn(state.copy(grid = state.grid.moveEntity(actorId, targetPosition)), actorId),
+      events = Seq(DomainEvent.ActionApplied(actorId, Move(targetPosition)))
+    )
+    // Fallback if any Option is None, or the `if` guard fails
+    successfulOutcome.getOrElse(EngineOutcome(nextState = consumeTurn(state, actorId)))
 
   private def validMove(
       state: GameState,
@@ -87,19 +87,23 @@ object ActionResolvers:
       actorId: EntityId,
       targetId: EntityId
   ): EngineOutcome =
-    (state.getCharacterById(actorId), state.getEntityById(targetId)) match
-      case (Some(attacker), Some(target)) if canAttack(state, attacker, target) =>
-        val updatedTarget = resolveAttack(attacker, target)
-        val (damageAmount, deathEvents) = calculateDamageAndEvents(target, updatedTarget)
-        EngineOutcome(
-          nextState =
-            consumeTurn(state.copy(grid = state.grid.replaceEntity(updatedTarget)), actorId),
-          events = Seq(
-            DomainEvent.ActionApplied(actorId, Attack(targetId)),
-            DomainEvent.DamageInflicted(attacker.id, target.id, damageAmount)
-          ) ++ deathEvents
-        )
-      case _ => EngineOutcome(nextState = consumeTurn(state, actorId))
+    val successfulAttack = for
+      attacker <- state.getCharacterById(actorId)
+      target <- state.getEntityById(targetId)
+      if canAttack(state, attacker, target)
+    yield
+      val updatedTarget = resolveAttack(attacker, target)
+      val (damageAmount, deathEvents) = calculateDamageAndEvents(target, updatedTarget)
+      EngineOutcome(
+        nextState =
+          consumeTurn(state.copy(grid = state.grid.replaceEntity(updatedTarget)), actorId),
+        events = Seq(
+          DomainEvent.ActionApplied(actorId, Attack(targetId)),
+          DomainEvent.DamageInflicted(attacker.id, target.id, damageAmount)
+        ) ++ deathEvents
+      )
+    // Fallback for missing entities or invalid attacks
+    successfulAttack.getOrElse(EngineOutcome(nextState = consumeTurn(state, actorId)))
 
   private def consumeTurn(state: GameState, actorId: EntityId): GameState =
     val updatedQueue = state.turnQueue match
