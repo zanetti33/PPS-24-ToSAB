@@ -1,4 +1,4 @@
-package it.unibo.tosab.model.io
+package it.unibo.tosab.update
 
 import it.unibo.tosab.model.entities.Role
 import it.unibo.tosab.model.grid.Coordinate
