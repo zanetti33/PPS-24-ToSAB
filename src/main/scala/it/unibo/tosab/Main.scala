@@ -16,8 +16,7 @@ import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
 
   DisplayGrid.displayInitialGrid(initialState.grid)
 
-  val setupProgram = GameSetup.runSetupLoop(updatedGrid)
-  val completeGrid = setupProgram.run()
+  val completeGrid = GameSetup.runSetupLoop(updatedGrid).run()
   val updatedState = initialState.copy(grid = completeGrid)
   DisplayGrid.display(updatedState.grid)
 
