@@ -1,9 +1,17 @@
 package it.unibo.tosab.model.grid
 
+/** Represents a lane with from and to indices. */
 case class Lane(from: Int, to: Int)
 
+/** Utility for calculating grid lanes. */
 object GridLane:
 
+  /** Calculates lanes for a given grid size.
+    * @param gridSize
+    *   the grid size
+    * @return
+    *   tuple of three lanes
+    */
   def calculateLanes(gridSize: Int): (Lane, Lane, Lane) =
     val remainder = gridSize % 3
     val step = gridSize / 3

@@ -1,13 +1,48 @@
 package it.unibo.tosab.model.grid
 
+/** Manages grid operations like distance and neighbors. */
 trait GridManager:
+  /** The size of the grid. */
   def size: Int
+
+  /** Calculates distance between two coordinates.
+    * @param p1
+    *   first coordinate
+    * @param p2
+    *   second coordinate
+    * @return
+    *   the distance
+    */
   def getDistance(p1: Coordinate, p2: Coordinate): Int
+
+  /** Gets neighboring coordinates.
+    * @param pos
+    *   the position
+    * @return
+    *   set of neighbors
+    */
   def getNeighbors(pos: Coordinate): Set[Coordinate]
+
+  /** Gets coordinates in diagonal.
+    * @param from
+    *   start position
+    * @param to
+    *   end position
+    * @return
+    *   set of diagonal coordinates
+    */
   def getDiagonal(from: Coordinate, to: Coordinate): Set[Coordinate]
+
+  /** Checks if position is within bounds.
+    * @param pos
+    *   the position
+    * @return
+    *   true if within bounds
+    */
   def isWithinBounds(pos: Coordinate): Boolean =
     pos.x >= 0 && pos.x < size && pos.y >= 0 && pos.y < size
 
+/** Hexagonal grid implementation of GridManager. */
 class HexagonalGrid(val size: Int) extends GridManager:
   override def getDistance(p1: Coordinate, p2: Coordinate): Int =
     def toCube(pos: Coordinate) =

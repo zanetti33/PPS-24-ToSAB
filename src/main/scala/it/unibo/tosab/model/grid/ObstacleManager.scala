@@ -2,8 +2,13 @@ package it.unibo.tosab.model.grid
 
 import it.unibo.tosab.model.entities.{Entity, EntityId}
 
+/** Manages obstacle placement on the grid. */
 class ObstacleManager(grid: Grid, gridPlacement: PlacementManager, size: Int):
 
+  /** Places random obstacles on the grid.
+    * @return
+    *   the updated grid with obstacles
+    */
   def placeObstacles(): Grid =
     val random = scala.util.Random.nextInt(size)
     var currentGrid = grid
