@@ -1,13 +1,13 @@
-## Retrospettiva
+# Retrospettiva
 
 In questa sezione vogliamo condividere un’analisi 
 retrospettiva del processo di sviluppo del progetto, 
-descrivendone l’ evoluzione, i punti di forza e le 
+descrivendone l’evoluzione, i punti di forza e le 
 difficoltà incontrate.
 
-### Evoluzione del processo di sviluppo
+## Evoluzione del processo di sviluppo
 
-#### Daily Meetings
+### Daily Meetings
 Durante tutto il processo di sviluppo, abbiamo mantenuto 
 una cadenza quasi giornaliera per i nostri incontri, che 
 si sono svolti sia di persona che online. Questi sono stati
@@ -20,29 +20,16 @@ comunque cercato di mantenerli brevi ed efficaci,
 concentrandoci sui punti chiave e sulle decisioni da 
 prendere.
 
-Questo cambio non ha compromesso la qualità della 
-collaborazione grazie alla possibilità di confrontarci 
-frequentemente e alla dimensione contenuta del team, il 
-quale ha reso superflua un’organizzazione troppo rigida.
-
-#### Sprint Planning e Backlog
+### Sprint Planning e Backlog
 Il processo di pianificazione degli sprint è stato 
 strutturato in modo da garantire una chiara definizione 
 degli obiettivi e delle attività da svolgere in ciascuna 
 iterazione. 
 
-Il product backlog è stato redatto dal product owner con 
-il contributo di tutto il team. Durante il processo di 
-sviluppo sono stati integrati task di contorno o ulteriori 
-attività in seguito a esigenze emerse. 
-Ogni sprint è stato pianificato con attenzione, assegnando 
-le attività ai membri del team in modo equilibrato, 
-tenendo conto delle competenze e delle preferenze 
-individuali. Questo ha permesso di mantenere un flusso di
-lavoro continuo e di consegnare regolarmente funzionalità
-funzionanti.
+Durante il processo di sviluppo sono stati integrati task 
+di contorno o ulteriori attività in seguito a esigenze emerse.
 
-#### Sprint Review e Feedback
+### Sprint Review e Feedback
 Alla fine di ogni sprint, abbiamo tenuto una sprint review 
 per presentare i risultati ottenuti e per raccogliere 
 feedback da parte di tutti i membri del team. Queste review
@@ -52,7 +39,7 @@ e per pianificare le attività future. Il feedback ricevuto
 è stato prezioso per migliorare il processo di sviluppo e 
 per adattare il backlog in base alle esigenze riscontrate.
 
-#### Feature branch & Pair programming
+### Feature branch & Pair programming
 Abbiamo adottato un approccio *Agile*, focalizzato 
 sulla produttività e sull’efficienza comunicativa. L’uso 
 dei feature branch su *GitHub* ci ha permesso di mantenere 
@@ -70,9 +57,9 @@ un equilibrio tra struttura e agilità, evitando carichi
 organizzativi inutili e privilegiando strumenti semplici e
 momenti di confronto efficaci.
 
-### Punti di forza e difficoltà
+## Punti di forza e difficoltà
 
-#### Punti di forza
+### Punti di forza
 - Pianificazione efficace: La struttura del backlog e la
 pianificazione degli sprint hanno garantito un flusso di
 lavoro organizzato e una consegna regolare di codice 
@@ -81,15 +68,21 @@ funzionante e testato.
 nostri incontri ha permesso di mantenere una comunicazione 
 fluida tra i membri del team, facilitando la risoluzione di
 problemi e la pianificazione delle attività.
-- Feedback costruttivo: Le sprint review hanno fornito un’
-opportunità per riflettere sui progressi e per raccogliere
+- Feedback costruttivo: Le sprint review hanno fornito un'opportunità 
+per riflettere sui progressi e per raccogliere
 feedback prezioso, che ha contribuito a migliorare il 
 processo di sviluppo.
 
-#### Difficoltà incontrate
-TBD pulizia log dopo ogni azione...
+### Difficoltà incontrate
+- Pulizia del terminale: Durante lo sviluppo, avremmo voluto
+implementare una funzionalità per pulire il terminale dopo ogni 
+stampa, ma non siamo riusciti a crearla in modo efficace e 
+funzionante in qualsiasi tipo di terminale. Abbiamo optato per
+una stampa della griglia solo quando avvengono dei cambiamenti
+(come uno spostamento o la morte di un personaggio), 
+evitando così di sovraccaricare il terminale con stampe inutili.
 
-### Commenti finali
+## Commenti finali
 Il gruppo ha riconosciuto come il linguaggio Scala si 
 presti in modo naturale a una metodologia di sviluppo 
 Agile. La ricchezza delle sue astrazioni, unite a una 
