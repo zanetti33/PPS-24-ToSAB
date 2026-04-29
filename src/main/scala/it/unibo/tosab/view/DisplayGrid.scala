@@ -14,20 +14,8 @@ object DisplayGrid:
     Rock -> "oOo"
   )
 
-  /** Gets the symbol for an obstacle type.
-    * @param obstacleType
-    *   the obstacle type
-    * @return
-    *   the symbol string
-    */
   private def getObstacleSymbol(obstacleType: ObstacleType): String = obstacleSymbols(obstacleType)
 
-  /** Gets the legend entry for an obstacle type.
-    * @param obstacleType
-    *   the obstacle type
-    * @return
-    *   the legend string
-    */
   private def getObstacleLegend(obstacleType: ObstacleType): String =
     s"|${getObstacleSymbol(obstacleType)}| = ${obstacleType.toString}"
 

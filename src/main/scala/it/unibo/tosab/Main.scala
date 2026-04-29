@@ -8,6 +8,9 @@ import it.unibo.tosab.model.grid.*
 import it.unibo.tosab.update.{GameLoop, GameSetup}
 import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
 
+/** Main entry point for the game application. It initializes the game state, runs the setup phase
+  * and then starts the combat phase.
+  */
 @main def runApp(): Unit =
   val startingGrid = Grid().placeObstacles()
 

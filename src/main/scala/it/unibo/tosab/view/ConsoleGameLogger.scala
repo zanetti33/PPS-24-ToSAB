@@ -3,7 +3,14 @@ package it.unibo.tosab.view
 import it.unibo.tosab.model.{DomainEvent, GameState}
 import it.unibo.tosab.update.GameLoopSubscriber
 
+/** Logs and displays game events to the console during gameplay.
+  *
+  * Extends GameLoopSubscriber to receive and handle domain events from the game loop, formatting
+  * them for console output including actions, damage, unit deaths, grid updates, and game
+  * completion messages.
+  */
 object ConsoleGameLogger extends GameLoopSubscriber:
+  /** Processes domain events and displays relevant information to the console. */
   override def update(event: DomainEvent): Unit =
     event match
       case DomainEvent.ActionApplied(actorId, action) =>
