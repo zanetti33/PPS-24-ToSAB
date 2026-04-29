@@ -3,11 +3,22 @@ package it.unibo.tosab.update
 import it.unibo.tosab.model.entities.Role
 import it.unibo.tosab.model.grid.Coordinate
 
+/** Utility object for parsing user input during the game setup phase.
+  */
 object InputParser:
 
-  // Regex detecting format: "1 (1,1)"
+  // Regex pattern for parsing troop placement commands in format: "1 (1,1)"
   private val troopPattern = """(\d)\s*\(\s*(\d+)\s*,\s*(\d+)\s*\)""".r
 
+  /** Parses user input string into a list of setup commands. Supports two formats:
+    *   - "start" - signals the end of setup phase
+    *   - "id (x,y)" - places a troop at coordinates (e.g., "1 (0,1)")
+    *
+    * @param input
+    *   the raw user input string
+    * @return
+    *   list of SetupCommand objects representing the parsed commands
+    */
   def parse(input: String): List[SetupCommand] = input.trim.toLowerCase match
     case "start" => List(SetupCommand.StartGame)
     case other =>

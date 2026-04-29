@@ -3,6 +3,7 @@ package it.unibo.tosab.model
 import it.unibo.tosab.model.grid.Coordinate
 import it.unibo.tosab.model.entities.EntityId
 
+/** Represents an action that can be performed by a character during their turn. */
 enum GameAction:
   case Move(targetPosition: Coordinate)
   case Attack(targetId: EntityId)

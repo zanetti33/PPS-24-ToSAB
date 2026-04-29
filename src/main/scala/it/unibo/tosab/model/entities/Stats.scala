@@ -2,9 +2,32 @@ package it.unibo.tosab.model.entities
 
 import it.unibo.tosab.model.entities.AttackType.{Melee, Ranged}
 
+/** Represents the type of attack a character can perform.
+  */
 enum AttackType:
   case Melee, Ranged, Area
 
+/** Represents the combat and movement statistics of a character.
+  *
+  * @param currentHp
+  *   current health points
+  * @param physicalAttack
+  *   physical attack value
+  * @param magicalAttack
+  *   magical attack value
+  * @param physicalDefense
+  *   resistance to physical damage
+  * @param magicalDefence
+  *   resistance to magical damage
+  * @param movementDistance
+  *   maximum tiles moved per turn
+  * @param speed
+  *   initiative value for turn order
+  * @param attackRange
+  *   maximum distance for attacks
+  * @param attackType
+  *   the type of attack performed
+  */
 case class Stats(
     currentHp: Int = 100,
     physicalAttack: Int = 0,
@@ -49,6 +72,7 @@ object Stats:
   private val mageAttackRange = 3
   private val mageAttackType = Ranged
 
+  /** Base statistics for archer characters. */
   val baseArcherStats = Stats(
     archerHp,
     archerPhysicalAttack,
@@ -61,6 +85,7 @@ object Stats:
     archerAttackType
   )
 
+  /** Base statistics for soldier characters. */
   val baseSoldierStats = Stats(
     soldierHp,
     soldierPhysicalAttack,
@@ -73,6 +98,7 @@ object Stats:
     soldierAttackType
   )
 
+  /** Base statistics for mage characters. */
   val baseMageStats = Stats(
     mageHp,
     magePhysicalAttack,
