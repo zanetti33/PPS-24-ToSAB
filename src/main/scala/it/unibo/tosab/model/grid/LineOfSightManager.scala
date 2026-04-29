@@ -2,7 +2,20 @@ package it.unibo.tosab.model.grid
 
 import it.unibo.tosab.model.entities.{Entity, Obstacle}
 
+/** Manages line of sight calculations. */
 trait LineOfSightManager:
+  /** Checks if line of sight is clear between positions.
+    * @param from
+    *   starting position
+    * @param to
+    *   ending position
+    * @param occupiedCells
+    *   set of occupied cells
+    * @param getEntity
+    *   function to get entity at position
+    * @return
+    *   true if clear
+    */
   def isLineOfSightClear(
       from: Coordinate,
       to: Coordinate,
@@ -10,6 +23,7 @@ trait LineOfSightManager:
       getEntity: Coordinate => Option[Entity]
   ): Boolean
 
+/** Hexagonal line of sight implementation. */
 class HexagonalLineOfSightManager(gridManager: GridManager) extends LineOfSightManager:
 
   private def isInLine(from: Coordinate, to: Coordinate): Boolean =
