@@ -11,7 +11,7 @@ simulare il combattimento contro un avversario (IA).
 
 ## Requisiti funzionali
 
-#### Requisiti utente
+### Requisiti utente
 
 L'utente deve essere in grado di:
 
