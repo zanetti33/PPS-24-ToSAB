@@ -117,11 +117,13 @@ classDiagram
 
     GridFactory --> Grid : create
 ```
-Per l'implemenatzione della griglia siamo partiti dalla 
-classe `Grid`, inserendo tutte le operazioni al suo 
-interno; questo l'ha resa una "God Class" con troppe 
-responsabilità, perciò è stata rifattorizzata seguendo 
-il **Single Responsibility Principle**, che ha prtato la 
+
+#### Modellazione della Griglia:
+Per l'implemenatzione della griglia siamo partiti dalla
+classe `Grid`, inserendo tutte le operazioni al suo
+interno; questo l'ha resa una "God Class" con troppe
+responsabilità, perciò è stata rifattorizzata seguendo
+il **Single Responsibility Principle**, che ha prtato la
 struttura finale:
 ```
 grid/
@@ -134,136 +136,13 @@ grid/
 ├── GridMovement.scala (Movimento di entità)
 └── ObstacleManager.scala (Gestione degli ostacoli)
 ```
-Questo ha portato vari vantaggi: 
+Questo ha portato vari vantaggi:
 - Ogni classe ha una responsabilità unica
 - Più facile testare singole funzionalità isolatamente
 - Codice più facile da leggere e modificare
 - Componenti indipendenti possono essere usati altrove
 - Aggiungere nuove funzionalità non "sporca" la Grid
 
-### Funzionamento
-**Creazione della Griglia**
-
-Il processo inizia con `GridFactory.createHexagonal(size)`, 
-che crea un'istanza di `Grid` immutabile con dimensioni 
-specifiche (nel nostro caso 8x8). La griglia viene 
-inizializzata con una mappa vuota (`cells: Map.empty`), 
-contenente solo il riferimento al `GridManager` 
-(implementazione esagonale) utilizzato per operazioni 
-geometriche. A questo punto, la griglia ancora non contiene 
-entità.
-
-**Posizionamento Procedurale degli Ostacoli**
-
-Successivamente, viene invocato 
-`ObstacleManager.placeObstacles()` sulla griglia vuota. 
-Questo manager:
-- Determina un numero casuale di ostacoli da generare 
-(da 0 a `size`)
-- Itera attraverso questo numero con un ciclo `for`, 
-creando una sequenza immutabile di aggiornamenti
-- A ogni iterazione, utilizza 
-`PlacementManager.generateRandomPosition()` per generare 
-coordinate casuali
-- Valida ogni posizione tramite 
-`PlacementManager.isPositionValid()`, assicurando che sia 
-libera e dentro i confini della mappa
-- Crea un ostacolo casuale usando pattern matching sulla 
-probabilità
-- Aggiorna la griglia tramite 
-`grid.setCell(obstacle, position)`, restituendo una nuova 
-istanza immutabile
-
-La ricorsione in `generateRandomPosition` garantisce che, 
-se una posizione è già occupata, venga generata una nuova 
-coordinata casuale fino a trovarne una libera.
-
-**Posizionamento Manuale delle Truppe Alleate**
-
-A questo punto, il gioco entra in una fase interattiva in 
-cui il giocatore posiziona manualmente le truppe alleate. 
-L'interfaccia utente (attraverso 
-`DisplayGrid.displayInitialGrid`) mostra una 
-visualizzazione parziale della griglia (dalla quarta riga 
-in poi), permettendo al giocatore di vedere solo la 
-propria metà del campo.
-
-Quando il giocatore posiziona un'unità alleata:
-- `Grid.setCell(entity, position)` viene invocato con l'
-unità e la posizione desiderata
-- `PlacementManager.isPositionValid()` valida la richiesta 
-verificando:
-  - Che la posizione sia entro i confini della griglia 
-  (`isWithinBounds`)
-  - Che la cella sia libera (non occupata da entità od 
-  ostacoli)
-  - Che la posizione sia nel campo degli alleati (x >= 
-  gridSize/2) tramite `isRightField`
-- Se valida, la griglia viene aggiornata immutabilmente; 
-altrimenti, rimane invariata (il metodo restituisce `this`)
-
-**Posizionamento Automatico delle Truppe Nemiche**
-
-Una volta che il giocatore ha terminato il posizionamento, 
-il sistema invoca 
-`PlacementAI.placeAITroops(grid, troopsNumber)`:
-- Determina il numero di truppe da piazzare (solitamente 
-da `GameSetup.getMaxNumberOfTroops`)
-- Calcola una distribuzione di ruoli tramite 
-`getTroopRoles()`, garantendo un mix bilanciato di Soldati, 
-Arcieri e Maghi
-- Crea le truppe mediante `createTroop()`, assegnando ID 
-univoci, la fazione `AI` e il ruolo specifico
-- Ordina le truppe per HP decrescente, posizionando prima 
-le unità più forti
-- Divide le truppe in corsie (`divideTroopsIntoLanes`) 
-basate sul ruolo:
-  - **Soldati** → corsie anteriori (fronte, migliore 
-  per il combattimento ravvicinato)
-  - **Arcieri** → corsie centrali (medio, opportune 
-  distanza per attacchi a distanza)
-  - **Maghi** → corsie posteriori (retro, protezione per 
-  unità fragili)
-- Per ogni trappa, utilizza `placeTroopInLane()` per 
-posizionarla nella sua corsia:
-  - Genera tutte le coordinate disponibili nella corsia 
-  tramite for-comprehension
-  - Filtra le posizioni libere usando 
-  `grid.getEntity(position).isEmpty`
-  - Randomizza l'ordine con `Random.shuffle()` per 
-  variabilità di gameplay
-  - Seleziona la prima posizione disponibile con 
-  `headOption.map()`
-
-**Interazioni e Immutabilità**
-
-Ogni fase restituisce una nuova istanza di `Grid` 
-immutabile, permettendo:
-- **Tracciamento dello stato**: Ogni modifica è una 
-trasformazione esplicita
-- **Annullamento/Ripetizione**: Se necessario, si può 
-tornare a uno stato precedente senza effetti collaterali
-- **Paralelismo**: Operazioni su griglie diverse possono 
-essere eseguite senza sincronizzazione (futura feature)
-- **Testing**: Ogni operazione è pura e deterministica se 
-il seed casuale è controllato
-
-Il flusso completo è il seguente(con ogni componente che 
-produce una nuova griglia che funge da input per il 
-successivo) : 
-```mermaid
-flowchart LR
-    G[GridFactory]
-    O[ObstacleManager]
-    I[Player's Input]
-    P[PlacementManager]
-    
-    G-->O 
-    O -->I
-    I -->P
-```
-
-#### Modellazione della Griglia:
 La modellazione della griglia è organizzata in un package 
 dedicato (`it.unibo.tosab.model.grid`), composto da classi 
 e trait che collaborano per gestire la struttura della 
@@ -372,6 +251,128 @@ classDiagram
     HexagonalGrid --|> GridManager : implementa
     GridFactory --> Grid : crea
 ```
+### Funzionamento
+**Creazione della Griglia**
+
+Il processo inizia con `GridFactory.createHexagonal(size)`,
+che crea un'istanza di `Grid` immutabile con dimensioni
+specifiche (nel nostro caso 8x8). La griglia viene
+inizializzata con una mappa vuota (`cells: Map.empty`),
+contenente solo il riferimento al `GridManager`
+(implementazione esagonale) utilizzato per operazioni
+geometriche. A questo punto, la griglia ancora non contiene
+entità.
+
+**Posizionamento Procedurale degli Ostacoli**
+
+Successivamente, viene invocato
+`ObstacleManager.placeObstacles()` sulla griglia vuota.
+Questo manager:
+- Determina un numero casuale di ostacoli da generare
+  (da 0 a `size`)
+- Itera attraverso questo numero con un ciclo `for`,
+  creando una sequenza immutabile di aggiornamenti
+- A ogni iterazione, utilizza
+  `PlacementManager.generateRandomPosition()` per generare
+  coordinate casuali
+- Valida ogni posizione tramite
+  `PlacementManager.isPositionValid()`, assicurando che sia
+  libera e dentro i confini della mappa
+- Crea un ostacolo casuale usando pattern matching sulla
+  probabilità
+- Aggiorna la griglia tramite
+  `grid.setCell(obstacle, position)`, restituendo una nuova
+  istanza immutabile
+
+La ricorsione in `generateRandomPosition` garantisce che,
+se una posizione è già occupata, venga generata una nuova
+coordinata casuale fino a trovarne una libera.
+
+**Posizionamento Manuale delle Truppe Alleate**
+
+A questo punto, il gioco entra in una fase interattiva in
+cui il giocatore posiziona manualmente le truppe alleate.
+L'interfaccia utente (attraverso
+`DisplayGrid.displayInitialGrid`) mostra una
+visualizzazione parziale della griglia (dalla quarta riga
+in poi), permettendo al giocatore di vedere solo la
+propria metà del campo.
+
+Quando il giocatore posiziona un'unità alleata:
+- `Grid.setCell(entity, position)` viene invocato con l'
+  unità e la posizione desiderata
+- `PlacementManager.isPositionValid()` valida la richiesta
+  verificando:
+  - Che la posizione sia entro i confini della griglia
+    (`isWithinBounds`)
+  - Che la cella sia libera (non occupata da entità od
+    ostacoli)
+  - Che la posizione sia nel campo degli alleati (x >=
+    gridSize/2) tramite `isRightField`
+- Se valida, la griglia viene aggiornata immutabilmente;
+  altrimenti, rimane invariata (il metodo restituisce `this`)
+
+**Posizionamento Automatico delle Truppe Nemiche**
+
+Una volta che il giocatore ha terminato il posizionamento,
+il sistema invoca
+`PlacementAI.placeAITroops(grid, troopsNumber)`:
+- Determina il numero di truppe da piazzare (solitamente
+  da `GameSetup.getMaxNumberOfTroops`)
+- Calcola una distribuzione di ruoli tramite
+  `getTroopRoles()`, garantendo un mix bilanciato di Soldati,
+  Arcieri e Maghi
+- Crea le truppe mediante `createTroop()`, assegnando ID
+  univoci, la fazione `AI` e il ruolo specifico
+- Ordina le truppe per HP decrescente, posizionando prima
+  le unità più forti
+- Divide le truppe in corsie (`divideTroopsIntoLanes`)
+  basate sul ruolo:
+  - **Soldati** → corsie anteriori (fronte, migliore
+    per il combattimento ravvicinato)
+  - **Arcieri** → corsie centrali (medio, opportune
+    distanza per attacchi a distanza)
+  - **Maghi** → corsie posteriori (retro, protezione per
+    unità fragili)
+- Per ogni trappa, utilizza `placeTroopInLane()` per
+  posizionarla nella sua corsia:
+  - Genera tutte le coordinate disponibili nella corsia
+    tramite for-comprehension
+  - Filtra le posizioni libere usando
+    `grid.getEntity(position).isEmpty`
+  - Randomizza l'ordine con `Random.shuffle()` per
+    variabilità di gameplay
+  - Seleziona la prima posizione disponibile con
+    `headOption.map()`
+
+**Interazioni e Immutabilità**
+
+Ogni fase restituisce una nuova istanza di `Grid`
+immutabile, permettendo:
+- **Tracciamento dello stato**: Ogni modifica è una
+  trasformazione esplicita
+- **Annullamento/Ripetizione**: Se necessario, si può
+  tornare a uno stato precedente senza effetti collaterali
+- **Paralelismo**: Operazioni su griglie diverse possono
+  essere eseguite senza sincronizzazione (futura feature)
+- **Testing**: Ogni operazione è pura e deterministica se
+  il seed casuale è controllato
+
+Il flusso completo è il seguente(con ogni componente che
+produce una nuova griglia che funge da input per il
+successivo) :
+```mermaid
+flowchart LR
+    G[GridFactory]
+    O[ObstacleManager]
+    I[Player's Input]
+    P[PlacementManager]
+    
+    G-->O 
+    O -->I
+    I -->P
+```
+
 ## Modellazione input/output
 ### DisplayGrid
 La rappresentazione grafica 2D dell'arena e delle unità è
