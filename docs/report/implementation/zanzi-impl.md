@@ -118,12 +118,12 @@ classDiagram
     GridFactory --> Grid : create
 ```
 
-#### Modellazione della Griglia:
-Per l'implemenatzione della griglia siamo partiti dalla
+## Modellazione della Griglia:
+Per l'implementazione della griglia sono partito dalla
 classe `Grid`, inserendo tutte le operazioni al suo
 interno; questo l'ha resa una "God Class" con troppe
 responsabilità, perciò è stata rifattorizzata seguendo
-il **Single Responsibility Principle**, che ha prtato la
+il **Single Responsibility Principle**, che ha portato la
 struttura finale:
 ```
 grid/
@@ -246,13 +246,13 @@ classDiagram
     }
 
     %% Relazioni
-    Grid *-- Coordinate : contiene
-    Grid o-- GridManager : usa
-    HexagonalGrid --|> GridManager : implementa
-    GridFactory --> Grid : crea
+    Grid *-- Coordinate : contains
+    Grid o-- GridManager : use
+    HexagonalGrid --|> GridManager : implements
+    GridFactory --> Grid : create
 ```
 ### Funzionamento
-**Creazione della Griglia**
+#### Creazione della Griglia
 
 Il processo inizia con `GridFactory.createHexagonal(size)`,
 che crea un'istanza di `Grid` immutabile con dimensioni
@@ -263,7 +263,7 @@ contenente solo il riferimento al `GridManager`
 geometriche. A questo punto, la griglia ancora non contiene
 entità.
 
-**Posizionamento Procedurale degli Ostacoli**
+#### Posizionamento Procedurale degli Ostacoli
 
 Successivamente, viene invocato
 `ObstacleManager.placeObstacles()` sulla griglia vuota.
@@ -288,7 +288,7 @@ La ricorsione in `generateRandomPosition` garantisce che,
 se una posizione è già occupata, venga generata una nuova
 coordinata casuale fino a trovarne una libera.
 
-**Posizionamento Manuale delle Truppe Alleate**
+#### Posizionamento Manuale delle Truppe Alleate
 
 A questo punto, il gioco entra in una fase interattiva in
 cui il giocatore posiziona manualmente le truppe alleate.
@@ -312,7 +312,7 @@ Quando il giocatore posiziona un'unità alleata:
 - Se valida, la griglia viene aggiornata immutabilmente;
   altrimenti, rimane invariata (il metodo restituisce `this`)
 
-**Posizionamento Automatico delle Truppe Nemiche**
+#### Posizionamento Automatico delle Truppe Nemiche
 
 Una volta che il giocatore ha terminato il posizionamento,
 il sistema invoca
@@ -345,7 +345,7 @@ il sistema invoca
   - Seleziona la prima posizione disponibile con
     `headOption.map()`
 
-**Interazioni e Immutabilità**
+#### Interazioni e Immutabilità
 
 Ogni fase restituisce una nuova istanza di `Grid`
 immutabile, permettendo:
@@ -353,14 +353,14 @@ immutabile, permettendo:
   trasformazione esplicita
 - **Annullamento/Ripetizione**: Se necessario, si può
   tornare a uno stato precedente senza effetti collaterali
-- **Paralelismo**: Operazioni su griglie diverse possono
+- **Parallelismo**: Operazioni su griglie diverse possono
   essere eseguite senza sincronizzazione (futura feature)
 - **Testing**: Ogni operazione è pura e deterministica se
   il seed casuale è controllato
 
 Il flusso completo è il seguente(con ogni componente che
 produce una nuova griglia che funge da input per il
-successivo) :
+successivo):
 ```mermaid
 flowchart LR
     G[GridFactory]
