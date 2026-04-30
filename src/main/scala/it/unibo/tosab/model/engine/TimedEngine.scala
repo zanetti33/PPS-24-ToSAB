@@ -7,9 +7,9 @@ import it.unibo.tosab.model.{GamePhase, GameState}
   * @param base
   *   wrapped engine used for normal behavior
   * @param maxTurns
-  *   maximum number of rounds before forcing `GameOver`
+  *   maximum number of rounds before forcing `GameOver` (default: 30)
   */
-class TimedEngine(val base: Engine, val maxTurns: Int) extends Engine:
+class TimedEngine(val base: Engine, val maxTurns: Int = 30) extends Engine:
   private var currentTurnCount = 0
 
   export base.{startNewRound => _, *}
