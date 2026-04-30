@@ -1,3 +1,10 @@
+---
+layout: default
+title: Introduzione
+parent: Report
+nav_order: 1
+---
+
 # Town of Saviom Auto-Battler
 
 - Pedrini Fabio (fabio.pedrini3@studio.unibo.it)

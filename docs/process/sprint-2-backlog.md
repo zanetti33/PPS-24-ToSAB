@@ -1,3 +1,10 @@
+---
+layout: default
+title: Sprint 2 backlog
+parent: Processo Scrum
+nav_order: 3
+---
+
 # Sprint 2 - Backlog
 
 04/04/2026

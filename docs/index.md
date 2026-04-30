@@ -1,11 +1,20 @@
-[Introduzione](report/01-introduction.md)
-[Processo di sviluppo](report/02-development-process.md)
-[Requisiti](report/03-requirements.md)
-[Design architetturale](report/04-architectural-design.md)
-[Design di dettaglio](report/05-detailed-design.md)
-[Implementazione](report/06-implementation.md)
-[Pedrini Fabio](report/implementation/pedrini-impl.md)
-[Zanetti Lorenzo](report/implementation/zanetti-impl.md)
-[Zanzi Alessandro](report/implementation/zanzi-impl.md)
-[Testing](report/07-testing.md)
-[Retrospettiva](report/08-retrospective.md)
+---
+layout: default
+title: Home
+nav_order: 1
+---
+
+# Documentazione ToSAB
+
+Questa documentazione è pubblicata con **GitHub Pages** usando il tema **Just the Docs**.
+La barra laterale mostra sempre la struttura completa del materiale:
+
+- il **Report** di progetto;
+- la sezione **Processo Scrum** con i backlog;
+- i contributi individuali nella sottosezione **Implementazione**.
+
+## Accesso rapido
+
+- [Report]({% link report/index.md %})
+- [Processo Scrum]({% link process/index.md %})
+

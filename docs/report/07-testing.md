@@ -1,3 +1,10 @@
+---
+layout: default
+title: Testing
+parent: Report
+nav_order: 7
+---
+
 # Testing
 
 ## Tecnologie utilizzate

@@ -1,0 +1,15 @@
+title: Town of Saviom Auto-Battler
+description: Documentazione del progetto ToSAB
+lang: it
+baseurl: "/ToSAB"
+url: ""
+remote_theme: just-the-docs/just-the-docs
+markdown: kramdown
+search_enabled: true
+heading_anchors: true
+back_to_top: true
+back_to_top_text: "Torna su"
+
+plugins:
+  - jekyll-remote-theme
+

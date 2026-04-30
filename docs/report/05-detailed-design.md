@@ -1,3 +1,10 @@
+---
+layout: default
+title: Design di dettaglio
+parent: Report
+nav_order: 5
+---
+
 # Design di Dettaglio
 
 L'architettura del sistema è progettata per garantire una chiara separazione delle responsabilità. 

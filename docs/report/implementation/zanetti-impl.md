@@ -1,3 +1,11 @@
+---
+layout: default
+title: Zanetti Lorenzo
+parent: Implementazione
+grand_parent: Report
+nav_order: 2
+---
+
 # Implementazione - Zanetti Lorenzo
 
 Il mio contributo al progetto si è concentrato principalmente sulla

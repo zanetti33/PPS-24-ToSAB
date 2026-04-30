@@ -1,3 +1,10 @@
+---
+layout: default
+title: Design architetturale
+parent: Report
+nav_order: 4
+---
+
 # Design architetturale
 
 L'architettura del sistema si basa sul pattern 

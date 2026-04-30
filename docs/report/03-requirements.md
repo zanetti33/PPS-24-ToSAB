@@ -1,3 +1,10 @@
+---
+layout: default
+title: Requisiti
+parent: Report
+nav_order: 3
+---
+
 # Requirement specification
 
 ## Requisiti di business

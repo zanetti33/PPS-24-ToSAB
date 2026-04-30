@@ -1,3 +1,11 @@
+---
+layout: default
+title: Pedrini Fabio
+parent: Implementazione
+grand_parent: Report
+nav_order: 1
+---
+
 # Implementazione - Pedrini Fabio
 
 Il mio contributo al progetto si è concentrato principalmente sulla
@@ -21,7 +29,7 @@ di utilizzare degli Algebraic Data Types (ADT). L'interfaccia base è stata
 definita come un `sealed trait Entity`, generando un dominio chiuso.
 
 La relazione tra `Entity`, `Character` e `Obstacle` è stata definita e
-rappresentata nella sezione di [design di dettaglio](../05-detailed-design.md).
+rappresentata nella sezione di [design di dettaglio]({% link report/05-detailed-design.md %}).
 
 `Character` e `Obstacle` sono stati implementati come `case class` che 
 estendono `Entity`, permettendo di ottenere personaggi e ostacoli con

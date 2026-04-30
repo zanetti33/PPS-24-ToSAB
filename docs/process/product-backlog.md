@@ -1,3 +1,10 @@
+---
+layout: default
+title: Product backlog
+parent: Processo Scrum
+nav_order: 1
+---
+
 | ID  | Epica     | Task / Issue            | Priorità  | Descrizione Sintetica                                                 |
 |-----|-----------|-------------------------|-----------|-----------------------------------------------------------------------|
 | 1.1 | Dominio   | Statistiche Base        | Alta      | Modellazione statistiche per HP, Attacco, Difesa, Velocità, Range.    |

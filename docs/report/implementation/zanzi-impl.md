@@ -1,3 +1,11 @@
+---
+layout: default
+title: Zanzi Alessandro
+parent: Implementazione
+grand_parent: Report
+nav_order: 3
+---
+
 # Implementazione - Zanzi Alessandro
 Il mio contributo al progetto si è concentrato 
 principalmente sulla progettazione e implementazione delle 

@@ -1,3 +1,10 @@
+---
+layout: default
+title: Retrospettiva
+parent: Report
+nav_order: 8
+---
+
 # Retrospettiva
 
 In questa sezione vogliamo condividere un'analisi 

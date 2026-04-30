@@ -1,3 +1,10 @@
+---
+layout: default
+title: Processo di sviluppo
+parent: Report
+nav_order: 2
+---
+
 # Processo di sviluppo
 
 Per il processo di sviluppo abbiamo scelto di seguire una
@@ -26,7 +33,7 @@ Sono stati definiti i ruoli di ciascun membro del team:
 - Responsabile del testing: Alessandro Zanzi
 - Sviluppatori: tutti i membri del team
 
-Il team ha redatto un [product backlog](../process/product-backlog.md)
+Il team ha redatto un [product backlog]({% link process/product-backlog.md %})
 nel quale si è tenuto traccia dei task, indicando per ciascuno
 il grado di difficoltà di progettazione e/o implementazione
 e l’effort richiesto in ciascuno sprint.
@@ -48,7 +55,7 @@ base all’importanza.
 
 Negli **incontri successivi**, saranno definiti i task da completare in ciascuno sprint,
 assegnando le attività ai membri del team. In ciascuno sprint
-verrà redatto uno sprint backlog ([primo sprint backlog](../process/sprint-1-backlog.md))
+verrà redatto uno sprint backlog ([primo sprint backlog]({% link process/sprint-1-backlog.md %}))
 in modo da tenere traccia delle attività da completare e del loro stato di avanzamento.
 Ci siamo posti come obiettivo quello di fornire una
 versione funzionante del prodotto alla fine di ogni sprint,
