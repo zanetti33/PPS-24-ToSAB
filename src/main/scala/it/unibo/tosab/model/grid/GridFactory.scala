@@ -11,14 +11,3 @@ object GridFactory:
   def createHexagonal(size: Int): Grid =
     val gridManager = HexagonalGrid(size)
     new Grid(size, Map.empty, gridManager)
-
-  /** Creates a grid with a custom manager.
-    * @param size
-    *   the grid size
-    * @param gridManager
-    *   the grid manager
-    * @return
-    *   new Grid
-    */
-  def createWithManager(size: Int, gridManager: GridManager): Grid =
-    new Grid(size, Map.empty, gridManager)

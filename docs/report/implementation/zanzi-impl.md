@@ -151,11 +151,10 @@ classDiagram
 Il processo inizia con `GridFactory.createHexagonal(size)`,
 che crea un'istanza di `Grid` immutabile con dimensioni
 specifiche (nel nostro caso 8x8). La griglia viene
-inizializzata con una mappa vuota (`cells: Map.empty`),
-contenente solo il riferimento al `GridManager`
-(implementazione esagonale) utilizzato per operazioni
-geometriche. A questo punto, la griglia ancora non contiene
-entità.
+inizializzata con una mappa vuota,contenente solo il 
+riferimento al `GridManager`(implementazione esagonale) 
+utilizzato per operazioni geometriche. A questo punto, la 
+griglia ancora non contiene entità.
 
 #### Posizionamento Procedurale degli Ostacoli
 Successivamente, viene invocato
@@ -171,9 +170,9 @@ Questo manager:
 - Valida ogni posizione tramite
   `PlacementManager.isPositionValid()`, assicurando che sia
   libera e dentro i limiti della mappa
-- Crea un ostacolo casuale usando pattern matching sulla
-  probabilità
-- Aggiorna la griglia tramite
+  - Crea un ostacolo casuale usando pattern matching per 
+  scegliere
+  - Aggiorna la griglia tramite
   `grid.setCell(obstacle, position)`, restituendo una nuova
   istanza immutabile
 
@@ -204,32 +203,38 @@ Quando il giocatore posiziona un'unità alleata:
 Una volta che il giocatore ha terminato il posizionamento,
 il sistema invoca
 `PlacementAI.placeAITroops(grid, troopsNumber)` che:
-- Determina il numero di truppe da piazzare (solitamente
-  da `GameSetup.getMaxNumberOfTroops`)
+- Determina il numero di truppe da piazzare
 - Calcola una distribuzione di ruoli tramite
   `getTroopRoles()`, garantendo un mix bilanciato tra i 
   vari Characters
 - Crea le truppe mediante `createTroop()`, assegnando ID
   univoci, la fazione `AI` e il ruolo specifico
-- Ordina le truppe per HP decrescente, posizionando prima
-  le unità più forti
+- Ordina le truppe per HP decrescente
 - Divide le truppe in corsie (`divideTroopsIntoLanes`)
   basate sul ruolo:
-  - **Soldati** → corsie anteriori (più vicine agli 
+  - **Soldati** → in prima linea (più vicine agli 
   avversari, migliore per il combattimento ravvicinato)
   - **Arcieri** → corsie centrali
-  - **Maghi** → corsie posteriori (più lontane dagli 
+  - **Maghi** → nelle retrovie (più lontane dagli 
   avversari)
 - Per ogni truppa, utilizza `placeTroopInLane()` per
   posizionarla nella sua corsia:
   - Genera tutte le coordinate disponibili nella corsia
     tramite for-comprehension
-  - Filtra le posizioni libere usando
-    `grid.getEntity(position).isEmpty`
-  - Randomizza l'ordine con `Random.shuffle()` per
-    variabilità di gameplay
-  - Seleziona la prima posizione disponibile con
-    `headOption.map()`
+  - Filtra le posizioni libere
+  - Randomizza l'ordine per variabilità di gameplay
+  - Seleziona la prima posizione disponibile
+```scala
+def placeAITroops(grid: Grid, troopsNumber: Int = GameSetup.getMaxNumberOfTroops): Grid =
+    val rolesToPlace = getTroopRoles(troopsNumber)
+
+    var troopsToPlace = Seq.empty[entities.Character]
+    for (role, index) <- rolesToPlace.zipWithIndex do
+      troopsToPlace = troopsToPlace ++ Seq(createTroop(index, role))
+    val orderedTroops = troopsToPlace.sortBy(troop => troop.stats.currentHp).reverse
+
+    divideTroopsIntoLanes(orderedTroops, grid)
+```
 
 #### Interazioni e Immutabilità
 Ogni fase restituisce una nuova istanza di `Grid`
@@ -238,8 +243,6 @@ immutabile, permettendo:
   trasformazione esplicita
 - **Annullamento/Ripetizione**: Se necessario, si può
   tornare a uno stato precedente senza effetti collaterali
-- **Parallelismo**: Operazioni su griglie diverse possono
-  essere eseguite senza sincronizzazione (futura feature)
 - **Testing**: Ogni operazione è pura e deterministica se
   il seed casuale è controllato
 
@@ -279,8 +282,8 @@ tipi di griglia e favorire l'estendibilità del codice.
 Attualmente, HexagonalGrid è l'unica implementazione, ma
 se in futuro vorremo supportare griglie quadrate,
 ottagonali o altre varianti, l'utilizzo di questo pattern
-permette al "contesto" (ad esempio, la classe Grid)
-sceglie dinamicamente quale strategia di griglia usare.
+permette al "contesto" (ad esempio, la classe Grid) di 
+scegliere dinamicamente quale strategia di griglia usare.
 
 La griglia utilizza diversi manager per gestire aspetti
 specifici:
@@ -338,6 +341,10 @@ oggetto companion con metodi per creare istanze di Grid in
 modo centralizzato. A questo punto, il metodo
 `createHexagonal` crea una griglia esagonale con le
 impostazioni predefinite.
+```scala
+@main def runApp(): Unit =
+val startingGrid = GridFactory.createHexagonal(8).placeObstacles()
+```
 Ciò permette di nascondere la complessità di costruzione,
 facilita l'aggiunta di validazioni (ad esempio,
 controllare che size > 0) o configurazioni future(es.
