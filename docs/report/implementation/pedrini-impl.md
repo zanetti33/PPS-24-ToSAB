@@ -140,7 +140,7 @@ aggiornata, altrimenti termina restituendo la griglia completa.
 
 In questo modo, l'intero processo di setup è eseguito nel `Main` con
 la chiamata del metodo `run()`:
-```scala 3
+```scala
 val completeGrid = GameSetup.runSetupLoop(updatedGrid).run()
 ```
 
