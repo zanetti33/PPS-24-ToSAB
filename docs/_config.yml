@@ -1,8 +1,8 @@
 title: Town of Saviom Auto-Battler
 description: Documentazione del progetto ToSAB
 lang: it
-baseurl: "/ToSAB"
-url: ""
+url: "https://zanetti33.github.io"
+baseurl: "/PPS-24-ToSAB"
 remote_theme: just-the-docs/just-the-docs
 markdown: kramdown
 search_enabled: true
