@@ -10,7 +10,3 @@ has_children: true
 
 Di seguito sono riportati i contributi individuali, documentati 
 in pagine dedicate:
-
-### - [Pedrini Fabio]({{ site.baseurl }}{% link report/implementation/pedrini-impl.md %})
-### - [Zanetti Lorenzo]({{ site.baseurl }}{% link report/implementation/zanetti-impl.md %})
-### - [Zanzi Alessandro]({{ site.baseurl }}{% link report/implementation/zanzi-impl.md %})
