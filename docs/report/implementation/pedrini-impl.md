@@ -116,7 +116,7 @@ permette di comporre le operazioni utilizzando una **for-comprehension**,
 creando un flusso di computazione chiaro e leggibile.
 Come visibile nella classe `GameSetup`, l'intero ciclo di posizionamento 
 delle truppe è una concatenazione di operazioni:
-```scala 3
+```scala
 def runSetupLoop(
       currentGrid: Grid,
       entityCounter: Int = 0
@@ -156,7 +156,7 @@ da estrarre tutte le occorrenze di comandi validi.
 Questi gruppi di comandi vengono associati (tramite `match`) a un
 `SetupCommand`, un ADT che rappresenta le azioni che l'utente può
 compiere durante la fase di setup:
-```scala 3
+```scala
 enum SetupCommand:
   case AddTroop(roleId: Role, position: Coordinate)
   case StartGame
@@ -184,7 +184,7 @@ combattimento.
 
 L'object `LoggerUtils` si occupa di stampare a terminale gli 
 `ActionLog` utilizzando l'`IO` definita in precendenza:
-```scala 3
+```scala
 def logAndDisplay(log: ActionLog): IO[Unit] =
     IO.printLine(log.toString).flatMap(_ => IO.sleep(3000))
 ```
