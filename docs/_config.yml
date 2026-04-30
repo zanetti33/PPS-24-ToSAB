@@ -13,3 +13,5 @@ back_to_top_text: "Torna su"
 plugins:
   - jekyll-remote-theme
 
+mermaid:
+  version: "10.6.1"
