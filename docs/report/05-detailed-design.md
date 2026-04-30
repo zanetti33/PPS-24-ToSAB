@@ -1,13 +1,13 @@
 # Design di Dettaglio
 
-L’architettura del sistema è progettata per garantire una chiara separazione delle responsabilità. 
+L'architettura del sistema è progettata per garantire una chiara separazione delle responsabilità. 
 La struttura è divisa logicamente nei tre moduli principali del pattern MUV, 
 con una forte enfasi sulla *composizione*, *immutabilità* e *Domain-Driven Design*.
 
 ## Model (Dominio e Stato)
 
 Il Model è il cuore del gioco e contiene le entità e le regole spaziali. 
-Le classi principali sono state modellate sfruttando le potenzialità di Scala 3 (es. `enum`, `extension methods`).
+Le classi principali sono state modellate sfruttando le potenzialità di Scala 3.
 
 ### Entità di Gioco (Entities)
 Le entità sono modellate tramite un *Algebraic Data Type* (ADT) chiuso, 
@@ -49,12 +49,12 @@ direction TB
 
 La suddivisione tra `Character` e `Obstacle` permette di 
 applicare pattern differenti: un ostacolo può essere passabile o meno (`isPassable`) e 
-può opzionalmente ricevere danni (`Option[Int] hp`).
+può ricevere danni (`Option[Int] hp`) o essere indistruttibile.
 
 ### Griglia e Posizioni
 La mappa di gioco (`Grid`) rappresenta un punto focale. 
 Invece di avere una classe monolitica, la classe `Grid` usa il pattern 
-Delegation / Composition per orchestrare logiche complesse 
+Delegation/Composition per orchestrare logiche complesse 
 (movimento esagonale, visuale, collisioni).
 
 ```mermaid
@@ -93,10 +93,10 @@ classDiagram
 La `Grid` espone un'interfaccia pulita ma internamente delega le responsabilità
 (es. `HexagonalLineOfSightManager` calcola il raggio visivo). 
 Essendo una `case class` immutabile, operazioni come `moveEntity` ritornano una nuova istanza di 
-`Grid` con la mappa `cells` aggiornata.
+`Grid` con la mappa aggiornata.
 
 ### CharacterAI
-Un modulo che gestisce l'intelligenza artificiale dei personaggi,
+CharacterAI è un modulo che gestisce l'intelligenza artificiale dei personaggi,
 decidendo le azioni da intraprendere in base allo stato del gioco.
 Invece di adottare pesanti gerarchie orientate agli oggetti, il design di questo
 modulo sfrutta un approccio marcatamente funzionale, combinando Pattern Strategy e Chain of Responsibility
@@ -147,15 +147,14 @@ L'Update agisce da coordinatore centrale, gestendo il
 flusso del gioco e orchestrando le interazioni tra Model e
 View.
 Il componente `GameSetup` si occupa di inizializzare lo
-stato del gioco, mentre il `GameLoop` gestisce l'evoluzione
-del gioco, processando gli _input_ e aggiornando il modello di
-conseguenza.
+stato del gioco, mentre il `GameLoop` ne gestisce l'evoluzione, 
+processando gli input e aggiornando il modello di conseguenza.
 
 ### GameLoop
 
 Il flusso di esecuzione del gioco è governato dall'oggetto `GameLoop`, 
-che non utilizza i tradizionali cicli imperativi (`while(true)`),
-ma adotta una funziona ricorsiva (_tail_) su stati immutabili. 
+che non utilizza i tradizionali cicli imperativi, ma adotta una 
+funziona ricorsiva (_tail_) su stati immutabili. 
 Inoltre, per comunicare con l'esterno (View, Logger) senza creare dipendenze dirette, 
 sfrutta il pattern **Observer**.
 
@@ -183,8 +182,8 @@ classDiagram
     GameLoopPublisher o-- GameLoopSubscriber : notifies
 ```
 
-Come si vede dal diagramma `GameLoop` fa utilizzo del componente `CharacterAI` (mostrato [sopra](#characterai)) 
-e dell'Engine (che mostreremo in [seguito](#engine)), ma non ha alcuna dipendenza diretta da View o Logger.
+Come si vede dal diagramma, `GameLoop` utilizza il componente `CharacterAI` (mostrato [sopra](#characterai)) 
+e l'Engine (mostrato di seguito), ma non ha alcuna dipendenza diretta da View o Logger.
 
 ### Engine
 
@@ -220,4 +219,4 @@ classDiagram
 La View si appoggia agli eventi restituiti dall'`EngineOutcome` e interroga il `GameState` 
 in sola lettura per effettuare il rendering.
 Le classi (es. `DisplayGrid`, `ConsoleGameLogger`) operano interpretando le coordinate esagonali e 
-mappandole in un _output_ visivo per l'utente, isolando così l'I/O dal Functional Core del sistema.
+mappandole in un output visivo per l'utente, isolando così l'I/O dal Functional Core del sistema.

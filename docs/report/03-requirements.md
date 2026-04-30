@@ -66,8 +66,8 @@ rispettando le stesse regole di posizionamento dell'utente.
 seguendo regole di combattimento predefinite:
    1. Durante ogni turno, ogni unità può compiere una 
    azione in ordine di velocità decrescente. In caso di 
-   pareggio di velocità, l'ordine di sarà determinato dal 
-   posizionamento dell'unità sulla mappa, da sinistra a 
+   pareggio di velocità, l'ordine sarà determinato dal 
+   posizionamento delle unità sulla mappa, da sinistra a 
    destra e dall'alto verso il basso.
    2. Ogni unità può scegliere di compiere una delle 
    seguenti azioni (o nessuna):

@@ -1,8 +1,8 @@
 # Retrospettiva
 
-In questa sezione vogliamo condividere un’analisi 
+In questa sezione vogliamo condividere un'analisi 
 retrospettiva del processo di sviluppo del progetto, 
-descrivendone l’evoluzione, i punti di forza e le 
+descrivendone l'evoluzione, i punti di forza e le 
 difficoltà incontrate.
 
 ## Evoluzione del processo di sviluppo
@@ -65,7 +65,7 @@ effetti curativi per entità della stessa fazione.
 - Un sistema di economia in cui ogni truppa ha un costo in punti
 e il giocatore ha un budget limitato per acquistare le truppe
 prima di piazzarle.
-- Interfaccia grafica minimale per visualizzare il combattimento.
+- Interfaccia grafica per visualizzare il combattimento.
 - Altri effetti che alterano lo stato della mappa.
 
 Riteniamo che, grazie alla modularità del nostro design, sarebbe

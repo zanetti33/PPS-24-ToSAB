@@ -26,7 +26,7 @@ Sono stati definiti i ruoli di ciascun membro del team:
 - Responsabile del testing: Alessandro Zanzi
 - Sviluppatori: tutti i membri del team
 
-Il team ha redatto un [product-backlog](../process/product-backlog.md)
+Il team ha redatto un [product backlog](../process/product-backlog.md)
 nel quale si è tenuto traccia dei task, indicando per ciascuno
 il grado di difficoltà di progettazione e/o implementazione
 e l’effort richiesto in ciascuno sprint.
@@ -63,6 +63,10 @@ L’intero progetto è stato gestito tramite **GitHub**.
 Il branch **main** sarà la fonte di verità e da esso verranno creati 
 altri branch per lo sviluppo di nuove funzionalità, per la 
 correzione di bug e per il refactoring del codice. 
+I possibili branch che possono essere creati da main sono:
+- feature/*
+- fix/*
+- refactor/*
 
 Ogni branch dovrà essere sottoposto a una *pull request*
 prima di essere unito al branch main.
@@ -80,7 +84,7 @@ Per il testing si è scelto di utilizzare **ScalaTest** come framework
 di automazione, essendo una tecnologia matura e ben integrata 
 nell’ecosistema Scala. 
 Come build tool è stato scelto **sbt**, in quanto nasce specificatamente 
-per Scala e offre un’ottima gestione delle dipendenze. 
+per Scala e offre un'ottima gestione delle dipendenze. 
 Inoltre, è stato utilizzato **scalafmt** per formattare automaticamente 
 il codice sorgente rendendolo coerente e standardizzato 
 all’interno del team.

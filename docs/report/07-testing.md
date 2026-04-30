@@ -1,6 +1,6 @@
-## Testing
+# Testing
 
-### Tecnologie utilizzate
+## Tecnologie utilizzate
 Il sistema è stato testato utilizzando due framework 
 principali, entrambi pienamente compatibili con *sbt*, 
 che hanno consentito lo sviluppo di test unitari e di 
@@ -16,7 +16,7 @@ Scala. L’adozione di ScalaTest ha inoltre favorito un
 approccio più espressivo e modulare, in linea con la 
 struttura del progetto.
 
-### Metodologia di testing
+## Metodologia di testing
 È stato adottato un approccio **TDD** (Test-Driven 
 Development) durante lo sviluppo di componenti chiave.
 
@@ -29,7 +29,7 @@ gamma di scenari, inclusi casi normali, casi limite e
 condizioni di errore, garantendo così una robusta
 copertura del codice.
 
-### Copertura dei test
+## Copertura dei test
 Per misurare il grado di copertura, è stato usato 
 **scoverage**, uno strumento integrabile con sbt che 
 ha reso possibile generare un report di copertura.

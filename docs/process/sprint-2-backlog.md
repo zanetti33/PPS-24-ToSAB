@@ -1,4 +1,4 @@
-## Sprint 2 - Backlog
+# Sprint 2 - Backlog
 
 04/04/2026
 
@@ -12,7 +12,7 @@
 | Interazione per piazzamento | 4.4* | I/O     | 5           | Fabio Pedrini      |
 *non presente nel backlog iniziale
 
-### Obiettivi sprint
+## Obiettivi sprint
 - Implementare la generazione procedurale della mappa, 
 creando un algoritmo che posizioni ostacoli in modo 
 casuale, garantendo al contempo la giocabilità della mappa.
@@ -20,25 +20,25 @@ casuale, garantendo al contempo la giocabilità della mappa.
 strutture per le unità, le fazioni e le statistiche, 
 assicurandosi che siano flessibili e facilmente 
 estendibili.
-- Implementare l’inizializzazione dei turni, creando una 
+- Implementare l'inizializzazione dei turni, creando una 
 logica che ordini le unità in base alla loro velocità 
-(speed) all’inizio di ogni round, stabilendo l’ordine di 
+all'inizio di ogni round, stabilendo l'ordine di 
 azione per il combattimento.
 - Sviluppare la logica di movimento e pathfinding, 
 implementando un algoritmo che permetta alle unità di 
 avvicinarsi strategicamente ai nemici.
 - Implementare la funzionalità di piazzamento manuale, 
-consentendo all’utente di posizionare le unità sulla mappa,
+consentendo all'utente di posizionare le unità sulla mappa,
 con una logica che validi le posizioni in base alle regole 
 di gioco (ad esempio, non permettere di posizionare unità 
 su caselle occupate o fuori dal proprio lato della mappa).
-- Sviluppare un’interazione per il piazzamento delle unità,
-creando un sistema di input da terminale che permetta all’
-utente di selezionare le unità e posizionarle sulla mappa 
+- Sviluppare un'interazione per il piazzamento delle unità,
+creando un sistema di input da terminale che permetta all'utente 
+di selezionare le unità e posizionarle sulla mappa 
 in modo intuitivo, con feedback visivo o testuale per 
 confermare le azioni.
 
-### Sprint review e risultati ottenuti
+## Sprint review e risultati ottenuti
 Alla fine di questa sprint, il team ha presentato un sistema 
 funzionante che permette all'utente di inserire manualmente le 
 proprie truppe in una mappa generata proceduralmente

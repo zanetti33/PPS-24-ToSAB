@@ -28,6 +28,6 @@ Calcolando circa 4 sprint da 45 ore ciascuna completeremmo l'ammontare orario di
 Ogni sprint prevede una pianificazione dettagliata, con 
 task assegnati a ciascun membro del team e stime di tempo 
 per ogni attività. La comunicazione sarà costante, con 
-incontri regolari(sia in presenza che online) per 
+incontri regolari (sia in presenza che online) per 
 discutere i progressi, risolvere eventuali problemi e 
 adattare il piano se necessario.

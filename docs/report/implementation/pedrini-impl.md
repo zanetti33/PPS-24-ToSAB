@@ -45,7 +45,7 @@ incapsulamento.
 ### Damageable
 Per gestire la logica di danno, è stato definito un trait generico 
 `Damageable[T]` che rappresenta qualsiasi entità che può subire danni.
-L'implementazione sfrutta il concetto di type class, permettendo di 
+L'implementazione sfrutta il concetto di **type class**, permettendo di 
 definire comportamenti specifici tramite i costrutti `given` e `extension`.
 
 
@@ -98,7 +98,7 @@ progettata una sezione dedicata all'Input/Output.
 ### IO, GameSetup
 Si è scelto di utilizzare la **IO Monad** per gestire i side-effect 
 legati all'input da console, sfruttando una computazione lazy. 
-In questo modo, metodi come `IO.printLine` o `IO.readString()` non 
+In questo modo, metodi come `IO.printLine` o `IO.readString` non 
 stampano o leggono istantaneamente, ma restituiscono una struttura dati 
 immutabile che descrive l'intenzione di compiere quell'azione in futuro.
 
@@ -121,13 +121,13 @@ def runSetupLoop(
     yield finalGrid
 ```
 - Stampa il menu e chiede l'input all'utente.
-- Legge l'inupt e lo passa a `InputParser` per determinare l'azione
+- Legge l'input e lo passa a `InputParser` per determinare l'azione
 immessa dall'utente.
 - `processCommands` elabora l'azione e restituisce una tupla con la
 griglia aggiornata, il contatore delle entità inserite e un booleano che
 indica se continuare con il ciclo di posizionamento.
 - Se il booleano è `true`, la funzione richiama se stessa con la griglia 
-aggiornata, altrimenti termina restituendo la griglia.
+aggiornata, altrimenti termina restituendo la griglia completa.
 
 In questo modo, l'intero processo di setup è eseguito nel `Main` con
 la chiamata del metodo `run()`:

@@ -1,4 +1,4 @@
-## Sprint 1 - Backlog
+# Sprint 1 - Backlog
 
 24/03/2026
 
@@ -10,22 +10,22 @@
 | Tipologie Unità       | 1.2 | Dominio | 8           | Fabio Pedrini              |
 | Struttura Mappa       | 2.1 | Mappa   | 8           | Alessandro Zanzi           |
 | GameState Globale     | 3.1 | Motore  | 5           | Lorenzo Zanetti            |
-| Main Bootstrap        | 0.3 | #       | 5           | Tutti (definizione comune) |
+| Main Bootstrap        | 0.3 | #       | 5           | Tutti                      |
 
-### Scelte tecnologiche iniziali
-- Il team ha deciso di non concentrarsi inizialmente sull’
-interfaccia grafica.
+## Scelte tecnologiche iniziali
+- Il team ha deciso di non concentrarsi inizialmente 
+sull'interfaccia grafica.
 - La prima versione sarà eseguita da terminale (CLI), 
 stampando la griglia della partita e ricevendo input da 
 tastiera per inserire le truppe.
-- L’intero sviluppo verrà realizzato in modo da poter
+- L'intero sviluppo verrà realizzato in modo da poter
 facilmente aggiungere una GUI in futuro.
 
-### Obiettivi sprint
+## Obiettivi sprint
 - Definire i requisiti funzionali e non funzionali del
 progetto, in modo da avere una chiara comprensione di ciò
 che deve essere realizzato e delle aspettative del cliente.
-- Progettare l’architettura del sistema, scegliendo un 
+- Progettare l'architettura del sistema, scegliendo un 
 pattern di progettazione adatto (es. Model-View-Update) e
 definendo le interfacce tra i componenti principali.
 - Implementare le funzionalità di base del dominio, come
@@ -37,7 +37,7 @@ funzionalità di gioco.
 con una strategia di versionamento chiara e un processo di
 sviluppo collaborativo efficace.
 
-### Sprint review e risultati ottenuti
+## Sprint review e risultati ottenuti
 Alla fine di questa sprint, il team ha presentato una
 versione iniziale del gioco, con una mappa di base, unità
 modellate e un GameState funzionante. 
