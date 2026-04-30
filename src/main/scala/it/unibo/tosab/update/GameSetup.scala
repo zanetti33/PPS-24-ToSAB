@@ -63,14 +63,14 @@ object GameSetup:
       entityCounter: Int
   ): IO[(Grid, Int, Boolean)] = entityCounter match
     case c if c >= maxNumberOfTroops =>
-      for _ <- IO.printLine("Maximum number of troops placed! Starting battle.")
+      for _ <- IO.printLine("Maximum number of troops placed!")
       yield (grid, entityCounter, false)
     case _ =>
       commands match
         case Nil => IO(() => (grid, entityCounter, true))
 
         case SetupCommand.StartGame :: _ =>
-          for _ <- IO.printLine("Positioning complete! Start battle.")
+          for _ <- IO.printLine("Positioning complete!")
           yield (grid, entityCounter, false)
 
         case SetupCommand.Invalid(reason) :: tail =>

@@ -12,7 +12,7 @@ import it.unibo.tosab.view.{ConsoleGameLogger, DisplayGrid}
   * and then starts the combat phase.
   */
 @main def runApp(): Unit =
-  val startingGrid = GridFactory.createHexagonal(8).placeObstacles()
+  val startingGrid = GridFactory.createHexagonal().placeObstacles()
 
   val updatedGrid = placeAITroops(startingGrid)
   val initialState = GameState(GamePhase.Setup, updatedGrid)
