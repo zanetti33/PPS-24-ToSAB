@@ -17,6 +17,7 @@ nav_order: 3
 | Movimento / Pathing         | 3.3  | Motore  | 8           | Lorenzo Zanetti    |
 | Piazzamento Manuale         | 2.3  | Mappa   | 8           | Alessandro Zanzi   |
 | Interazione per piazzamento | 4.4* | I/O     | 5           | Fabio Pedrini      |
+
 *non presente nel backlog iniziale
 
 ## Obiettivi sprint
