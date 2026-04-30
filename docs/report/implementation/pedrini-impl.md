@@ -29,7 +29,8 @@ di utilizzare degli Algebraic Data Types (ADT). L'interfaccia base è stata
 definita come un `sealed trait Entity`, generando un dominio chiuso.
 
 La relazione tra `Entity`, `Character` e `Obstacle` è stata definita e
-rappresentata nella sezione di [design di dettaglio]({% link report/05-detailed-design.md %}).
+rappresentata nella sezione di 
+[design di dettaglio]({{ site.baseurl }}{% link report/05-detailed-design.md %}).
 
 `Character` e `Obstacle` sono stati implementati come `case class` che 
 estendono `Entity`, permettendo di ottenere personaggi e ostacoli con
