@@ -14,20 +14,9 @@ si sono svolti sia di persona che online. Questi sono stati
 fondamentali per mantenere una comunicazione costante tra i
 membri del team, per discutere dei progressi fatti, per 
 risolvere eventuali problemi e pianificare le attività 
-future. La durata degli incontri è stata variabile, in base
-all’importanza degli argomenti trattati; abbiamo 
-comunque cercato di mantenerli brevi ed efficaci, 
-concentrandoci sui punti chiave e sulle decisioni da 
-prendere.
-
-### Sprint Planning e Backlog
-Il processo di pianificazione degli sprint è stato 
-strutturato in modo da garantire una chiara definizione 
-degli obiettivi e delle attività da svolgere in ciascuna 
-iterazione. 
-
-Durante il processo di sviluppo sono stati integrati task 
-di contorno o ulteriori attività in seguito a esigenze emerse.
+future. Abbiamo cercato di mantenere gli incontri brevi 
+ed efficaci, concentrandoci sui punti chiave e sulle decisioni 
+da prendere.
 
 ### Sprint Review e Feedback
 Alla fine di ogni sprint, abbiamo tenuto una sprint review 
@@ -38,24 +27,6 @@ progressi fatti, per discutere delle difficoltà incontrate
 e per pianificare le attività future. Il feedback ricevuto 
 è stato prezioso per migliorare il processo di sviluppo e 
 per adattare il backlog in base alle esigenze riscontrate.
-
-### Feature branch & Pair programming
-Abbiamo adottato un approccio *Agile*, focalizzato 
-sulla produttività e sull’efficienza comunicativa. L’uso 
-dei feature branch su *GitHub* ci ha permesso di mantenere 
-un buon controllo delle modifiche, lavorare in modo 
-asincrono e documentare le evoluzioni del codice in modo 
-tracciabile. Allo stesso tempo, molte delle funzionalità 
-sono state sviluppate tramite sessioni collaborative su 
-Discord, assimilabili a momenti di pair programming.
-Questo tipo di interazione ha garantito rapidità 
-decisionale e condivisione continua, particolarmente utile 
-in un gruppo ristretto come il nostro, dove la 
-comunicazione diretta è risultata più efficace rispetto a 
-processi formali e burocratici. In sintesi, abbiamo trovato
-un equilibrio tra struttura e agilità, evitando carichi 
-organizzativi inutili e privilegiando strumenti semplici e
-momenti di confronto efficaci.
 
 ## Punti di forza e difficoltà
 
@@ -82,17 +53,37 @@ una stampa della griglia solo quando avvengono dei cambiamenti
 (come uno spostamento o la morte di un personaggio), 
 evitando così di sovraccaricare il terminale con stampe inutili.
 
+## Migliorie e possibili sviluppi futuri
+Le funzionalità principali sono state implementate con successo,
+ottenendo un sistema di combattimento funzionante e conforme ai
+requisiti.
+Tuttavia, ci sono alcune migliorie che si potrebbero implementare
+in futuro e che non siamo riusciti a completare entro il tempo
+prestabilito:
+- Abilità speciali per alcune unità, come attacchi ad area o
+effetti curativi per entità della stessa fazione.
+- Un sistema di economia in cui ogni truppa ha un costo in punti
+e il giocatore ha un budget limitato per acquistare le truppe
+prima di piazzarle.
+- Interfaccia grafica minimale per visualizzare il combattimento.
+- Altri effetti che alterano lo stato della mappa.
+
+Riteniamo che, grazie alla modularità del nostro design, sarebbe
+possibile implementare queste funzionalità in futuro senza 
+particolari difficoltà, estendendo il sistema esistente e senza
+dover stravolgere l'architettura del progetto.
+
 ## Commenti finali
-Il gruppo ha riconosciuto come il linguaggio Scala si 
-presti in modo naturale a una metodologia di sviluppo 
-Agile. La ricchezza delle sue astrazioni, unite a una 
-forte espressività, ha favorito un processo iterativo 
-basato su refactoring costanti e scelte progettuali 
-eleganti.
+Il progetto ToSAB ci ha permesso di sperimentare concretamente 
+tecniche e processi di sviluppo studiati durante il corso. 
+In particolare, abbiamo approcciato la progettazione del software
+ponendo l'attenzione più sulla metodologia e sulla qualità del 
+codice che sulla realizzazione di grandi funzionalità.
+In questo modo siamo riusciti a ottenere codice ben strutturato,
+modulare e facilmente manutenibile, rispettando i principi visti
+a lezione.
 
 Nel complesso, siamo pienamente soddisfatti del lavoro 
-svolto. Abbiamo raggiunto gli obiettivi prefissati e 
-sfruttato appieno le ore di progetto assegnate. Nonostante 
-ciò, il gruppo si è dichiarato motivato e disponibile a 
-proseguire con lo sviluppo di funzionalità opzionali o 
+svolto e il gruppo si è dichiarato motivato e disponibile a 
+proseguire con lo sviluppo di funzionalità opzionali e 
 miglioramenti futuri.
